@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <time.h> //Wird für "random" Funktion benötigt.
 
-void menü();
+void random();
+void ausgabe();
 
 int main()
 {
