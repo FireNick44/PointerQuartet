@@ -1,17 +1,22 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h> //Wird für "random" Funktion benötigt.
 
 void menü();
 
 int main()
 {
-  menü();
+  random();
+  ausgabe();
   printf("Hello\n"); //Test 2
   system("pause");
   return 0;
 }
 
 
-void menü() {
+void random() {
+
+}
+void ausgabe() {
   printf("Was Möchten Sie Vergleichen?\n");
 }
