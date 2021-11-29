@@ -3,16 +3,13 @@
 
 int main()
 {
-  int menü();
+  menü();
   printf("Hello\n"); //Test 2
-
-  //Gibt "Hello" aus. Hallo Mazen
-
   system("pause");
   return 0;
 }
 
 
-int menü() {
-  return 0;
+void menü() {
+  printf("Was Möchten Sie Vergleichen?\n");
 }
