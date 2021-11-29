@@ -5,7 +5,7 @@ int main()
 {
   printf("Hello"); //Test 2
 
-  //Gibt "Hello" aus.
+  //Gibt "Hello" aus. Hallo Yannic
 
   system("pause");
   return 0;
