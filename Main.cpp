@@ -17,7 +17,11 @@ int main()
 
 void random() {
 
+  srand(time(NULL));
+  int random = rand();
+
 }
+
 void ausgabe() {
   printf("Was Möchten Sie Vergleichen?\n");
 }
