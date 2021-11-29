@@ -18,7 +18,7 @@ int main()
 void random() {
 
   srand(time(NULL));
-  int random = rand();
+  int* pRandom = rand();
 
 }
 
