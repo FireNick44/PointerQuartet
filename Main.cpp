@@ -5,7 +5,7 @@ int main()
 {
   printf("Hello"); //Test 2
 
-  //Gibt "Hello" aus. Hallo Yannic
+  //Gibt "Hello" aus. Hallo Mazen
 
   system("pause");
   return 0;
