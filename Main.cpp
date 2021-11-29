@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <time.h> //Wird für "random" Funktion benötigt.
 
-
 int random(int, int);
 void ausgabe();
+void end();
 
 int main()
 {
@@ -43,4 +43,15 @@ void ausgabe() {
   c = getchar();
 
 
+}
+
+void end()
+{
+  printf("oooooooooooo                   .o8  \n");
+  printf("`888'     `8                  '888  \n");
+  printf(" 888         ooo. .oo.    .oooo888  \n");
+  printf(" 888oooo8    `888P'Y88b  d88' `888  \n");
+  printf(" 888    '     888   888  888   888  \n");
+  printf(" 888       o  888   888  888   888  \n");
+  printf("o888ooooood8 o888o o888o `Y8bod88P' \n\n\n");
 }
