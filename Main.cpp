@@ -3,17 +3,17 @@
 #include <time.h> //Wird für "random" Funktion benötigt.
 
 
-int random();
+int random(int, int);
 void ausgabe();
 
 int main()
 {
   srand(time(NULL));
-  random(1,10);
+  int rTmp = random(1, 10);
   
   
   ausgabe();
-  printf("Hello\n"); //Test 2
+  printf("Hello: %i\n", rTmp = random(1, 10)); //Test 2
   system("pause");
   return 0;
 }
