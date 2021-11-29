@@ -2,12 +2,16 @@
 #include <stdio.h>
 #include <time.h> //Wird für "random" Funktion benötigt.
 
-void random();
+
+int random();
 void ausgabe();
 
 int main()
 {
-  random();
+  srand(time(NULL));
+  random(1,10);
+  
+  
   ausgabe();
   printf("Hello\n"); //Test 2
   system("pause");
@@ -15,11 +19,11 @@ int main()
 }
 
 
-void random() {
+int random(int min, int max) {
 
-  srand(time(NULL));
-  int* pRandom = rand();
+  int r = rand() % max + min;
 
+  return(r);
 }
 
 void ausgabe() {
