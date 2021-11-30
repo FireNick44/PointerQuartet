@@ -27,7 +27,10 @@ int random(int min, int max) {
 
   return(r);
 }
-void menü() {
+void menü()
+{
+  //variablen
+
 
 }
 
@@ -59,6 +62,9 @@ void end()
   printf(" 888    '     888   888  888   888  \n");
   printf(" 888       o  888   888  888   888  \n");
   printf("o888ooooood8 o888o o888o `Y8bod88P' \n\n\n");
+
+
+  printf("Bro die Scheisse esch uf Englisch \n\n\n");
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe)
