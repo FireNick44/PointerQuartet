@@ -10,12 +10,10 @@ void menü();
 
 int main()
 {
+  // Variablen (+ random initialisierung)
   srand(time(NULL));
-  int rTmp = random(1, 10);
-  
-  
   ausgabe();
-  printf("Hello: %i\n", rTmp = random(1, 10)); //Test 2
+  //
   system("pause");
   return 0;
 }
@@ -27,51 +25,95 @@ int random(int min, int max) {
 
   return(r);
 }
+
 void menü()
 {
   //variablen
+  int spielmodus;
+  system("cls");
+
+  printf("\n  W\x84hlen Sie ihren Spielmodus:\n");
+  printf("  1 Spieler     = 1\n");
+  printf("  2 Spieler     = 2\n\n");
+  printf("  Beenden       = 3\n");
+  printf("  Einstellungen = 4\n");
+
+  printf("\n  (1/2/3/4): ");
+  scanf_s(" %c", &spielmodus,1);
+
+  //1 player (PC vs Player)
+  if (spielmodus == '1')  spielmodus = 1;
+  //settings
+  else if (spielmodus == 'E' || spielmodus == 'e' || spielmodus == '4') spielmodus = 3;
+  //end
+  else if (spielmodus == 'B' || spielmodus == 'b' || spielmodus == '3') spielmodus = 4;
+  
+  //falsche eingabe
+  else if (spielmodus != '1' && spielmodus != '2' && spielmodus != '3' && spielmodus != '4' 
+    || spielmodus != 'b' || spielmodus != 'B' || spielmodus == 'E' || spielmodus == 'e')
+  {
+    printf("  Falsche Eingabe\n");
+    system("timeout 1 >nul");
+    system("cls");
+    spielmodus = 0;
+
+  }
 
 
+   // Nachfrage zum Beenden
+  system("cls");
+  printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
+  printf("  (J/N) ");
+  scanf_s(" %c",1);
+  system("cls");
+  
 }
+
 
 void ausgabe() {
 
   char c;
-  printf("\n\n\n");
-  printf("==================================\n");
-  printf("Was M\x94""chten Sie Vergleichen?\n");
-  printf("1 = Variable 1: value X... \n");
-  printf("2 = Variable 2:\n");
-  printf("3 = Variable 3:\n");
-  printf("4 = Variable 4:\n");
-  printf("==================================\n");
-  printf("5 = Neu Starten\n");
-  printf("6 = Beenden\n");
-
-  c = getchar();
-
-
+  printf("\n\n");
+  printf("\n  ==================================");
+  printf("\n  Was M\x94""chten Sie Vergleichen?");
+  printf("\n  1 = Variable 1: value X... ");
+  printf("\n  2 = Variable 2:");
+  printf("\n  3 = Variable 3:");
+  printf("\n  4 = Variable 4:");
+  printf("\n  ==================================");
+  printf("\n  5 = Neu Starten");
+  printf("\n  6 = Beenden");
+  printf("\n  (1/2/3/4/5/6): ");
 }
 
 void end()
 {
-  printf("oooooooooooo                   .o8  \n");
-  printf("`888'     `8                  '888  \n");
-  printf(" 888         ooo. .oo.    .oooo888  \n");
-  printf(" 888oooo8    `888P'Y88b  d88' `888  \n");
-  printf(" 888    '     888   888  888   888  \n");
-  printf(" 888       o  888   888  888   888  \n");
-  printf("o888ooooood8 o888o o888o `Y8bod88P' \n\n\n");
+  printf("  oooooooooooo                   .o8  \n");
+  printf("  `888'     `8                  '888  \n");
+  printf("   888         ooo. .oo.    .oooo888  \n");
+  printf("   888oooo8    `888P'Y88b  d88' `888  \n");
+  printf("   888    '     888   888  888   888  \n");
+  printf("   888       o  888   888  888   888  \n");
+  printf("  o888ooooood8 o888o o888o `Y8bod88P' \n\n\n");
+
+  printf("Bro die Scheisse esch uf Englisch vlt Ende?\n\n\n");
 
 
-  printf("Bro die Scheisse esch uf Englisch \n\n\n");
+ printf("    .d88888b.                            888            888    888     \n");
+ printf("   d88P" "Y88b                           888            888    888     \n");
+ printf("   888     888                           888            888    888     \n");
+ printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
+ printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
+ printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
+ printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
+ printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
+ printf("          Y8b                                                          \n");
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe)
 {
-
   //Alles mit schwarzem Hintergrund
-  if (hintergrundfarbe == '0' && textfarbe == 'F') system("color 0F");
+  if (hintergrundfarbe == '0' && textfarbe == 'F')      system("color 0F");
   else if (hintergrundfarbe == '0' && textfarbe == '8') system("color 08");
   else if (hintergrundfarbe == '0' && textfarbe == '2') system("color 02");
   else if (hintergrundfarbe == '0' && textfarbe == '4') system("color 04");
@@ -112,5 +154,4 @@ void farbmatrix(char hintergrundfarbe, char textfarbe)
   else if (hintergrundfarbe == '4' && textfarbe == '2') system("color 42");
   else if (hintergrundfarbe == '4' && textfarbe == '1') system("color 41");
 
-  //Fertig vlt weitere Farben...
 }
