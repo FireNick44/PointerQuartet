@@ -7,9 +7,11 @@ int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
 void end(); // Spielende
 void menü(); // Hauptmenü
-void karten(); // Algorithmus für das Befüllen, Mischen und Verteilen der Karten
-void einstellungen();
+void karten(); // Algorithmus für das Mischen und Verteilen der Karten
+void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
+void einstellungen(); // Farbeinstellungen
 void rundestart(); // Start einer Runde
+
 
 typedef struct Karten // Struktur für Karten 
 {
@@ -24,7 +26,7 @@ int main()
 {
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
-  menü();
+  menü(); // Aufruf des Hauptmenüs
 
 
   //
@@ -47,7 +49,7 @@ void menü()
   system("cls"); // Leeren des Bildschirms
 
   printf("    .d88888b.                            888            888    888     \n");
-  printf("   d88P" "Y88b                           888            888    888     \n");
+  printf("   d88P   Y88b                           888            888    888     \n");
   printf("   888     888                           888            888    888     \n");
   printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
   printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
@@ -63,27 +65,28 @@ void menü()
   printf("  Einstellungen (4)\n");
 
   printf("\n  (1/2/3/4): ");
-  scanf_s(" %c", &spielmodus,1);
+  scanf_s("%i", &spielmodus, 1);
 
   //1 Spieler (PC vs Spieler)
   if (spielmodus == '1')
   {
     spielmodus = 1;
+    
   }
   //Einstellungen
-  else if (spielmodus == 'E' || spielmodus == 'e' || spielmodus == '4')
+  else if (spielmodus == 'B' || spielmodus == 'b' || spielmodus == '3')
   {
     spielmodus = 3;
-    einstellungen();
+    end;
   }
 
   //Ende
-  else if (spielmodus == 'B' || spielmodus == 'b' || spielmodus == '3')
+  else if (spielmodus == 'E' || spielmodus == 'e' || spielmodus == '4')
   {
     spielmodus = 4;
-
+    einstellungen;
   }
-  
+
   //falsche Eingabe
   else if (spielmodus != '1' && spielmodus != '2' && spielmodus != '3' && spielmodus != '4' && spielmodus != 'b' && spielmodus != 'B' && spielmodus == 'e' && spielmodus == 'E')
   {
@@ -93,16 +96,7 @@ void menü()
     spielmodus = 0;
   }
 
-  
 
-
-   // Nachfrage zum Beenden
-  system("cls");
-  printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
-  printf("  (J/N) ");
-  scanf_s(" %c",1);
-  system("cls");
-  
 }
 
 void karten()
@@ -128,6 +122,15 @@ void ausgabe() {
 
 void end()
 {
+  char e;
+  // Nachfrage zum Beenden
+  system("cls");
+  printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
+  printf("  (J/N) ");
+  scanf_s(" %c", &e,1);
+  system("cls");
+  if (e == 'J' || e == 'j')
+  {
   printf("  oooooooooooo                   .o8          \n");
   printf("  `888'     `8                  '888          \n");
   printf("   888         ooo. .oo.    .oooo888   .d88b. \n");
@@ -135,6 +138,7 @@ void end()
   printf("   888    '     888   888  888   888  88888888\n");
   printf("   888       o  888   888  888   888  Y8b.    \n");
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
+  }
 
 
   printf("    .d88888b.                            888            888    888     \n");
