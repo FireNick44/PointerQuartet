@@ -3,16 +3,30 @@
 #include <string.h> //Wird für "string" Funktionen benötigt.
 #include <time.h>   //Wird für "random" Funktionen benötigt.
 
-int random(int, int);
-void ausgabe();
-void end();
-void menü();
+int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
+void ausgabe(); // Test Methode
+void end(); // Spielende
+void menü(); // Hauptmenü
+void karten(); // Algorithmus für das Befüllen, Mischen und Verteilen der Karten
+void einstellungen();
+void rundestart(); // Start einer Runde
+
+typedef struct Karten // Struktur für Karten 
+{
+  char Marke[20];
+  char Modell[20];
+  int Leistung;
+  int Gewicht;
+  double Höchsttempo;
+}struKarten;
 
 int main()
 {
-  // Variablen (+ random initialisierung)
+  // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
   menü();
+
+
   //
   system("pause");
   return 0;
@@ -30,7 +44,17 @@ void menü()
 {
   //variablen
   int spielmodus;
-  system("cls");
+  system("cls"); // Leeren des Bildschirms
+
+  printf("    .d88888b.                            888            888    888     \n");
+  printf("   d88P" "Y88b                           888            888    888     \n");
+  printf("   888     888                           888            888    888     \n");
+  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
+  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
+  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
+  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
+  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
+  printf("          Y8b                                                          \n");
 
   printf("\n  W\x84hlen Sie ihren Spielmodus:\n");
   printf("  1 Spieler     (1)\n");
@@ -46,15 +70,18 @@ void menü()
   {
     spielmodus = 1;
   }
-  //settings
+  //Einstellungen
   else if (spielmodus == 'E' || spielmodus == 'e' || spielmodus == '4')
   {
     spielmodus = 3;
+    einstellungen();
   }
-  //end
+
+  //Ende
   else if (spielmodus == 'B' || spielmodus == 'b' || spielmodus == '3')
   {
     spielmodus = 4;
+
   }
   
   //falsche Eingabe
@@ -78,6 +105,10 @@ void menü()
   
 }
 
+void karten()
+{
+
+}
 
 void ausgabe() {
 
@@ -115,6 +146,11 @@ void end()
   printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
   printf("          Y8b                                                          \n");
+}
+
+void einstellungen()
+{
+
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe)
