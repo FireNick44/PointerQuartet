@@ -4,7 +4,6 @@
 #include <time.h>   //Wird für "random" Funktionen benötigt.
 #include <conio.h>   //Wird für Tastatur Eingaben benötigt.
 
-
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
 void end(); // Spielende
@@ -32,7 +31,7 @@ int main()
 {
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
-  //menü(); // Aufruf des Hauptmenüs
+  menü(); // Aufruf des Hauptmenüs
 
           //
   system("pause");
@@ -49,6 +48,7 @@ int random(int min, int max) {
 
 void logo()
 {
+  printf("\n\n");
   printf("    .d88888b.                            888            888    888     \n");
   printf("   d88P   Y88b                           888            888    888     \n");
   printf("   888     888                           888            888    888     \n");
@@ -62,59 +62,54 @@ void logo()
 
 void menü()
 {
-  //variablen
-  char spielmodus;
-  system("cls"); // Leeren des Bildschirms
-
-
-  printf("\n  W\x84hlen Sie ihren Spielmodus:\n");
-  printf("  1 Spieler     (1)\n");
-  printf("  2 Spieler     (2)\n\n");
-  printf("  Beenden       (3)\n");
-  printf("  Einstellungen (4)\n");
-
-  printf("\n  (1/2/3/4): ");
-  scanf_s(" %c", &spielmodus,1);
-
-
-  printf("Geben SIe eine pknfewinpfew");
-
-  char Taste = _getch();
-
-
-  Taste = _getch(); //getch oder getche
-
-
-  //1 Spieler (PC vs Spieler)
-  if (spielmodus == '1')
+  bool menü = false;
+  while (menü == false);
   {
-    spielmodus = '1';
-    
-  }
-  //Einstellungen
-  else if (spielmodus == 'B' || spielmodus == 'b' || spielmodus == '3')
-  {
-    spielmodus = '3';
-    end;
-  }
+    //variablen
+    int spielmodus;
+    char eingabe; //Variabel für Eingabe 
 
-  //Ende
-  else if (spielmodus == 'E' || spielmodus == 'e' || spielmodus == '4')
-  {
-    spielmodus = '4';
-    einstellungen;
-  }
+    system("cls"); // Leeren des Bildschirms
 
-  //falsche Eingabe
-  else if (spielmodus != '1' && spielmodus != '2' && spielmodus != '3' && spielmodus != '4' && spielmodus != 'b' && spielmodus != 'B' && spielmodus == 'e' && spielmodus == 'E')
-  {
-    printf("  Falsche Eingabe\n");
-    system("timeout 1 >null");
-    system("cls");
-    spielmodus = 0;
-  }
+    logo;
+
+    printf("\n  ==================================");
+    printf("\n  W\x84hlen Sie ihren Spielmodus:");
+    printf("\n  1 Spieler     (1)");
+    printf("\n  Beenden       (2)");
+    printf("\n  Einstellungen (3)");
+    printf("\n  ==================================");
+    printf("\n");
+    printf("\n  (1/2/3): ");
+    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
 
 
+    //1 Spieler (PC vs Spieler)
+    if (eingabe == '1')
+    {
+
+    }
+
+    //Einstellungen
+    else if (eingabe == '2')
+    {
+
+    }
+
+    //Ende
+    else if (eingabe == '3')
+    {
+
+    }
+
+    //falsche Eingabe
+    else if (eingabe != '1' && eingabe != '1' && eingabe != '3')
+    {
+      printf("  Falsche Eingabe\n");
+      system("timeout 1 >null");
+      system("cls");
+    }
+  } 
 }
 
 void ausgabe() {
@@ -168,7 +163,6 @@ void karten()
 
 void füllkarten()
 {
-  struKarten
 
 }
 
