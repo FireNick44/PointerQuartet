@@ -46,7 +46,7 @@ int random(int min, int max) {
 void menü()
 {
   //variablen
-  int spielmodus;
+  char spielmodus;
   system("cls"); // Leeren des Bildschirms
 
   printf("    .d88888b.                            888            888    888     \n");
@@ -66,25 +66,25 @@ void menü()
   printf("  Einstellungen (4)\n");
 
   printf("\n  (1/2/3/4): ");
-  scanf_s("%i", &spielmodus, 1);
+  scanf_s(" %c", &spielmodus,1);
 
   //1 Spieler (PC vs Spieler)
   if (spielmodus == '1')
   {
-    spielmodus = 1;
+    spielmodus = '1';
     
   }
   //Einstellungen
   else if (spielmodus == 'B' || spielmodus == 'b' || spielmodus == '3')
   {
-    spielmodus = 3;
+    spielmodus = '3';
     end;
   }
 
   //Ende
   else if (spielmodus == 'E' || spielmodus == 'e' || spielmodus == '4')
   {
-    spielmodus = 4;
+    spielmodus = '4';
     einstellungen;
   }
 
