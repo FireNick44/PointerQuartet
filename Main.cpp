@@ -117,23 +117,6 @@ void menü()
 
 }
 
-void rundestart()
-{
-
-}
-
-void karten()
-{
-  füllkarten();
-  
-}
-
-void füllkarten()
-{
-  struKarten
-
-}
-
 void ausgabe() {
 
   char c;
@@ -157,20 +140,39 @@ void end()
   system("cls");
   printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
   printf("  (J/N) ");
-  scanf_s(" %c", &e,1);
+  scanf_s(" %c", &e, 1);
   system("cls");
   if (e == 'J' || e == 'j')
   {
-  printf("  oooooooooooo                   .o8          \n");
-  printf("  `888'     `8                  '888          \n");
-  printf("   888         ooo. .oo.    .oooo888   .d88b. \n");
-  printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b\n");
-  printf("   888    '     888   888  888   888  88888888\n");
-  printf("   888       o  888   888  888   888  Y8b.    \n");
-  printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
+    printf("  oooooooooooo                   .o8          \n");
+    printf("  `888'     `8                  '888          \n");
+    printf("   888         ooo. .oo.    .oooo888   .d88b. \n");
+    printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b\n");
+    printf("   888    '     888   888  888   888  88888888\n");
+    printf("   888       o  888   888  888   888  Y8b.    \n");
+    printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
   }
 
 }
+
+void rundestart()
+{
+
+}
+
+void karten()
+{
+  füllkarten();
+  
+}
+
+void füllkarten()
+{
+  struKarten
+
+}
+
+
 
 void einstellungen()
 {
