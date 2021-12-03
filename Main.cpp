@@ -15,13 +15,16 @@ void einstellungen(); // Farbeinstellungen
 void rundestart(); // Start einer Runde
 
 
+
 typedef struct Karten // Struktur für Karten 
 {
+  int Nr;
   char Marke[20];
   char Modell[20];
   int Leistung;
   int Gewicht;
   double Höchsttempo;
+  struct Karten* pNext;
 }struKarten;
 
 int main()
@@ -100,14 +103,20 @@ void menü()
 
 }
 
-void karten()
+void rundestart()
 {
 
 }
 
+void karten()
+{
+  füllkarten();
+  
+}
+
 void füllkarten()
 {
-
+  struKarten
 
 }
 
