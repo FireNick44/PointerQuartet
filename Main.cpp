@@ -31,8 +31,18 @@ int main()
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
-  bool menü = false;
-  while (menü == false)
+
+  printf("   ________   \n");
+  printf("  /        \  \n");
+  printf("  |  O  O  |  \n");
+  printf("  | __()__ |  \n");
+  printf("  | |UUUU$$|  \n");
+  printf("  | | . $$ $$ \n");
+  printf("     nnnn$$ $$\n");
+
+
+  bool menü = true;
+  while (menü == true)
   {
     //variablen
     int spielmodus;
@@ -45,8 +55,8 @@ int main()
     printf("\n  ==================================");
     printf("\n  W\x84hlen Sie ihren Spielmodus:");
     printf("\n  1 Spieler     (1)");
-    printf("\n  Beenden       (2)");
-    printf("\n  Einstellungen (3)");
+    printf("\n  Einstellungen (2)");
+    printf("\n  Beenden       (3)");
     printf("\n  ==================================");
     printf("\n");
     printf("\n  (1/2/3): ");
@@ -68,21 +78,22 @@ int main()
     //Ende
     else if (eingabe == '3')
     {
-
+      char e;
+      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
+      printf("  (J/N) ");
+      scanf_s(" %c", &e, 1);
+      if (e == 'j' || e == 'J') menü = false;
     }
 
     //falsche Eingabe
     else if (eingabe != '1' && eingabe != '1' && eingabe != '3')
     {
-      printf("  Falsche Eingabe\n");
+      printf("\n  Falsche Eingabe");
       system("timeout 1 >null");
       system("cls");
     }
   }
-
-
-          //
-  system("pause");
+  end();
   return 0;
 }
 
@@ -128,10 +139,9 @@ void end()
 {
   char e;
   // Nachfrage zum Beenden
-  system("cls");
   printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
   printf("  (J/N) ");
-  scanf_s(" %c", &e, 1);
+  scanf_s(" %c", &e,1);
   system("cls");
   if (e == 'J' || e == 'j')
   {
@@ -143,8 +153,9 @@ void end()
     printf("   888       o  888   888  888   888  Y8b.    \n");
     printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
   }
-
 }
+
+
 
 void rundestart()
 {
