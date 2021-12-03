@@ -7,7 +7,6 @@
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
 void end(); // Spielende
-void menü(); // Hauptmenü
 void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
@@ -31,39 +30,9 @@ int main()
 {
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
-  menü(); // Aufruf des Hauptmenüs
 
-          //
-  system("pause");
-  return 0;
-}
-
-
-int random(int min, int max) {
-  // Random-Funktion, wo Zahlen für das zufällige Verteilen der Karten 
-  int r = rand() % max + min;
-
-  return(r);
-}
-
-void logo()
-{
-  printf("\n\n");
-  printf("    .d88888b.                            888            888    888     \n");
-  printf("   d88P   Y88b                           888            888    888     \n");
-  printf("   888     888                           888            888    888     \n");
-  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
-  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
-  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
-  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
-  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
-  printf("          Y8b                                                          \n");
-}
-
-void menü()
-{
   bool menü = false;
-  while (menü == false);
+  while (menü == false)
   {
     //variablen
     int spielmodus;
@@ -71,7 +40,7 @@ void menü()
 
     system("cls"); // Leeren des Bildschirms
 
-    logo;
+    logo();
 
     printf("\n  ==================================");
     printf("\n  W\x84hlen Sie ihren Spielmodus:");
@@ -81,8 +50,8 @@ void menü()
     printf("\n  ==================================");
     printf("\n");
     printf("\n  (1/2/3): ");
-    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
 
+    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
 
     //1 Spieler (PC vs Spieler)
     if (eingabe == '1')
@@ -109,7 +78,34 @@ void menü()
       system("timeout 1 >null");
       system("cls");
     }
-  } 
+  }
+
+
+          //
+  system("pause");
+  return 0;
+}
+
+
+int random(int min, int max) {
+  // Random-Funktion, wo Zahlen für das zufällige Verteilen der Karten 
+  int r = rand() % max + min;
+
+  return(r);
+}
+
+void logo()
+{
+  printf("\n\n");
+  printf("    .d88888b.                            888            888    888     \n");
+  printf("   d88P   Y88b                           888            888    888     \n");
+  printf("   888     888                           888            888    888     \n");
+  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
+  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
+  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
+  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
+  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
+  printf("          Y8b                                                          \n");
 }
 
 void ausgabe() {
