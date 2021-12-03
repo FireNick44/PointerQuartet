@@ -9,6 +9,7 @@ int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
 void end(); // Spielende
 void menü(); // Hauptmenü
+void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
 void einstellungen(); // Farbeinstellungen
@@ -31,9 +32,9 @@ int main()
 {
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
-  menü(); // Aufruf des Hauptmenüs
+  //menü(); // Aufruf des Hauptmenüs
 
-  //
+          //
   system("pause");
   return 0;
 }
@@ -46,12 +47,8 @@ int random(int min, int max) {
   return(r);
 }
 
-void menü()
+void logo()
 {
-  //variablen
-  char spielmodus;
-  system("cls"); // Leeren des Bildschirms
-
   printf("    .d88888b.                            888            888    888     \n");
   printf("   d88P   Y88b                           888            888    888     \n");
   printf("   888     888                           888            888    888     \n");
@@ -61,6 +58,14 @@ void menü()
   printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
   printf("          Y8b                                                          \n");
+}
+
+void menü()
+{
+  //variablen
+  char spielmodus;
+  system("cls"); // Leeren des Bildschirms
+
 
   printf("\n  W\x84hlen Sie ihren Spielmodus:\n");
   printf("  1 Spieler     (1)\n");
@@ -70,6 +75,15 @@ void menü()
 
   printf("\n  (1/2/3/4): ");
   scanf_s(" %c", &spielmodus,1);
+
+
+  printf("Geben SIe eine pknfewinpfew");
+
+  char Taste = _getch();
+
+
+  Taste = _getch(); //getch oder getche
+
 
   //1 Spieler (PC vs Spieler)
   if (spielmodus == '1')
@@ -156,16 +170,6 @@ void end()
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
   }
 
-
-  printf("    .d88888b.                            888            888    888     \n");
-  printf("   d88P" "Y88b                           888            888    888     \n");
-  printf("   888     888                           888            888    888     \n");
-  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
-  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
-  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
-  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
-  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
-  printf("          Y8b                                                          \n");
 }
 
 void einstellungen()
