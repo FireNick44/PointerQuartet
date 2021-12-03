@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h> //Wird für "string" Funktionen benötigt.
 #include <time.h>   //Wird für "random" Funktionen benötigt.
+#include <conio.h>   //Wird für Tastatur Eingaben benötigt.
+
 
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
@@ -27,7 +29,6 @@ int main()
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
   menü(); // Aufruf des Hauptmenüs
-
 
   //
   system("pause");
