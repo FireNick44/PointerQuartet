@@ -104,6 +104,12 @@ void karten()
 
 }
 
+void füllkarten()
+{
+
+
+}
+
 void ausgabe() {
 
   char c;
