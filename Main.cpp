@@ -28,9 +28,9 @@ int main()
 {
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
-  menü(); // Aufruf des Hauptmenüs
+  //menü(); // Aufruf des Hauptmenüs
 
-  //
+          //
   system("pause");
   return 0;
 }
@@ -67,6 +67,17 @@ void menü()
 
   printf("\n  (1/2/3/4): ");
   scanf_s(" %c", &spielmodus,1);
+
+
+
+
+  printf("Geben SIe eine pknfewinpfew");
+
+  char Taste = _getch();
+
+
+  Taste = _getch(); //getch oder getche
+
 
   //1 Spieler (PC vs Spieler)
   if (spielmodus == '1')
