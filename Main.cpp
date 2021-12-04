@@ -32,13 +32,6 @@ int main()
   srand(time(NULL));
 
 
-  printf("   ________   \n");
-  printf("  /        \  \n");
-  printf("  |  O  O  |  \n");
-  printf("  | __()__ |  \n");
-  printf("  | |UUUU$$|  \n");
-  printf("  | | . $$ $$ \n");
-  printf("     nnnn$$ $$\n");
 
 
   bool menü = true;
@@ -46,7 +39,7 @@ int main()
   {
     //variablen
     int spielmodus;
-    char eingabe; //Variabel für Eingabe 
+    char eingabe; //Variabel für Eingabe
 
     system("cls"); // Leeren des Bildschirms
 
@@ -79,14 +72,14 @@ int main()
     else if (eingabe == '3')
     {
       char e;
-      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
-      printf("  (J/N) ");
+      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
+      printf("\n  (J/N) ");
       scanf_s(" %c", &e, 1);
       if (e == 'j' || e == 'J') menü = false;
     }
 
     //falsche Eingabe
-    else if (eingabe != '1' && eingabe != '1' && eingabe != '3')
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
     {
       printf("\n  Falsche Eingabe");
       system("timeout 1 >null");
@@ -96,7 +89,6 @@ int main()
   end();
   return 0;
 }
-
 
 int random(int min, int max) {
   // Random-Funktion, wo Zahlen für das zufällige Verteilen der Karten 
@@ -117,6 +109,42 @@ void logo()
   printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
   printf("          Y8b                                                          \n");
+
+  printf("                                  \n");
+  printf("                                  \n");
+  printf("      .@@@@@@@@@@@@@@@@@@@.       \n");
+  printf("     @@                  @@.      \n");
+  printf("    @@                    @@      \n");
+  printf("    @@                    &@      \n");
+  printf("    @ @@@@@@@    %@@@@@@@@ @.     \n");
+  printf("    @@   (o)      (O)     @@@     \n");
+  printf("   .@@        ((           @@     \n");
+  printf("   @@@  @@@@@@@@@@@@@@@    @@     \n");
+  printf("       @@ ########## @@@          \n");
+  printf("      @@@            @@@          \n");
+  printf("      @@ ##________## @@@         \n");
+  printf("      @@@ '########'  @@@         \n");
+  printf("      @@@             @@@         \n");
+  printf("       @               @          \n");
+  printf("                                  \n");
+
+  printf("             %@@@@@@@@            \n");
+  printf("          @@@@@@@@@@@@@           \n");
+  printf("         @@@@@@@@@@@@@@@@         \n");
+  printf("        ,@@@@@@@@       @@        \n");
+  printf("       @  @@@@%           @       \n");
+  printf("     ,@                    @ ,@.  \n");
+  printf("     @@ @@@%    /@@@@@.    @@  @  \n");
+  printf("     @@  (O)      (O)     .@@  @  \n");
+  printf("     @        /           @@@.(.) \n");
+  printf("     @       (@.          @@@     \n");
+  printf("    .@@@@@@@@@@@@@@@@@@   @@,     \n");
+  printf("    @@@@ ########## @@@@ .@@*     \n");
+  printf("    '@@@              @@@@@@*     \n");
+  printf("     @@@@ #########,@@@@@@@       \n");
+  printf("      @@@@@@@@@@@@@@@@@@@        \n");
+  printf("        @@@@@@@@@@@@@@@@          \n");
+  printf("                                  \n");
 }
 
 void ausgabe() {
