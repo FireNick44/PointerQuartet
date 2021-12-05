@@ -142,7 +142,7 @@ void logo()
   printf("    @@@@ ########## @@@@ .@@*     \n");
   printf("    '@@@              @@@@@@*     \n");
   printf("     @@@@ #########,@@@@@@@       \n");
-  printf("      @@@@@@@@@@@@@@@@@@@        \n");
+  printf("      @@@@@@@@@@@@@@@@@@@         \n");
   printf("        @@@@@@@@@@@@@@@@          \n");
   printf("                                  \n");
 }
@@ -166,6 +166,7 @@ void ausgabe() {
 void end()
 {
   char e;
+
   // Nachfrage zum Beenden
   printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
   printf("  (J/N) ");
@@ -251,5 +252,4 @@ void farbmatrix(char hintergrundfarbe, char textfarbe)
   else if (hintergrundfarbe == '4' && textfarbe == 'F') system("color 4F");
   else if (hintergrundfarbe == '4' && textfarbe == '2') system("color 42");
   else if (hintergrundfarbe == '4' && textfarbe == '1') system("color 41");
-
 }
