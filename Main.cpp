@@ -31,7 +31,7 @@ int main()
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
-
+  system("mode con cols=138 lines=30");
 
 
   bool menü = true;
@@ -110,41 +110,41 @@ void logo()
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
   printf("          Y8b                                                          \n");
 
-  printf("                                  \n");
-  printf("                                  \n");
-  printf("      .@@@@@@@@@@@@@@@@@@@.       \n");
-  printf("     @@                  @@.      \n");
-  printf("    @@                    @@      \n");
-  printf("    @@                    &@      \n");
-  printf("    @ @@@@@@@    %@@@@@@@@ @.     \n");
-  printf("    @@   (o)      (O)     @@@     \n");
-  printf("   .@@        ((           @@     \n");
-  printf("   @@@  @@@@@@@@@@@@@@@    @@     \n");
-  printf("       @@ ########## @@@          \n");
-  printf("      @@@            @@@          \n");
-  printf("      @@ ##________## @@@         \n");
-  printf("      @@@ '########'  @@@         \n");
-  printf("      @@@             @@@         \n");
-  printf("       @               @          \n");
-  printf("                                  \n");
+  //printf("                                  \n");
+  //printf("                                  \n");
+  //printf("      .@@@@@@@@@@@@@@@@@@@.       \n");
+  //printf("     @@                  @@.      \n");
+  //printf("    @@                    @@      \n");
+  //printf("    @@                    &@      \n");
+  //printf("    @ @@@@@@@    %@@@@@@@@ @.     \n");
+  //printf("    @@   (o)      (O)     @@@     \n");
+  //printf("   .@@        ((           @@     \n");
+  //printf("   @@@  @@@@@@@@@@@@@@@    @@     \n");
+  //printf("       @@ ########## @@@          \n");
+  //printf("      @@@            @@@          \n");
+  //printf("      @@ ##________## @@@         \n");
+  //printf("      @@@ '########'  @@@         \n");
+  //printf("      @@@             @@@         \n");
+  //printf("       @               @          \n");
+  //printf("                                  \n");
 
-  printf("             %@@@@@@@@            \n");
-  printf("          @@@@@@@@@@@@@           \n");
-  printf("         @@@@@@@@@@@@@@@@         \n");
-  printf("        ,@@@@@@@@       @@        \n");
-  printf("       @  @@@@%           @       \n");
-  printf("     ,@                    @ ,@.  \n");
-  printf("     @@ @@@%    /@@@@@.    @@  @  \n");
-  printf("     @@  (O)      (O)     .@@  @  \n");
-  printf("     @        /           @@@.(.) \n");
-  printf("     @       (@.          @@@     \n");
-  printf("    .@@@@@@@@@@@@@@@@@@   @@,     \n");
-  printf("    @@@@ ########## @@@@ .@@*     \n");
-  printf("    '@@@              @@@@@@*     \n");
-  printf("     @@@@ #########,@@@@@@@       \n");
-  printf("      @@@@@@@@@@@@@@@@@@@         \n");
-  printf("        @@@@@@@@@@@@@@@@          \n");
-  printf("                                  \n");
+  //printf("             %@@@@@@@@            \n");
+  //printf("          @@@@@@@@@@@@@           \n");
+  //printf("         @@@@@@@@@@@@@@@@         \n");
+  //printf("        ,@@@@@@@@       @@        \n");
+  //printf("       @  @@@@%           @       \n");
+  //printf("     ,@                    @ ,@.  \n");
+  //printf("     @@ @@@%    /@@@@@.    @@  @  \n");
+  //printf("     @@  (O)      (O)     .@@  @  \n");
+  //printf("     @        /           @@@.(.) \n");
+  //printf("     @       (@.          @@@     \n");
+  //printf("    .@@@@@@@@@@@@@@@@@@   @@,     \n");
+  //printf("    @@@@ ########## @@@@ .@@*     \n");
+  //printf("    '@@@              @@@@@@*     \n");
+  //printf("     @@@@ #########,@@@@@@@       \n");
+  //printf("      @@@@@@@@@@@@@@@@@@@         \n");
+  //printf("        @@@@@@@@@@@@@@@@          \n");
+  //printf("                                  \n");
 }
 
 void ausgabe() {
