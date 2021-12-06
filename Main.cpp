@@ -26,13 +26,14 @@ typedef struct Karten // Struktur für Karten
   struct Karten* pNext;
 }struKarten;
 
+
 int main()
 {
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
   system("mode con cols=138 lines=30");
-
+  int main;
 
   bool menü = true;
   while (menü == true)
