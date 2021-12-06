@@ -29,7 +29,7 @@ typedef struct Karten // Struktur für Karten
 int main()
 {
 
-  //Testkljbgfslknsfglkngfsdl
+  //Test2
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
