@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h> //Wird für "string" Funktionen benötigt.
+#include <string>
 #include <time.h>   //Wird für "random" Funktionen benötigt.
 #include <conio.h>   //Wird für Tastatur Eingaben benötigt.
 
@@ -10,7 +11,7 @@ void end(); // Spielende
 void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
-void einstellungen(); // Farbeinstellungen
+void einstellungen(bool); // Farbeinstellungen
 void rundestart(); // Start einer Runde
 
 
@@ -68,27 +69,30 @@ int main()
     //Einstellungen
     else if (eingabe == '2')
     {
-
+      bool first = true;
+      einstellungen(first);
     }
 
     //Ende
     else if (eingabe == '3')
     {
-      char e;
       printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
       printf("\n  (J/N) ");
-      scanf_s(" %c", &e, 1);
-      if (e == 'j' || e == 'J') menü = false;
+      
+      eingabe = _getch();
+
+      if (eingabe == 'J' || eingabe == 'j') menü = false;
     }
 
     //falsche Eingabe
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
     {
-      printf("\n  Falsche Eingabe");
+      printf("\n  Falsche Eingabe ");
       system("timeout 1 >null");
       system("cls");
     }
   }
+
   end();
   return 0;
 }
@@ -112,47 +116,12 @@ void logo()
   printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
   printf("          Y8b                                                          \n");
-
-  //printf("                                  \n");
-  //printf("                                  \n");
-  //printf("      .@@@@@@@@@@@@@@@@@@@.       \n");
-  //printf("     @@                  @@.      \n");
-  //printf("    @@                    @@      \n");
-  //printf("    @@                    &@      \n");
-  //printf("    @ @@@@@@@    %@@@@@@@@ @.     \n");
-  //printf("    @@   (o)      (O)     @@@     \n");
-  //printf("   .@@        ((           @@     \n");
-  //printf("   @@@  @@@@@@@@@@@@@@@    @@     \n");
-  //printf("       @@ ########## @@@          \n");
-  //printf("      @@@            @@@          \n");
-  //printf("      @@ ##________## @@@         \n");
-  //printf("      @@@ '########'  @@@         \n");
-  //printf("      @@@             @@@         \n");
-  //printf("       @               @          \n");
-  //printf("                                  \n");
-
-  //printf("             %@@@@@@@@            \n");
-  //printf("          @@@@@@@@@@@@@           \n");
-  //printf("         @@@@@@@@@@@@@@@@         \n");
-  //printf("        ,@@@@@@@@       @@        \n");
-  //printf("       @  @@@@%           @       \n");
-  //printf("     ,@                    @ ,@.  \n");
-  //printf("     @@ @@@%    /@@@@@.    @@  @  \n");
-  //printf("     @@  (O)      (O)     .@@  @  \n");
-  //printf("     @        /           @@@.(.) \n");
-  //printf("     @       (@.          @@@     \n");
-  //printf("    .@@@@@@@@@@@@@@@@@@   @@,     \n");
-  //printf("    @@@@ ########## @@@@ .@@*     \n");
-  //printf("    '@@@              @@@@@@*     \n");
-  //printf("     @@@@ #########,@@@@@@@       \n");
-  //printf("      @@@@@@@@@@@@@@@@@@@         \n");
-  //printf("        @@@@@@@@@@@@@@@@          \n");
-  //printf("                                  \n");
 }
 
 void ausgabe() {
 
   char c;
+
   printf("\n\n");
   printf("\n  ==================================");
   printf("\n  Was M\x94""chten Sie Vergleichen?");
@@ -168,23 +137,16 @@ void ausgabe() {
 
 void end()
 {
-  char e;
-
-  // Nachfrage zum Beenden
-  printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
-  printf("  (J/N) ");
-  scanf_s(" %c", &e,1);
   system("cls");
-  if (e == 'J' || e == 'j')
-  {
-    printf("  oooooooooooo                   .o8          \n");
-    printf("  `888'     `8                  '888          \n");
-    printf("   888         ooo. .oo.    .oooo888   .d88b. \n");
-    printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b\n");
-    printf("   888    '     888   888  888   888  88888888\n");
-    printf("   888       o  888   888  888   888  Y8b.    \n");
-    printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
-  }
+
+  printf("\n\n");
+  printf("  oooooooooooo                   .o8           \n");
+  printf("  `888'     `8                  '888           \n");
+  printf("   888         ooo. .oo.    .oooo888   .d88b.  \n");
+  printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b \n");
+  printf("   888    '     888   888  888   888  88888888 \n");
+  printf("   888       o  888   888  888   888  Y8b.     \n");
+  printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
 }
 
 
@@ -207,15 +169,90 @@ void füllkarten()
 
 
 
-void einstellungen()
+void einstellungen(bool first)
 {
+  //variablen
+  char eingabe;
+  bool debug;
+  bool settings = true;
 
+  char neue_hintergrundfarbe;
+  char hintergrundfarbe;
+  char textfarbe;
+  char neue_textfarbe;
+
+  //Erste Ausführung
+  if (first == true)
+  {
+    char hintergrundfarbe = '0';
+    char textfarbe = '7';
+    first = false;
+  }
+
+  while (settings == true)
+  {
+    system("cls");
+
+    logo();
+
+    printf("\n  ==================================");
+    printf("\n  Einstellungen:     ");
+    printf("\n  Farbe           (1)");
+    printf("\n  Version         (2)");
+    printf("\n  Entwicklermodus (3)");
+    printf("\n  Zur\x81""ck          (4)");
+    printf("\n  ==================================");
+    printf("\n\n  (1/2/3/4): ");
+
+    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
+
+    if (eingabe == '1')
+    {
+
+    }
+
+    else if (eingabe == '2')
+    {
+      system("cls");
+      logo();
+      printf("\n\n      .@@@@@@@@@@@@@@@@@@.                                        .@@@@@@@@            \n");
+      printf("      @                  @.                                    @@@@@@@@@@@@@           \n");
+      printf("     @@                  @@.                                  @@@@@@@@@@@@@@@@         \n");
+      printf("    @@                    @@                                 ,@@@@@@@@       @@        \n");
+      printf("    @@                    &@                                @  @@@@'           @       \n");
+      printf("    @ @@@@@@@    .@@@@@@@@ @.                             ,@                    @ ,@.  \n");
+      printf("    @@   (o)      (O)     @@@                             @@ @@@@    /@@@@@.    @@  @  \n");
+      printf("   .@@        ((           @@         Version 1.1         @@  (O)      (O)     .@@  @  \n");
+      printf("   @@@  @@@@@@@@@@@@@@@    @@          x64-Debug          @        /           @@@.(.) \n");
+      printf("       @@ ########## @@@                                  @       (@.          @@@     \n");
+      printf("      @@@            @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
+      printf("      @@ ##________## @@@                                @@@@ ########## @@@@ .@@*     \n");
+      printf("      @@@ '########'  @@@                                '@@@              @@@@@@*     \n");
+      printf("      @@@             @@@                 COC             @@@@ #########,@@@@@@@       \n");
+      printf("       @               @               Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
+      printf("       @               @                                     @@@@@@@@@@@@@@@@          \n");
+      system("timeout 3 >null");
+
+    }
+
+    else if (eingabe == '3') debug = true;
+    
+    else if (eingabe == '4') settings = false;
+
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4')
+    {
+      printf("\n  Falsche Eingabe ");
+      system("timeout 1 >null");
+      system("cls");
+    }
+  }
+  ///vlt return Wert für Variable Entwicklermodus und Farbe?////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe)
 {
   //Alles mit schwarzem Hintergrund
-  if (hintergrundfarbe == '0' && textfarbe == 'F')      system("color 0F");
+  if (hintergrundfarbe == '0' && textfarbe == '7')      system("color 07");
   else if (hintergrundfarbe == '0' && textfarbe == '8') system("color 08");
   else if (hintergrundfarbe == '0' && textfarbe == '2') system("color 02");
   else if (hintergrundfarbe == '0' && textfarbe == '4') system("color 04");
