@@ -2,38 +2,93 @@
 #include <stdio.h>
 #include <string.h> //Wird für "string" Funktionen benötigt.
 #include <time.h>   //Wird für "random" Funktionen benötigt.
+#include <conio.h>   //Wird für Tastatur Eingaben benötigt.
 
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
 void end(); // Spielende
-void menü(); // Hauptmenü
+void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
 void einstellungen(); // Farbeinstellungen
 void rundestart(); // Start einer Runde
 
 
+
 typedef struct Karten // Struktur für Karten 
 {
+  int Nr;
   char Marke[20];
   char Modell[20];
   int Leistung;
   int Gewicht;
   double Höchsttempo;
+  struct Karten* pNext;
 }struKarten;
 
 int main()
 {
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
-  menü(); // Aufruf des Hauptmenüs
 
 
-  //
-  system("pause");
+
+
+  bool menü = true;
+  while (menü == true)
+  {
+    //variablen
+    int spielmodus;
+    char eingabe; //Variabel für Eingabe
+
+    system("cls"); // Leeren des Bildschirms
+
+    logo();
+
+    printf("\n  ==================================");
+    printf("\n  W\x84hlen Sie ihren Spielmodus:");
+    printf("\n  1 Spieler     (1)");
+    printf("\n  Einstellungen (2)");
+    printf("\n  Beenden       (3)");
+    printf("\n  ==================================");
+    printf("\n");
+    printf("\n  (1/2/3): ");
+
+    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
+
+    //1 Spieler (PC vs Spieler)
+    if (eingabe == '1')
+    {
+
+    }
+
+    //Einstellungen
+    else if (eingabe == '2')
+    {
+
+    }
+
+    //Ende
+    else if (eingabe == '3')
+    {
+      char e;
+      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
+      printf("\n  (J/N) ");
+      scanf_s(" %c", &e, 1);
+      if (e == 'j' || e == 'J') menü = false;
+    }
+
+    //falsche Eingabe
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
+    {
+      printf("\n  Falsche Eingabe");
+      system("timeout 1 >null");
+      system("cls");
+    }
+  }
+  end();
   return 0;
 }
-
 
 int random(int min, int max) {
   // Random-Funktion, wo Zahlen für das zufällige Verteilen der Karten 
@@ -42,12 +97,9 @@ int random(int min, int max) {
   return(r);
 }
 
-void menü()
+void logo()
 {
-  //variablen
-  int spielmodus;
-  system("cls"); // Leeren des Bildschirms
-
+  printf("\n\n");
   printf("    .d88888b.                            888            888    888     \n");
   printf("   d88P   Y88b                           888            888    888     \n");
   printf("   888     888                           888            888    888     \n");
@@ -58,50 +110,41 @@ void menü()
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
   printf("          Y8b                                                          \n");
 
-  printf("\n  W\x84hlen Sie ihren Spielmodus:\n");
-  printf("\n  1 Spieler     (1)");
-  printf("\n  2 Spieler     (2)");
-  printf("\n  Beenden       (3)");
-  printf("\n  Einstellungen (4)");
+  printf("                                  \n");
+  printf("                                  \n");
+  printf("      .@@@@@@@@@@@@@@@@@@@.       \n");
+  printf("     @@                  @@.      \n");
+  printf("    @@                    @@      \n");
+  printf("    @@                    &@      \n");
+  printf("    @ @@@@@@@    %@@@@@@@@ @.     \n");
+  printf("    @@   (o)      (O)     @@@     \n");
+  printf("   .@@        ((           @@     \n");
+  printf("   @@@  @@@@@@@@@@@@@@@    @@     \n");
+  printf("       @@ ########## @@@          \n");
+  printf("      @@@            @@@          \n");
+  printf("      @@ ##________## @@@         \n");
+  printf("      @@@ '########'  @@@         \n");
+  printf("      @@@             @@@         \n");
+  printf("       @               @          \n");
+  printf("                                  \n");
 
-  printf("\n  (1/2/3/4): ");
-  scanf_s("%i", &spielmodus,1);
-
-  //1 Spieler (PC vs Spieler)
-  if (spielmodus == '1')
-  {
-    spielmodus = 1;
-    
-  }
-  //Einstellungen
-  else if (spielmodus == 'B' || spielmodus == 'b' || spielmodus == '3')
-  {
-    spielmodus = 3;
-    end;
-  }
-
-  //Ende
-  else if (spielmodus == 'E' || spielmodus == 'e' || spielmodus == '4')
-  {
-    spielmodus = 4;
-    einstellungen;
-  }
-
-  //falsche Eingabe
-  else if (spielmodus != '1' && spielmodus != '2' && spielmodus != '3' && spielmodus != '4' && spielmodus != 'b' && spielmodus != 'B' && spielmodus == 'e' && spielmodus == 'E')
-  {
-    printf("  Falsche Eingabe\n");
-    system("timeout 1 >null");
-    system("cls");
-    spielmodus = 0;
-  }
-
-
-}
-
-void karten()
-{
-
+  printf("             %@@@@@@@@            \n");
+  printf("          @@@@@@@@@@@@@           \n");
+  printf("         @@@@@@@@@@@@@@@@         \n");
+  printf("        ,@@@@@@@@       @@        \n");
+  printf("       @  @@@@%           @       \n");
+  printf("     ,@                    @ ,@.  \n");
+  printf("     @@ @@@%    /@@@@@.    @@  @  \n");
+  printf("     @@  (O)      (O)     .@@  @  \n");
+  printf("     @        /           @@@.(.) \n");
+  printf("     @       (@.          @@@     \n");
+  printf("    .@@@@@@@@@@@@@@@@@@   @@,     \n");
+  printf("    @@@@ ########## @@@@ .@@*     \n");
+  printf("    '@@@              @@@@@@*     \n");
+  printf("     @@@@ #########,@@@@@@@       \n");
+  printf("      @@@@@@@@@@@@@@@@@@@         \n");
+  printf("        @@@@@@@@@@@@@@@@          \n");
+  printf("                                  \n");
 }
 
 void ausgabe() {
@@ -123,34 +166,43 @@ void ausgabe() {
 void end()
 {
   char e;
+
   // Nachfrage zum Beenden
-  system("cls");
   printf("\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
   printf("  (J/N) ");
   scanf_s(" %c", &e,1);
   system("cls");
   if (e == 'J' || e == 'j')
   {
-  printf("  oooooooooooo                   .o8          \n");
-  printf("  `888'     `8                  '888          \n");
-  printf("   888         ooo. .oo.    .oooo888   .d88b. \n");
-  printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b\n");
-  printf("   888    '     888   888  888   888  88888888\n");
-  printf("   888       o  888   888  888   888  Y8b.    \n");
-  printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
+    printf("  oooooooooooo                   .o8          \n");
+    printf("  `888'     `8                  '888          \n");
+    printf("   888         ooo. .oo.    .oooo888   .d88b. \n");
+    printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b\n");
+    printf("   888    '     888   888  888   888  88888888\n");
+    printf("   888       o  888   888  888   888  Y8b.    \n");
+    printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888'\n\n\n");
   }
-
-
-  printf("    .d88888b.                            888            888    888     \n");
-  printf("   d88P" "Y88b                           888            888    888     \n");
-  printf("   888     888                           888            888    888     \n");
-  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
-  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
-  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
-  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
-  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
-  printf("          Y8b                                                          \n");
 }
+
+
+
+void rundestart()
+{
+
+}
+
+void karten()
+{
+  füllkarten();
+  
+}
+
+void füllkarten()
+{
+
+}
+
+
 
 void einstellungen()
 {
@@ -200,5 +252,4 @@ void farbmatrix(char hintergrundfarbe, char textfarbe)
   else if (hintergrundfarbe == '4' && textfarbe == 'F') system("color 4F");
   else if (hintergrundfarbe == '4' && textfarbe == '2') system("color 42");
   else if (hintergrundfarbe == '4' && textfarbe == '1') system("color 41");
-
 }
