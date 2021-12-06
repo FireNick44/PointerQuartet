@@ -29,6 +29,8 @@ typedef struct Karten // Struktur für Karten
 
 int main()
 {
+
+  //Testkljbgfslknsfglkngfsdl
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
