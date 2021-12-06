@@ -59,13 +59,13 @@ void menü()
   printf("          Y8b                                                          \n");
 
   printf("\n  W\x84hlen Sie ihren Spielmodus:\n");
-  printf("  1 Spieler     (1)\n");
-  printf("  2 Spieler     (2)\n\n");
-  printf("  Beenden       (3)\n");
-  printf("  Einstellungen (4)\n");
+  printf("\n  1 Spieler     (1)");
+  printf("\n  2 Spieler     (2)");
+  printf("\n  Beenden       (3)");
+  printf("\n  Einstellungen (4)");
 
   printf("\n  (1/2/3/4): ");
-  scanf_s("%i", &spielmodus, 1);
+  scanf_s("%i", &spielmodus,1);
 
   //1 Spieler (PC vs Spieler)
   if (spielmodus == '1')
