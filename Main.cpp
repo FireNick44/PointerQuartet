@@ -5,6 +5,7 @@
 #include <time.h>   //Wird für "random" Funktionen benötigt.
 #include <conio.h>   //Wird für Tastatur Eingaben benötigt.
 
+
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
 void end(); // Spielende
@@ -13,7 +14,6 @@ void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
 void einstellungen(bool); // Farbeinstellungen
 void rundestart(); // Start einer Runde
-
 
 
 typedef struct Karten // Struktur für Karten 
@@ -149,10 +149,9 @@ void end()
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
 }
 
-
-
 void rundestart()
 {
+  karten();
 
 }
 
@@ -164,10 +163,8 @@ void karten()
 
 void füllkarten()
 {
-
+  //rundeende?
 }
-
-
 
 void einstellungen(bool first)
 {
@@ -206,11 +203,51 @@ void einstellungen(bool first)
 
     eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
 
-    if (eingabe == '1')
+    if (eingabe      == '1')
     {
+      char aktiviert[6]   = {'A','k','t','i','v','\0'};
+      char deaktiviert[6] = {' ',' ','-',' ',' ','\0'};
+      system("cls");
 
+      printf("\n\n  Farben:");
+      printf("\n  ==================================");
+      printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
+      printf("\n   Nur eine Farbe kann Aktiv sein.");
+
+
+      //Farben die zur Auswahl stehen (kann noch mehr dazu kommen)
+      printf("\n  Hintergrundfarbe      |  Textfarbe                                ");
+      printf("\n  ======================|=======================");
+      printf("\n  Schwarz = 1  [%s]  |  Schwarz = 1  [%s]", deaktiviert, deaktiviert);
+      printf("\n  Grau    = 2  [%s]  |  Grau    = 2  [%s]", deaktiviert, deaktiviert);
+      printf("\n  Weiss   = 3  [%s]  |  Weiss   = 3  [%s]", deaktiviert, deaktiviert);
+      printf("\n  Grün    = 4  [%s]  |  Grün    = 4  [%s]", deaktiviert, deaktiviert); //Gr\x81n
+      printf("\n  Blau    = 5  [%s]  |  Blau    = 5  [%s]", deaktiviert, deaktiviert);
+      printf("\n  Rot     = 6  [%s]  |  Rot     = 6  [%s]", deaktiviert, deaktiviert);
+      printf("\n  ======================|=======================");
+
+      printf("\n  Hintergrundfarbe (1) ");
+      printf("\n  Textfarbe        (2)");
+      printf("\n  Zur\x81""ck      (3)");
+
+      printf("\n  (1/2/3) ");
+      eingabe = _getch();
+      if (eingabe == '1') {
+        printf("\n  Hintergrundfarbe: ");
+        eingabe = _getch();
+      }
+      else if (eingabe == '2') {
+        printf("\n  Textfarbe: ");
+        eingabe = _getch();
+      }
+      else if (eingabe == '3') {}
+      else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
+      {
+        printf("\n  Falsche Eingabe ");
+        system("timeout 1 >null");
+        system("cls");
+      }
     }
-
     else if (eingabe == '2')
     {
       system("cls");
@@ -234,11 +271,8 @@ void einstellungen(bool first)
       system("timeout 3 >null");
 
     }
-
     else if (eingabe == '3') debug = true;
-    
     else if (eingabe == '4') settings = false;
-
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4')
     {
       printf("\n  Falsche Eingabe ");
