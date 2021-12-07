@@ -6,6 +6,7 @@
 #include <conio.h>   //Wird für Tastatur Eingaben benötigt.
 
 
+//Prototypen der Methoden
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
 void ausgabe(); // Test Methode
 void end(); // Spielende
@@ -13,17 +14,16 @@ void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
 void einstellungen(bool, bool); // Farbeinstellungen
-void rundestart(); // Start einer Runde
+int rundestart(); // Start einer Runde
 
 
 typedef struct Karten // Struktur für Karten 
 {
   int Nr;
-  char Marke[20];
-  char Modell[20];
-  int Leistung;
-  int Gewicht;
-  double Höchsttempo;
+  char Bez[20];
+  int Trefferpunkte;
+  int Geschw;
+  double Schaden;
   struct Karten* pNext;
 }struKarten;
 
@@ -63,7 +63,7 @@ int main()
     //1 Spieler (PC vs Spieler)
     if (eingabe == '1')
     {
-
+      rundestart();
     }
 
     //Einstellungen
@@ -150,14 +150,18 @@ void end()
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
 }
 
-void rundestart()
+int rundestart()
 {
-  karten();
+  system("cls");
 
+  printf("");
+  karten();
+  return 0;
 }
 
 void karten()
 {
+  struKarten* pStart = NULL;
   füllkarten();
   
 }
