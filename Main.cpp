@@ -8,21 +8,21 @@
 
 //Prototypen der Methoden
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
-void ausgabe(); // Test Methode
+int ausgabe(); // Test Methode
 void end(); // Spielende
 void logo();
-void karten(); // Algorithmus für das Mischen und Verteilen der Karten
-void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
-void einstellungen(bool, bool); // Farbeinstellungen
+int karten(); // Algorithmus für das Mischen und Verteilen der Karten
+int füllkarten(int, char, int, double, double); // Algorithmus für das Abfüllen der Karten mit Werten
+int einstellungen(bool, bool); // Farbeinstellungen
 int rundestart(); // Start einer Runde
 
 
 typedef struct Karten // Struktur für Karten 
 {
   int Nr;
-  char Bez[20];
+  char Bez[40];
   int Trefferpunkte;
-  int Geschw;
+  double Geschw;
   double Schaden;
   struct Karten* pNext;
 }struKarten;
@@ -36,7 +36,6 @@ int main()
   srand(time(NULL));
 
   system("mode con cols=138 lines=30");
-  int main;
 
   bool menü = true;
   while (menü == true)
@@ -119,7 +118,7 @@ void logo()
   printf("          Y8b                                                          \n");
 }
 
-void ausgabe() {
+int ausgabe() {
 
   char c;
 
@@ -134,6 +133,10 @@ void ausgabe() {
   printf("\n  5 = Neu Starten");
   printf("\n  6 = Beenden");
   printf("\n  (1/2/3/4/5/6): ");
+
+  c = _getch();
+
+  if
 }
 
 void end()
@@ -154,24 +157,57 @@ int rundestart()
 {
   system("cls");
 
+  printf("\n\n");
+  printf("\n  ==================================");
   printf("");
-  karten();
+  printf("\n  Karten werden erstellt und gemischt...");
+  printf("\n\n  Bitte Warten");
+  
+  struKarten* pStart = NULL;
+  pStart = karten(pStart, füllkarten(1, "Barbar", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(2, "Bogenschützin", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(3, "Drache", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(4, "P.E.K.K.A", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(5, "Hexe", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(6, "Schweinereiter", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(7, "Lakai", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(8, "Tunnelgräber", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(9, "Riese", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(10, "Ballon", 0, 0, 0));
   return 0;
 }
 
-void karten()
+int karten(struKarten* pStart, struKarten* pNew)
 {
-  struKarten* pStart = NULL;
-  füllkarten();
   
+  if (pStart == NULL) {
+    pStart = pNew;
+    pNew->pNext = NULL;
+  }
+  else {
+    struKarten* pLast = pStart;
+    while (pLast->pNext != NULL) pLast = pLast->pNext;
+    pLast->pNext = pNew;
+  }
+  return pStart;
 }
 
-void füllkarten()
+int füllkarten(int* pTruppe, char Bez, int Hp, double Spd, double Dmg)
 {
-  //rundeende?
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+  strcpy_s(pTmp->Bez, pTruppe);
+
+  pTmp->Trefferpunkte = Hp;
+  pTmp->Geschw = Spd;
+  pTmp->Schaden = Dmg;
+  pTmp->pNext = NULL;
+
+  return pTmp;
 }
 
-void einstellungen(bool first, bool root)
+int einstellungen(bool first, bool root)
 {
   //variablen
   char eingabe;
