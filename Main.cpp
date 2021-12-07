@@ -4,20 +4,12 @@
 #include <string>
 #include <time.h>   //Wird für "random" Funktionen benötigt.
 #include <conio.h>   //Wird für Tastatur Eingaben benötigt.
+#include <Windows.h>
 
 
-//Prototypen der Methoden
-int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
-int ausgabe(); // Test Methode
-void end(); // Spielende
-void logo();
-int karten(); // Algorithmus für das Mischen und Verteilen der Karten
-int füllkarten(int, char, int, double, double); // Algorithmus für das Abfüllen der Karten mit Werten
-int einstellungen(bool, bool); // Farbeinstellungen
-int rundestart(); // Start einer Runde
+// Struktur für Karten 
 
-
-typedef struct Karten // Struktur für Karten 
+typedef struct Karten 
 {
   int Nr;
   char Bez[40];
@@ -26,6 +18,17 @@ typedef struct Karten // Struktur für Karten
   double Schaden;
   struct Karten* pNext;
 }struKarten;
+
+
+//Prototypen der Methoden
+int random(int, int);                               // Zufällige Zahl mit Angabe von Wertebereich
+struKarten* ausgabe();                                      // Test Methode
+struKarten* karten();                                   // Algorithmus für das Mischen und Verteilen der Karten
+struKarten* füllkarten(int, const char*, int, double, double); // Algorithmus für das Abfüllen der Karten mit Werten
+int einstellungen(bool, bool);                      // Farbeinstellungen
+int rundestart();                                   // Start einer Runde
+void end();                                         // Spielende
+void logo();
 
 
 int main()
@@ -118,25 +121,40 @@ void logo()
   printf("          Y8b                                                          \n");
 }
 
-int ausgabe() {
+struKarten* ausgabe(struKarten* pStart) {
 
   char c;
+  for (struKarten* pAusKarte = pStart; pAusKarte != NULL; pAusKarte = pAusKarte->pNext) {
 
-  printf("\n\n");
-  printf("\n  ==================================");
-  printf("\n  Was M\x94""chten Sie Vergleichen?");
-  printf("\n  1 = Variable 1: value X... ");
-  printf("\n  2 = Variable 2:");
-  printf("\n  3 = Variable 3:");
-  printf("\n  4 = Variable 4:");
-  printf("\n  ==================================");
-  printf("\n  5 = Neu Starten");
-  printf("\n  6 = Beenden");
-  printf("\n  (1/2/3/4/5/6): ");
+    system("cls");
 
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n");
+    printf("\n  __________________________________");
+    printf("\n  |        %14c         |", pStart->Bez);
+    printf("\n  |                                |");
+    printf("\n  |                                |");
+    printf("\n  |                                |");
+    printf("\n  |                                |");
+    printf("\n  |                                |");
+
+    printf("\n  1 = Variable 1: value X... ");
+    printf("\n  2 = Variable 2:  ");
+    printf("\n  3 = Variable 3:  ");
+    printf("\n  4 = Variable 4:  ");
+    printf("  ==================================");
+    printf("\n\n\n\n\n\n\n  5 = Neu Starten");
+    printf("\n  6 = Beenden");
+    printf("\n  (1/2/3/4/5/6): ");
+
+  }
   c = _getch();
 
-  if
+  if (c == '1') {
+
+  }
+  return 0;
 }
 
 void end()
@@ -159,25 +177,24 @@ int rundestart()
 
   printf("\n\n");
   printf("\n  ==================================");
-  printf("");
-  printf("\n  Karten werden erstellt und gemischt...");
+  printf("\n\n\n\n  Karten werden erstellt und gemischt...");
   printf("\n\n  Bitte Warten");
   
   struKarten* pStart = NULL;
   pStart = karten(pStart, füllkarten(1, "Barbar", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(2, "Bogenschützin", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(2, "Bogenschuetzin", 0, 0, 0));
   pStart = karten(pStart, füllkarten(3, "Drache", 0, 0, 0));
   pStart = karten(pStart, füllkarten(4, "P.E.K.K.A", 0, 0, 0));
   pStart = karten(pStart, füllkarten(5, "Hexe", 0, 0, 0));
   pStart = karten(pStart, füllkarten(6, "Schweinereiter", 0, 0, 0));
   pStart = karten(pStart, füllkarten(7, "Lakai", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(8, "Tunnelgräber", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(8, "Tunnelgraeber", 0, 0, 0));
   pStart = karten(pStart, füllkarten(9, "Riese", 0, 0, 0));
   pStart = karten(pStart, füllkarten(10, "Ballon", 0, 0, 0));
   return 0;
 }
 
-int karten(struKarten* pStart, struKarten* pNew)
+struKarten* karten(struKarten* pStart, struKarten* pNew)
 {
   
   if (pStart == NULL) {
@@ -192,13 +209,13 @@ int karten(struKarten* pStart, struKarten* pNew)
   return pStart;
 }
 
-int füllkarten(int* pTruppe, char Bez, int Hp, double Spd, double Dmg)
+struKarten* füllkarten(int pTruppe, const char* pBez, int Hp, double Spd, double Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
-  strcpy_s(pTmp->Bez, pTruppe);
-
+  pTmp->Nr = pTruppe;
+  strcpy_s(pTmp->Bez, pBez);
   pTmp->Trefferpunkte = Hp;
   pTmp->Geschw = Spd;
   pTmp->Schaden = Dmg;
