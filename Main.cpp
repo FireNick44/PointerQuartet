@@ -12,7 +12,7 @@ void end(); // Spielende
 void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
-void einstellungen(bool); // Farbeinstellungen
+void einstellungen(bool, bool); // Farbeinstellungen
 void rundestart(); // Start einer Runde
 
 
@@ -69,8 +69,9 @@ int main()
     //Einstellungen
     else if (eingabe == '2')
     {
+      bool admin = false;
       bool first = true;
-      einstellungen(first);
+      einstellungen(first, admin);
     }
 
     //Ende
@@ -166,7 +167,7 @@ void füllkarten()
   //rundeende?
 }
 
-void einstellungen(bool first)
+void einstellungen(bool first, bool root)
 {
   //variablen
   char eingabe;
@@ -240,7 +241,6 @@ void einstellungen(bool first)
         printf("\n  Textfarbe: ");
         eingabe = _getch();
       }
-      else if (eingabe == '3') {}
       else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
       {
         printf("\n  Falsche Eingabe ");
@@ -271,7 +271,20 @@ void einstellungen(bool first)
       system("timeout 3 >null");
 
     }
-    else if (eingabe == '3') debug = true;
+    else if (eingabe == '3') {
+      if (root == true) {
+        root = false;
+        printf("\n  Entwicklermodus Deativiert ");
+        system("timeout 1 >null");
+        system("cls");
+      }
+      else if (root == false) {
+        root = true;
+        printf("\n  Entwicklermodus Aktiviert ");
+        system("timeout 1 >null");
+        system("cls");
+      }
+    }
     else if (eingabe == '4') settings = false;
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4')
     {
@@ -280,7 +293,7 @@ void einstellungen(bool first)
       system("cls");
     }
   }
-  ///vlt return Wert für Variable Entwicklermodus und Farbe?////////////////////////////////////////////////////////////////////////////////////////////////
+  ///vlt return Wert für Entwicklermodus und Farbe?////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe)
