@@ -126,7 +126,7 @@ struKarten* ausgabe(struKarten* pStart) {
   char c;
   bool sicher = false;
 
-  for (struKarten* pAusKarte = pStart; pAusKarte != NULL; pAusKarte = pAusKarte->pNext) {
+  for (struKarten* pOut = pStart; pOut != NULL; pOut = pOut->pNext) {
     while (sicher == false) {
       system("cls");
 
