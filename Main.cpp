@@ -21,13 +21,13 @@ typedef struct Karten
 
 
 //Prototypen der Methoden
-int random(int, int);                               // Zufällige Zahl mit Angabe von Wertebereich
-struKarten* ausgabe();                                      // Test Methode
-struKarten* karten(struKarten*, struKarten*);                                   // Algorithmus für das Mischen und Verteilen der Karten
-struKarten* füllkarten(int, const char*, int, double, double); // Algorithmus für das Abfüllen der Karten mit Werten
-void einstellungen(bool, bool);                      // Farbeinstellungen
-int rundestart();                                   // Start einer Runde
-void end();                                         // Spielende
+int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
+struKarten* ausgabe(struKarten*);                                          // Test Methode
+struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
+struKarten* füllkarten(int, const char*, int, double, double);  // Algorithmus für das Abfüllen der Karten mit Werten
+void einstellungen(bool, bool);                                 // Farbeinstellungen
+int rundestart();                                               // Start einer Runde
+void end();                                                     // Spielende
 void logo();
 
 
