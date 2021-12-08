@@ -41,7 +41,7 @@ int main()
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
-  system("mode con cols=80 lines=30");
+  system("mode con cols=80 lines=35");
 
   bool menü = true;
   while (menü == true)
@@ -141,27 +141,34 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n\n");
       printf("\n  ==================================");
       printf("\n\n");
-      printf("\n    _______________________________ ");
-      printf("\n   /                               \x5C");
-      printf("\n  |     %-14s     | Nr. %2i |", pStart->Bez, pStart->Nr);
-      printf("\n  |                                 |");
-      printf("\n  |                                 |");
-      printf("\n  |                                 |");
-      printf("\n  |                                 |");
-      printf("\n  |   Trefferpunkte  :   %4i      |", pStart->Trefferpunkte);
-      printf("\n  |                                 |");
-      printf("\n  |   Geschwindigkeit:   %4i      |", pStart->Geschw);
-      printf("\n  |                                 |");
-      printf("\n  |   Schaden        :   %4i      |", pStart->Schaden);
-      printf("\n  |                                 |");
-      printf("\n  `________________________________´");
+      printf("\n   _______________________________ ");
+      printf("\n  /                               \x5C");
+      printf("\n  |                    Karte Nr. %2i |", pStart->Nr);
+      printf("\n  |                               |");
+      printf("\n  |         CoC Quartett          |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |      %-14s           |", pStart->Bez);
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |   Trefferpunkte  :   %4i     |", pStart->Trefferpunkte);
+      printf("\n  |                               |");
+      printf("\n  |   Geschwindigkeit:   %4i     |", pStart->Geschw);
+      printf("\n  |                               |");
+      printf("\n  |   Schaden        :   %4i     |", pStart->Schaden);
+      printf("\n  |                               |");
+      printf("\n  \x5C_______________________________/");
+      printf("\n  Ihre Naechste Karte: %14s ", pStart->pNext->Bez);
+      /* */
 
       printf("\n\n\n  Trefferpunkte?        (1)");
       printf("\n  Geschwindigkeit?      (2)");
       printf("\n  Schaden?              (3)");
       printf("\n  =================================");
       printf("\n\n  Neu Starten           (4)");
-      printf("\n  Zur\x81" "ck zum Hauptmen\x81 (5)");
+      printf("\n  Zur\x81" "ck zum Hauptmen\x81  (5)");
       printf("\n  (1/2/3/4/5): ");
 
       c = _getch();
@@ -207,15 +214,15 @@ struKarten* ausgabe(struKarten* pStart) {
 }
 
 struKarten* verteile_User() {
-
+  return 0;
 }
 
 struKarten* verteile_PC() {
-
+  return 0;
 }
 
 struKarten* vergleiche() {
-
+  return 0;
 }
 
 
