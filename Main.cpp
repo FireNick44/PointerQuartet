@@ -143,7 +143,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n\n");
       printf("\n   _______________________________ ");
       printf("\n  /                               \x5C");
-      printf("\n  |                    Karte Nr. %2i |", pStart->Nr);
+      printf("\n  |                  Karte Nr. %-2i |", pStart->Nr);
       printf("\n  |                               |");
       printf("\n  |         CoC Quartett          |");
       printf("\n  |                               |");
