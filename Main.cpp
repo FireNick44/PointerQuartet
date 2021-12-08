@@ -109,7 +109,12 @@ int random(int min, int max) {
 
 void logo()
 {
-  printf("\n\n");
+  printf("\n     ___  _             _             __     ___ _");
+  printf("\n    / __\x5C| |  __ _  ___| |__     ___ / _|   / __\x5C | __ _ _ __  ___");
+  printf("\n   / /   | | / _` / __ | '_ \x5C   / _ \x5C| |_  / /  | |/ _` | '_ \x5C/ __|");
+  printf("\n  / /___ | |( _ | \x5C__ \x5C| | | |  |(_) | _| / /___| | (_| | | | \x5C__ \x5C ");
+  printf("\n  \x5C____/ |_| \x5C__,_|___/|_| |_|  \x5C___/|_|  \x5C____/|_|\x5C__,_|_| |_|___/");
+  printf("\n");
   printf("    .d88888b.                            888            888    888     \n");
   printf("   d88P   Y88b                           888            888    888     \n");
   printf("   888     888                           888            888    888     \n");
@@ -118,16 +123,16 @@ void logo()
   printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
   printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
-  printf("          Y8b                                                          \n");
+  printf("          Y8b                                                          \n\n");
 }
 
 struKarten* ausgabe(struKarten* pStart) {
 
   char c;
-  bool sicher = false;
+  bool menü = false;
 
   for (struKarten* pOut = pStart; pOut != NULL; pOut = pOut->pNext) {
-    while (sicher == false) {
+    while (menü == false) {
       system("cls");
 
       printf("\n\n");
@@ -175,7 +180,9 @@ struKarten* ausgabe(struKarten* pStart) {
       }
 
       else if (c == '5') {
-        sicher = true;
+        printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x84""ck?");
+        char e = _getch();
+        if(e == 'j') menü = true;
       }
 
       else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
@@ -183,6 +190,7 @@ struKarten* ausgabe(struKarten* pStart) {
         printf("\n  Falsche Eingabe ");
         system("timeout 1 >null");
         system("cls");
+        break;
       }
 
     }
