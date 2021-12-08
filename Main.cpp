@@ -14,8 +14,8 @@ typedef struct Karten
   int Nr;
   char Bez[40];
   int Trefferpunkte;
-  double Geschw;
-  double Schaden;
+  int Geschw;
+  int Schaden;
   struct Karten* pNext;
 }struKarten;
 
@@ -24,7 +24,10 @@ typedef struct Karten
 int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
 struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
-struKarten* füllkarten(int, const char*, int, double, double);  // Algorithmus für das Abfüllen der Karten mit Werten
+struKarten* füllkarten(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
+struKarten* verteile_User();
+struKarten* verteile_PC();
+struKarten* vergleiche();
 void einstellungen(bool, bool);                                 // Farbeinstellungen
 int rundestart();                                               // Start einer Runde
 void end();                                                     // Spielende
@@ -112,7 +115,7 @@ void logo()
   printf("\n     ___  _             _             __     ___ _");
   printf("\n    / __\x5C| |  __ _  ___| |__     ___ / _|   / __\x5C | __ _ _ __  ___");
   printf("\n   / /   | | / _` / __ | '_ \x5C   / _ \x5C| |_  / /  | |/ _` | '_ \x5C/ __|");
-  printf("\n  / /___ | |( _ | \x5C__ \x5C| | | |  |(_) | _| / /___| | (_| | | | \x5C__ \x5C ");
+  printf("\n  / /___ | |(  _| \x5C__ \x5C| | | |  |(_) | _| / /___| | (_| | | | \x5C__ \x5C ");
   printf("\n  \x5C____/ |_| \x5C__,_|___/|_| |_|  \x5C___/|_|  \x5C____/|_|\x5C__,_|_| |_|___/");
   printf("\n");
   printf("    .d88888b.                            888            888    888     \n");
@@ -139,25 +142,25 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  ==================================");
       printf("\n\n");
       printf("\n    _______________________________ ");
-      printf("\n   .                               .");
-      printf("\n  |     %14c   | Nr. %2i |", pStart->Bez, pStart->Nr);
+      printf("\n   /                               \x5C");
+      printf("\n  |     %-14s     | Nr. %2i |", pStart->Bez, pStart->Nr);
       printf("\n  |                                 |");
       printf("\n  |                                 |");
       printf("\n  |                                 |");
       printf("\n  |                                 |");
-      printf("\n  |   Trefferpunkte  :              |", pStart->Trefferpunkte);
+      printf("\n  |   Trefferpunkte  :   %4i      |", pStart->Trefferpunkte);
       printf("\n  |                                 |");
-      printf("\n  |   Geschwindigkeit:              |", pStart->Geschw);
+      printf("\n  |   Geschwindigkeit:   %4i      |", pStart->Geschw);
       printf("\n  |                                 |");
-      printf("\n  |   Schaden        :              |", pStart->Schaden);
+      printf("\n  |   Schaden        :   %4i      |", pStart->Schaden);
       printf("\n  |                                 |");
-      printf("\n  .________________________________.");
+      printf("\n  `________________________________´");
 
       printf("\n\n\n  Trefferpunkte?        (1)");
       printf("\n  Geschwindigkeit?      (2)");
       printf("\n  Schaden?              (3)");
       printf("\n  =================================");
-      printf("\n\n\n\n  Neu Starten           (4)");
+      printf("\n\n  Neu Starten           (4)");
       printf("\n  Zur\x81" "ck zum Hauptmen\x81 (5)");
       printf("\n  (1/2/3/4/5): ");
 
@@ -180,7 +183,8 @@ struKarten* ausgabe(struKarten* pStart) {
       }
 
       else if (c == '5') {
-        printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x84""ck?");
+        printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
+        printf("\n  (J/N) ");
         char e = _getch();
         if(e == 'j') menü = true;
       }
@@ -201,6 +205,19 @@ struKarten* ausgabe(struKarten* pStart) {
 
   return 0;
 }
+
+struKarten* verteile_User() {
+
+}
+
+struKarten* verteile_PC() {
+
+}
+
+struKarten* vergleiche() {
+
+}
+
 
 void end()
 {
@@ -283,7 +300,7 @@ struKarten* karten(struKarten* pStart, struKarten* pNew)
   return pStart;
 }
 
-struKarten* füllkarten(int pTruppe, const char* pBez, int Hp, double Spd, double Dmg)
+struKarten* füllkarten(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
