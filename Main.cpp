@@ -22,7 +22,7 @@ typedef struct Karten
 
 //Prototypen der Methoden
 int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
-struKarten* ausgabe(struKarten*);                                          // Test Methode
+struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
 struKarten* füllkarten(int, const char*, int, double, double);  // Algorithmus für das Abfüllen der Karten mit Werten
 void einstellungen(bool, bool);                                 // Farbeinstellungen
@@ -134,7 +134,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  ==================================");
       printf("\n\n");
       printf("\n   _______________________________________");
-      printf("\n  /                                       \x92");
+      printf("\n  /                                       \x5C");
       printf("\n  |       %14c       Nr. %2i  |", pStart->Bez, pStart->Nr);
       printf("\n  |                                       |");
       printf("\n  |                                       |");
@@ -144,7 +144,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |                                       |");
       printf("\n  |   Schaden        :                    |", pStart->Schaden);
       printf("\n  |                                       |");
-      printf("\n  \x92_______________________________________/");
+      printf("\n  \x5C_______________________________________/");
 
       printf("\n  Trefferpunkte?    (1)");
       printf("\n  Geschwindigkeit?  (2)");
