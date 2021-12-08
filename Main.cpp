@@ -38,7 +38,7 @@ int main()
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
-  system("mode con cols=138 lines=30");
+  system("mode con cols=80 lines=30");
 
   bool menü = true;
   while (menü == true)
@@ -133,25 +133,27 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n\n");
       printf("\n  ==================================");
       printf("\n\n");
-      printf("\n   _______________________________________");
-      printf("\n  /                                       \x5C");
-      printf("\n  |       %14c       Nr. %2i  |", pStart->Bez, pStart->Nr);
-      printf("\n  |                                       |");
-      printf("\n  |                                       |");
-      printf("\n  |   Trefferpunkte  :                    |", pStart->Trefferpunkte);
-      printf("\n  |                                       |");
-      printf("\n  |   Geschwindigkeit:                    |", pStart->Geschw);
-      printf("\n  |                                       |");
-      printf("\n  |   Schaden        :                    |", pStart->Schaden);
-      printf("\n  |                                       |");
-      printf("\n  \x5C_______________________________________/");
+      printf("\n    _______________________________ ");
+      printf("\n   .                               .");
+      printf("\n  |     %14c   | Nr. %2i |", pStart->Bez, pStart->Nr);
+      printf("\n  |                                 |");
+      printf("\n  |                                 |");
+      printf("\n  |                                 |");
+      printf("\n  |                                 |");
+      printf("\n  |   Trefferpunkte  :              |", pStart->Trefferpunkte);
+      printf("\n  |                                 |");
+      printf("\n  |   Geschwindigkeit:              |", pStart->Geschw);
+      printf("\n  |                                 |");
+      printf("\n  |   Schaden        :              |", pStart->Schaden);
+      printf("\n  |                                 |");
+      printf("\n  .________________________________.");
 
-      printf("\n  Trefferpunkte?    (1)");
-      printf("\n  Geschwindigkeit?  (2)");
-      printf("\n  Schaden?          (3)");
-      printf("  ==================================");
-      printf("\n\n\n\n\n\n\n  Neu Starten  (4)");
-      printf("\n  Zurück zum Hauptmenü  (5)");
+      printf("\n\n\n  Trefferpunkte?        (1)");
+      printf("\n  Geschwindigkeit?      (2)");
+      printf("\n  Schaden?              (3)");
+      printf("\n  =================================");
+      printf("\n\n\n\n  Neu Starten           (4)");
+      printf("\n  Zur\x81" "ck zum Hauptmen\x81 (5)");
       printf("\n  (1/2/3/4/5): ");
 
       c = _getch();
@@ -204,17 +206,44 @@ void end()
   printf("   888    '     888   888  888   888  88888888 \n");
   printf("   888       o  888   888  888   888  Y8b.     \n");
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
+
+  Sleep(900);
 }
 
 int rundestart()
 {
   system("cls");
 
-  printf("\n\n");
-  printf("\n  ==================================");
-  printf("\n\n\n\n  Karten werden erstellt und gemischt...");
-  printf("\n\n  Bitte Warten");
-  
+  for (int i = 0; i <= 3; i++) {
+    system("cls");
+
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und gemischt.");
+    printf("\n\n  Bitte Warten");
+
+    Sleep(500);
+
+
+    system("cls");
+
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und gemischt..");
+    printf("\n\n  Bitte Warten");
+
+    Sleep(500);
+
+    system("cls");
+
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und gemischt...");
+    printf("\n\n  Bitte Warten");
+
+    Sleep(500);
+  }
+
   struKarten* pStart = NULL;
   pStart = karten(pStart, füllkarten(1, "Barbar", 0, 0, 0));
   pStart = karten(pStart, füllkarten(2, "Bogenschuetzin", 0, 0, 0));
