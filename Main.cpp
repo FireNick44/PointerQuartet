@@ -124,36 +124,71 @@ void logo()
 struKarten* ausgabe(struKarten* pStart) {
 
   char c;
+  bool sicher = false;
+
   for (struKarten* pAusKarte = pStart; pAusKarte != NULL; pAusKarte = pAusKarte->pNext) {
+    while (sicher == false) {
+      system("cls");
 
-    system("cls");
+      printf("\n\n");
+      printf("\n  ==================================");
+      printf("\n\n");
+      printf("\n   _______________________________________");
+      printf("\n  /                                       \x92");
+      printf("\n  |       %14c       Nr. %2i  |", pStart->Bez, pStart->Nr);
+      printf("\n  |                                       |");
+      printf("\n  |                                       |");
+      printf("\n  |   Trefferpunkte  :                    |", pStart->Trefferpunkte);
+      printf("\n  |                                       |");
+      printf("\n  |   Geschwindigkeit:                    |", pStart->Geschw);
+      printf("\n  |                                       |");
+      printf("\n  |   Schaden        :                    |", pStart->Schaden);
+      printf("\n  |                                       |");
+      printf("\n  \x92_______________________________________/");
 
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n");
-    printf("\n  __________________________________");
-    printf("\n  |        %14c         |", pStart->Bez);
-    printf("\n  |                                |");
-    printf("\n  |                                |");
-    printf("\n  |                                |");
-    printf("\n  |                                |");
-    printf("\n  |                                |");
+      printf("\n  Trefferpunkte?    (1)");
+      printf("\n  Geschwindigkeit?  (2)");
+      printf("\n  Schaden?          (3)");
+      printf("  ==================================");
+      printf("\n\n\n\n\n\n\n  Neu Starten  (4)");
+      printf("\n  Zurück zum Hauptmenü  (5)");
+      printf("\n  (1/2/3/4/5): ");
 
-    printf("\n  1 = Variable 1: value X... ");
-    printf("\n  2 = Variable 2:  ");
-    printf("\n  3 = Variable 3:  ");
-    printf("\n  4 = Variable 4:  ");
-    printf("  ==================================");
-    printf("\n\n\n\n\n\n\n  5 = Neu Starten");
-    printf("\n  6 = Beenden");
-    printf("\n  (1/2/3/4/5/6): ");
+      c = _getch();
+
+      if (c == '1' || c == 't') {
+
+      }
+
+      else if (c == '2' || c == 'g') {
+
+      }
+
+      else if (c == '3' || c == 's') {
+
+      }
+
+      else if (c == '4') {
+
+      }
+
+      else if (c == '5') {
+        sicher = true;
+      }
+
+      else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
+      {
+        printf("\n  Falsche Eingabe ");
+        system("timeout 1 >null");
+        system("cls");
+      }
+
+    }
 
   }
-  c = _getch();
 
-  if (c == '1') {
 
-  }
+
   return 0;
 }
 
@@ -191,6 +226,8 @@ int rundestart()
   pStart = karten(pStart, füllkarten(8, "Tunnelgraeber", 0, 0, 0));
   pStart = karten(pStart, füllkarten(9, "Riese", 0, 0, 0));
   pStart = karten(pStart, füllkarten(10, "Ballon", 0, 0, 0));
+
+  ausgabe(pStart);
   return 0;
 }
 
@@ -322,7 +359,7 @@ int einstellungen(bool first, bool root)
       printf("      @@@            @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
       printf("      @@ ##________## @@@                                @@@@ ########## @@@@ .@@*     \n");
       printf("      @@@ '########'  @@@                                '@@@              @@@@@@*     \n");
-      printf("      @@@             @@@                 COC             @@@@ #########,@@@@@@@       \n");
+      printf("      @@@             @@@           Clash Of Clans        @@@@ #########,@@@@@@@       \n");
       printf("       @               @               Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
       printf("       @               @                                     @@@@@@@@@@@@@@@@          \n");
       system("timeout 3 >null");
