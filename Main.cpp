@@ -8,12 +8,12 @@
 
 
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
+int einstellungen(bool, bool); // Farbeinstellungen
 void ausgabe(); // Test Methode
 void end(); // Spielende
 void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
-int einstellungen(bool, bool); // Farbeinstellungen
 void farbmatrix(char, char); //Farbeinstellungen in der CMD
 void rundestart(); // Start einer Runde
 void falsche_eingabe(); //Falsche Ausgaben
