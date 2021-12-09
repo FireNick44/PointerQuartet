@@ -7,15 +7,7 @@
 #include <Windows.h>
 
 
-int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
-void ausgabe(); // Test Methode
-void end(); // Spielende
-void logo();
-void karten(); // Algorithmus für das Mischen und Verteilen der Karten
-void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
-int einstellungen(bool, bool); // Farbeinstellungen
 void farbmatrix(char, char); //Farbeinstellungen in der CMD
-void rundestart(); // Start einer Runde
 void falsche_eingabe(); //Falsche Ausgaben
 
 
@@ -152,7 +144,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |         CoC Quartett          |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |      %-14s           |", pStart->Bez);
+      printf("\n  |      %-14-s           |", pStart->Bez);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
