@@ -15,7 +15,6 @@ void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
 void farbmatrix(char, char); //Farbeinstellungen in der CMD
-void rundestart(); // Start einer Runde
 void falsche_eingabe(); //Falsche Ausgaben
 
 
@@ -152,16 +151,16 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |         CoC Quartett          |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |      %-14s           |", pStart->Bez);
+      printf("\n  |         %-14s        |", pStart->Bez);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |   Trefferpunkte  :   %4i     |", pStart->Trefferpunkte);
+      printf("\n  |   Trefferpunkte  :%4i        |", pStart->Trefferpunkte);
       printf("\n  |                               |");
-      printf("\n  |   Geschwindigkeit:   %4i     |", pStart->Geschw);
+      printf("\n  |   Geschwindigkeit:%4i        |", pStart->Geschw);
       printf("\n  |                               |");
-      printf("\n  |   Schaden        :   %4i     |", pStart->Schaden);
+      printf("\n  |   Schaden        :%4i        |", pStart->Schaden);
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
       printf("\n  Ihre Naechste Karte: %14s ", pStart->pNext->Bez);
