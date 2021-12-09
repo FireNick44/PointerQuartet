@@ -18,7 +18,7 @@ void farbmatrix(char, char); //Farbeinstellungen in der CMD
 void rundestart(); // Start einer Runde
 void falsche_eingabe(); //Falsche Ausgaben
 
-typedef struct Karten 
+
 typedef struct Karten // Struktur für Karten 
 {
   int Nr;
@@ -38,7 +38,7 @@ struKarten* füllkarten(int, const char*, int, int, int);        // Algorithmus f
 struKarten* verteile_User();
 struKarten* verteile_PC();
 struKarten* vergleiche();
-void einstellungen(bool, bool);                                 // Farbeinstellungen
+int einstellungen(bool, bool);                                 // Farbeinstellungen
 int rundestart();                                               // Start einer Runde
 void end();                                                     // Spielende
 void logo();
