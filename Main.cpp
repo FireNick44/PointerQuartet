@@ -3,7 +3,8 @@
 #include <string.h> //Wird für "string" Funktionen benötigt.
 #include <string>   
 #include <time.h>   //Wird für "random" Funktionen benötigt.
-#include <conio.h>   //Wird für Tastatur Eingaben benötigt. 
+#include <conio.h>   //Wird für Tastatur Eingaben benötigt.
+#include <Windows.h>
 
 
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
@@ -17,16 +18,30 @@ void farbmatrix(char, char); //Farbeinstellungen in der CMD
 void rundestart(); // Start einer Runde
 void falsche_eingabe(); //Falsche Ausgaben
 
+typedef struct Karten 
 typedef struct Karten // Struktur für Karten 
 {
   int Nr;
-  char Marke[20];
-  char Modell[20];
-  int Leistung;
-  int Gewicht;
-  double Höchsttempo;
+  char Bez[40];
+  int Trefferpunkte;
+  int Geschw;
+  int Schaden;
   struct Karten* pNext;
 }struKarten;
+
+
+//Prototypen der Methoden
+int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
+struKarten* ausgabe(struKarten*);                               // Test Methode
+struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
+struKarten* füllkarten(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
+struKarten* verteile_User();
+struKarten* verteile_PC();
+struKarten* vergleiche();
+void einstellungen(bool, bool);                                 // Farbeinstellungen
+int rundestart();                                               // Start einer Runde
+void end();                                                     // Spielende
+void logo();
 
 
 int main()
@@ -64,7 +79,7 @@ int main()
     //1 Spieler (PC vs Spieler)
     if (eingabe == '1')
     {
-
+      rundestart();
     }
 
     //Einstellungen
@@ -101,7 +116,12 @@ int random(int min, int max) {
 
 void logo()
 {
-  printf("\n\n");
+  printf("\n     ___  _             _             __     ___ _");
+  printf("\n    / __\x5C| |  __ _  ___| |__     ___ / _|   / __\x5C | __ _ _ __  ___");
+  printf("\n   / /   | | / _` / __ | '_ \x5C   / _ \x5C| |_  / /  | |/ _` | '_ \x5C/ __|");
+  printf("\n  / /___ | |(  _| \x5C__ \x5C| | | |  |(_) | _| / /___| | (_| | | | \x5C__ \x5C ");
+  printf("\n  \x5C____/ |_| \x5C__,_|___/|_| |_|  \x5C___/|_|  \x5C____/|_|\x5C__,_|_| |_|___/");
+  printf("\n");
   printf("    .d88888b.                            888            888    888     \n");
   printf("   d88P   Y88b                           888            888    888     \n");
   printf("   888     888                           888            888    888     \n");
@@ -110,25 +130,105 @@ void logo()
   printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
   printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
   printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
-  printf("          Y8b                                                          \n");
+  printf("          Y8b                                                          \n\n");
 }
 
-void ausgabe() {
+struKarten* ausgabe(struKarten* pStart) {
 
   char c;
+  bool menü = false;
 
-  printf("\n\n");
-  printf("\n  ==================================");
-  printf("\n  Was M\x94""chten Sie Vergleichen?");
-  printf("\n  1 = Variable 1: value X... ");
-  printf("\n  2 = Variable 2:");
-  printf("\n  3 = Variable 3:");
-  printf("\n  4 = Variable 4:");
-  printf("\n  ==================================");
-  printf("\n  5 = Neu Starten");
-  printf("\n  6 = Beenden");
-  printf("\n  (1/2/3/4/5/6): ");
+  for (struKarten* pOut = pStart; pOut != NULL; pOut = pOut->pNext) {
+    while (menü == false) {
+      system("cls");
+
+      printf("\n\n");
+      printf("\n  ==================================");
+      printf("\n\n");
+      printf("\n   _______________________________ ");
+      printf("\n  /                               \x5C");
+      printf("\n  |                  Karte Nr. %-2i |", pStart->Nr);
+      printf("\n  |                               |");
+      printf("\n  |         CoC Quartett          |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |      %-14s           |", pStart->Bez);
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |   Trefferpunkte  :   %4i     |", pStart->Trefferpunkte);
+      printf("\n  |                               |");
+      printf("\n  |   Geschwindigkeit:   %4i     |", pStart->Geschw);
+      printf("\n  |                               |");
+      printf("\n  |   Schaden        :   %4i     |", pStart->Schaden);
+      printf("\n  |                               |");
+      printf("\n  \x5C_______________________________/");
+      printf("\n  Ihre Naechste Karte: %14s ", pStart->pNext->Bez);
+      /* */
+
+      printf("\n\n\n  Trefferpunkte?        (1)");
+      printf("\n  Geschwindigkeit?      (2)");
+      printf("\n  Schaden?              (3)");
+      printf("\n  =================================");
+      printf("\n\n  Neu Starten           (4)");
+      printf("\n  Zur\x81" "ck zum Hauptmen\x81  (5)");
+      printf("\n  (1/2/3/4/5): ");
+
+      c = _getch();
+
+      if (c == '1' || c == 't') {
+
+      }
+
+      else if (c == '2' || c == 'g') {
+
+      }
+
+      else if (c == '3' || c == 's') {
+
+      }
+
+      else if (c == '4') {
+
+      }
+
+      else if (c == '5') {
+        printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
+        printf("\n  (J/N) ");
+        char e = _getch();
+        if(e == 'j') menü = true;
+      }
+
+      else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
+      {
+        printf("\n  Falsche Eingabe ");
+        system("timeout 1 >null");
+        system("cls");
+        break;
+      }
+
+    }
+
+  }
+
+
+
+  return 0;
 }
+
+struKarten* verteile_User() {
+  return 0;
+}
+
+struKarten* verteile_PC() {
+  return 0;
+}
+
+struKarten* vergleiche() {
+  return 0;
+}
+
 
 void end()
 {
@@ -142,23 +242,88 @@ void end()
   printf("   888    '     888   888  888   888  88888888 \n");
   printf("   888       o  888   888  888   888  Y8b.     \n");
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
+
+  Sleep(900);
 }
 
-void rundestart()
+int rundestart()
 {
-  karten();
+  system("cls");
 
+  for (int i = 0; i <= 3; i++) {
+    system("cls");
+
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und gemischt.");
+    printf("\n\n  Bitte Warten");
+
+    Sleep(500);
+
+
+    system("cls");
+
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und gemischt..");
+    printf("\n\n  Bitte Warten");
+
+    Sleep(500);
+
+    system("cls");
+
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und gemischt...");
+    printf("\n\n  Bitte Warten");
+
+    Sleep(500);
+  }
+
+  struKarten* pStart = NULL;
+  pStart = karten(pStart, füllkarten(1, "Barbar", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(2, "Bogenschuetzin", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(3, "Drache", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(4, "P.E.K.K.A", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(5, "Hexe", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(6, "Schweinereiter", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(7, "Lakai", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(8, "Tunnelgraeber", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(9, "Riese", 0, 0, 0));
+  pStart = karten(pStart, füllkarten(10, "Ballon", 0, 0, 0));
+
+  ausgabe(pStart);
+  return 0;
 }
 
-void karten()
+struKarten* karten(struKarten* pStart, struKarten* pNew)
 {
-  füllkarten();
   
+  if (pStart == NULL) {
+    pStart = pNew;
+    pNew->pNext = NULL;
+  }
+  else {
+    struKarten* pLast = pStart;
+    while (pLast->pNext != NULL) pLast = pLast->pNext;
+    pLast->pNext = pNew;
+  }
+  return pStart;
 }
 
-void füllkarten()
+struKarten* füllkarten(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
-  //rundeende?
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+  pTmp->Nr = pTruppe;
+  strcpy_s(pTmp->Bez, pBez);
+  pTmp->Trefferpunkte = Hp;
+  pTmp->Geschw = Spd;
+  pTmp->Schaden = Dmg;
+  pTmp->pNext = NULL;
+
+  return pTmp;
 }
 
 void falsche_eingabe(){
@@ -340,7 +505,7 @@ int einstellungen(bool first, bool root)
       printf("      @@@            @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
       printf("      @@ ##________## @@@                                @@@@ ########## @@@@ .@@*     \n");
       printf("      @@@ '########'  @@@                                '@@@              @@@@@@*     \n");
-      printf("      @@@             @@@                 COC             @@@@ #########,@@@@@@@       \n");
+      printf("      @@@             @@@           Clash Of Clans        @@@@ #########,@@@@@@@       \n");
       printf("       @               @               Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
       printf("       @               @                                     @@@@@@@@@@@@@@@@          \n");
       system("timeout 3 >null");
