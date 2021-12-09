@@ -1,9 +1,9 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include <stdlib.h> 
+#include <stdio.h>  
 #include <string.h> //Wird für "string" Funktionen benötigt.
-#include <string>
+#include <string>   
 #include <time.h>   //Wird für "random" Funktionen benötigt.
-#include <conio.h>   //Wird für Tastatur Eingaben benötigt.
+#include <conio.h>   //Wird für Tastatur Eingaben benötigt. 
 
 
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
@@ -12,9 +12,10 @@ void end(); // Spielende
 void logo();
 void karten(); // Algorithmus für das Mischen und Verteilen der Karten
 void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
-void einstellungen(bool, bool); // Farbeinstellungen
+int einstellungen(bool, bool); // Farbeinstellungen
+void farbmatrix(char, char); //Farbeinstellungen in der CMD
 void rundestart(); // Start einer Runde
-
+void falsche_eingabe(); //Falsche Ausgaben
 
 typedef struct Karten // Struktur für Karten 
 {
@@ -30,13 +31,13 @@ typedef struct Karten // Struktur für Karten
 
 int main()
 {
-
-
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
   system("mode con cols=138 lines=30");
   int main;
+  bool admin = false;
+  bool first = true;
 
   bool menü = true;
   while (menü == true)
@@ -69,8 +70,6 @@ int main()
     //Einstellungen
     else if (eingabe == '2')
     {
-      bool admin = false;
-      bool first = true;
       einstellungen(first, admin);
     }
 
@@ -86,12 +85,7 @@ int main()
     }
 
     //falsche Eingabe
-    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
-    {
-      printf("\n  Falsche Eingabe ");
-      system("timeout 1 >null");
-      system("cls");
-    }
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3') falsche_eingabe();
   }
 
   end();
@@ -167,25 +161,27 @@ void füllkarten()
   //rundeende?
 }
 
-void einstellungen(bool first, bool root)
+void falsche_eingabe(){
+  printf("\n  Falsche Eingabe ");
+  system("timeout 1 >null");
+  system("cls");
+}
+
+int einstellungen(bool first, bool root)
 {
   //variablen
-  char eingabe;
   bool debug;
   bool settings = true;
+  bool farben = true;
 
+  char eingabe;
   char neue_hintergrundfarbe;
   char hintergrundfarbe;
   char textfarbe;
   char neue_textfarbe;
 
   //Erste Ausführung
-  if (first == true)
-  {
-    char hintergrundfarbe = '0';
-    char textfarbe = '7';
-    first = false;
-  }
+
 
   while (settings == true)
   {
@@ -206,46 +202,125 @@ void einstellungen(bool first, bool root)
 
     if (eingabe      == '1')
     {
-      char aktiviert[6]   = {'A','k','t','i','v','\0'};
-      char deaktiviert[6] = {' ',' ','-',' ',' ','\0'};
-      system("cls");
-
-      printf("\n\n  Farben:");
-      printf("\n  ==================================");
-      printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
-      printf("\n   Nur eine Farbe kann Aktiv sein.");
-
-
-      //Farben die zur Auswahl stehen (kann noch mehr dazu kommen)
-      printf("\n  Hintergrundfarbe      |  Textfarbe                                ");
-      printf("\n  ======================|=======================");
-      printf("\n  Schwarz = 1  [%s]  |  Schwarz = 1  [%s]", deaktiviert, deaktiviert);
-      printf("\n  Grau    = 2  [%s]  |  Grau    = 2  [%s]", deaktiviert, deaktiviert);
-      printf("\n  Weiss   = 3  [%s]  |  Weiss   = 3  [%s]", deaktiviert, deaktiviert);
-      printf("\n  Grün    = 4  [%s]  |  Grün    = 4  [%s]", deaktiviert, deaktiviert); //Gr\x81n
-      printf("\n  Blau    = 5  [%s]  |  Blau    = 5  [%s]", deaktiviert, deaktiviert);
-      printf("\n  Rot     = 6  [%s]  |  Rot     = 6  [%s]", deaktiviert, deaktiviert);
-      printf("\n  ======================|=======================");
-
-      printf("\n  Hintergrundfarbe (1) ");
-      printf("\n  Textfarbe        (2)");
-      printf("\n  Zur\x81""ck      (3)");
-
-      printf("\n  (1/2/3) ");
-      eingabe = _getch();
-      if (eingabe == '1') {
-        printf("\n  Hintergrundfarbe: ");
-        eingabe = _getch();
-      }
-      else if (eingabe == '2') {
-        printf("\n  Textfarbe: ");
-        eingabe = _getch();
-      }
-      else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
+      farben = true;
+      while (farben == true)
       {
-        printf("\n  Falsche Eingabe ");
-        system("timeout 1 >null");
+        char on[6] = { 'A','k','t','i','v','\0' };
+        char off[6] = { ' ',' ','-',' ',' ','\0' };
+
+        char s_h[6] = { ' ',' ','-',' ',' ','\0' };
+        char g_h[6] = { ' ',' ','-',' ',' ','\0' };
+        char w_h[6] = { ' ',' ','-',' ',' ','\0' };
+        char gr_h[6] = { ' ',' ','-',' ',' ','\0' };
+        char b_h[6] = { ' ',' ','-',' ',' ','\0' };
+        char r_h[6] = { ' ',' ','-',' ',' ','\0' };
+
+        char s_t[6] = { ' ',' ','-',' ',' ','\0' };
+        char g_t[6] = { ' ',' ','-',' ',' ','\0' };
+        char w_t[6] = { ' ',' ','-',' ',' ','\0' };
+        char gr_t[6] = { ' ',' ','-',' ',' ','\0' };
+        char b_t[6] = { ' ',' ','-',' ',' ','\0' };
+        char r_t[6] = { ' ',' ','-',' ',' ','\0' };
+
+        if (first == true) {
+          hintergrundfarbe = '0';
+          textfarbe = 'F';
+          strcpy_s(s_h, on);
+          strcpy_s(w_t, on);
+          first = false;
+        }
+
+        if (hintergrundfarbe == '0')      strcpy_s(s_h, on);
+        else if (hintergrundfarbe == '8') strcpy_s(g_h, on);
+        else if (hintergrundfarbe == 'F') strcpy_s(w_h, on);
+        else if (hintergrundfarbe == '2') strcpy_s(gr_h, on);
+        else if (hintergrundfarbe == '1') strcpy_s(b_h, on);
+        else if (hintergrundfarbe == '4') strcpy_s(r_h, on);
+        
+        if (textfarbe == '0')      strcpy_s(s_t, on);
+        else if (textfarbe == '8') strcpy_s(g_t, on);
+        else if (textfarbe == 'F') strcpy_s(w_t, on);
+        else if (textfarbe == '2') strcpy_s(gr_t, on);
+        else if (textfarbe == '1') strcpy_s(b_t, on);
+        else if (textfarbe == '4') strcpy_s(r_t, on);
+
+
         system("cls");
+
+        printf("\n\n  Farben:");
+        printf("\n  ==============================================");
+        printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
+        printf("\n   Nur eine Farbe kann Aktiv sein.");
+
+        //Farben die zur Auswahl stehen (kann noch mehr dazu kommen)
+        printf("\n  Hintergrundfarbe      |  Textfarbe                                ");
+        printf("\n  ======================|=======================");
+        printf("\n  Schwarz = 1  [%s]  |  Schwarz = 1  [%s]", s_h, s_t);
+        printf("\n  Grau    = 2  [%s]  |  Grau    = 2  [%s]", g_h, g_t);
+        printf("\n  Weiss   = 3  [%s]  |  Weiss   = 3  [%s]", w_h, w_t);
+        printf("\n  Gr\x81n    = 4  [%s]  |  Gr\x81n    = 4  [%s]", gr_h, gr_t);
+        printf("\n  Blau    = 5  [%s]  |  Blau    = 5  [%s]", b_h, b_t);
+        printf("\n  Rot     = 6  [%s]  |  Rot     = 6  [%s]", r_h, r_t);
+        printf("\n  ======================|=======================");
+
+        printf("\n  Hintergrundfarbe (1) ");
+        printf("\n  Textfarbe        (2)");
+        printf("\n  Zur\x81""ck           (3)");
+
+        printf("\n  (1/2/3) ");
+        eingabe = _getch();
+        if (eingabe == '1')
+        {
+          printf("\n  ==============================================");
+          printf("\n\n  Hintergrundfarbe: ");
+          eingabe = _getch();
+
+          if (eingabe == '1') neue_hintergrundfarbe = '0';
+          else if (eingabe == '2') neue_hintergrundfarbe = '8';
+          else if (eingabe == '3') neue_hintergrundfarbe = 'F';
+          else if (eingabe == '4') neue_hintergrundfarbe = '2';
+          else if (eingabe == '5') neue_hintergrundfarbe = '1';
+          else if (eingabe == '6') neue_hintergrundfarbe = '4';
+          else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4' && eingabe != '5' && eingabe != '6') falsche_eingabe();
+
+          if (neue_hintergrundfarbe != textfarbe) {
+            hintergrundfarbe = neue_hintergrundfarbe;
+            farbmatrix(hintergrundfarbe, textfarbe);
+          }
+
+          else if (neue_hintergrundfarbe == textfarbe){
+            printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
+            system("timeout 1 >null");
+            system("cls");
+          }
+
+        }
+        else if (eingabe == '2') {
+          printf("\n  ==============================================");
+          printf("\n\n  Textfarbe: ");
+          eingabe = _getch();
+
+          if (eingabe == '1') neue_textfarbe = '0';
+          else if (eingabe == '2') neue_textfarbe = '8';
+          else if (eingabe == '3') neue_textfarbe = 'F';
+          else if (eingabe == '4') neue_textfarbe = '2';
+          else if (eingabe == '5') neue_textfarbe = '1';
+          else if (eingabe == '6') neue_textfarbe = '4';
+          else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4' && eingabe != '5' && eingabe != '6') falsche_eingabe();
+
+          if (neue_textfarbe != hintergrundfarbe) {
+            textfarbe = neue_textfarbe;
+            farbmatrix(hintergrundfarbe, textfarbe);
+          }
+          else if (neue_textfarbe == hintergrundfarbe) {
+            printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
+            system("timeout 1 >null");
+            system("cls");
+          }
+
+        }
+        else if (eingabe == '3') farben = false;
+        else if (eingabe != '1' && eingabe != '2' && eingabe != '3') falsche_eingabe();
       }
     }
     else if (eingabe == '2')
@@ -286,14 +361,9 @@ void einstellungen(bool first, bool root)
       }
     }
     else if (eingabe == '4') settings = false;
-    else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4')
-    {
-      printf("\n  Falsche Eingabe ");
-      system("timeout 1 >null");
-      system("cls");
-    }
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4') falsche_eingabe();
   }
-  ///vlt return Wert für Entwicklermodus und Farbe?////////////////////////////////////////////////////////////////////////////////////////////////
+  return(root);
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe)
