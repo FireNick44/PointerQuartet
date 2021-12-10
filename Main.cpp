@@ -553,7 +553,6 @@ int einstellungen(bool first, bool root)
   return(root);
 }
 
-
 void farbmatrix(char hintergrundfarbe, char textfarbe)
 {
   char SysPrint[20];
