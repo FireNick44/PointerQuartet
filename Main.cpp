@@ -23,10 +23,10 @@ int random(int, int);                                           // Zufällige Zah
 struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
 struKarten* originlist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
-struKarten* playerlist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
-struKarten* cpulist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
-struKarten* remove(struKarten*);                                           // Algorithmus für das Entfernen von Karten aus einer Liste
-struKarten* add(struKarten*);                                   // Algorithmus für das 
+struKarten* playerlist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten des Users mit Werten
+struKarten* cpulist(int, const char*, int, int, int);           // Algorithmus für das Abfüllen der Karten des CPU-Spielers mit Werten
+struKarten* remove(struKarten*);                                // Algorithmus für das Entfernen von Karten aus einer Liste
+struKarten* add(struKarten*);                                   // Algorithmus für das Entfernen von Karten aus einer Liste
 int einstellungen(bool, bool);                                  // Farbeinstellungen
 int rundestart();                                               // Start einer Runde
 void falsche_eingabe();                                         // 
