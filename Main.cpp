@@ -7,6 +7,14 @@
 #include <Windows.h>
 
 
+int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
+int menü();
+int einstellungen(bool, bool); // Farbeinstellungen
+void ausgabe(); // Test Methode
+void end(); // Spielende
+void logo();
+void karten(); // Algorithmus für das Mischen und Verteilen der Karten
+void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
 void farbmatrix(char, char); //Farbeinstellungen in der CMD
 void falsche_eingabe(); //Falsche Ausgaben
 
@@ -97,6 +105,12 @@ int main()
 
   end();
   return 0;
+}
+
+int menü()
+{
+  return 0;
+  //menü hier
 }
 
 int random(int min, int max) {
@@ -251,7 +265,6 @@ int rundestart()
     printf("\n\n  Bitte Warten");
 
     Sleep(500);
-
 
     system("cls");
 
