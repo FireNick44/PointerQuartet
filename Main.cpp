@@ -259,7 +259,6 @@ int rundestart()
 
     Sleep(500);
 
-
     system("cls");
 
     printf("\n\n");
