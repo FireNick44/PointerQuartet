@@ -34,7 +34,9 @@ typedef struct Karten // Struktur für Karten
 int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
 struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
-struKarten* füllkarten(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
+struKarten* originlist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
+struKarten* playerlist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
+struKarten* cpulist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
 struKarten* remove(struKarten*);                                           // Algorithmus für das Entfernen von Karten aus einer Liste
 struKarten* add(struKarten*);                                   // Algorithmus für das 
 int einstellungen(bool, bool);                                  // Farbeinstellungen
@@ -294,16 +296,16 @@ int rundestart()
   }
 
   struKarten* pStart = NULL;
-  pStart = karten(pStart, füllkarten(1, "Barbar", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(2, "Bogenschuetzin", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(3, "Drache", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(4, "P.E.K.K.A", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(5, "Hexe", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(6, "Schweinereiter", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(7, "Lakai", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(8, "Tunnelgraeber", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(9, "Riese", 0, 0, 0));
-  pStart = karten(pStart, füllkarten(10, "Ballon", 0, 0, 0));
+  pStart = karten(pStart, originlist(1, "Barbar", 0, 0, 0));
+  pStart = karten(pStart, originlist(2, "Bogenschuetzin", 0, 0, 0));
+  pStart = karten(pStart, originlist(3, "Drache", 0, 0, 0));
+  pStart = karten(pStart, originlist(4, "P.E.K.K.A", 0, 0, 0));
+  pStart = karten(pStart, originlist(5, "Hexe", 0, 0, 0));
+  pStart = karten(pStart, originlist(6, "Schweinereiter", 0, 0, 0));
+  pStart = karten(pStart, originlist(7, "Lakai", 0, 0, 0));
+  pStart = karten(pStart, originlist(8, "Tunnelgraeber", 0, 0, 0));
+  pStart = karten(pStart, originlist(9, "Riese", 0, 0, 0));
+  pStart = karten(pStart, originlist(10, "Ballon", 0, 0, 0));
 
   ausgabe(pStart);
   return 0;
@@ -324,7 +326,7 @@ struKarten* karten(struKarten* pStart, struKarten* pNew)
   return pStart;
 }
 
-struKarten* füllkarten(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+struKarten* originlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
@@ -335,6 +337,24 @@ struKarten* füllkarten(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   pTmp->Geschw = Spd;
   pTmp->Schaden = Dmg;
   pTmp->pNext = NULL;
+
+  return pTmp;
+}
+
+struKarten* playerlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+{
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+
+  return pTmp;
+}
+
+struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+{
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
 
   return pTmp;
 }
