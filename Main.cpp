@@ -28,6 +28,7 @@ struKarten* cpulist(int, const char*, int, int, int);           // Algorithmus f
 struKarten* remove(struKarten*);                                // Algorithmus für das Entfernen von Karten aus einer Liste
 struKarten* add(struKarten*);                                   // Algorithmus für das Entfernen von Karten aus einer Liste
 int einstellungen(bool, bool);                                  // Farbeinstellungen
+void farbmatrix(char, char);                                      //
 int rundestart();                                               // Start einer Runde
 void falsche_eingabe();                                         // 
 void end();                                                     // Spielende
