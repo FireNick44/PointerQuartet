@@ -35,7 +35,8 @@ int random(int, int);                                           // Zufällige Zah
 struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
 struKarten* füllkarten(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
-struKarten* verteile_User();
+struKarten* remove();
+struKarten* add(struKarten*);
 struKarten* verteile_PC();
 struKarten* vergleiche();
 int einstellungen(bool, bool);                                 // Farbeinstellungen
@@ -109,6 +110,7 @@ int main()
 
 int menü()
 {
+
   return 0;
   //menü hier
 }
@@ -143,9 +145,13 @@ struKarten* ausgabe(struKarten* pStart) {
 
   char c;
   bool menü = false;
+  bool nextkarte_win = false;
+  bool nextkarte_lose = false;
 
-  for (struKarten* pOut = pStart; pOut != NULL; pOut = pOut->pNext) {
-    while (!menü) {
+  for (struKarten* pOut = pStart; pOut != NULL && !menü; pOut = pOut->pNext) {
+
+
+    while (!nextkarte_win && !nextkarte_lose) {
       system("cls");
 
       printf("\n\n");
@@ -173,12 +179,13 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  Ihre Naechste Karte: %14s ", pStart->pNext->Bez);
       /* */
 
-      printf("\n\n\n  Trefferpunkte?        (1)");
-      printf("\n  Geschwindigkeit?      (2)");
-      printf("\n  Schaden?              (3)");
+      printf("\n\n\n  Trefferpunkte?         (1)");
+      printf("\n  Geschwindigkeit?       (2)");
+      printf("\n  Schaden?               (3)");
       printf("\n  =================================");
-      printf("\n\n  Neu Starten           (4)");
-      printf("\n  Zur\x81" "ck zum Hauptmen\x81  (5)");
+      printf("\n\n  Neu Starten            (4)");
+      printf("\n\n  Aufgeben und zur nächsten Karte (5)");
+      printf("\n  Zur\x81" "ck zum Hauptmen\x81   (6)");
       printf("\n  (1/2/3/4/5): ");
 
       c = _getch();
@@ -200,10 +207,17 @@ struKarten* ausgabe(struKarten* pStart) {
       }
 
       else if (c == '5') {
-        printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
+        printf("\n\n  M\x94""chten Sie wirklich diese Karte aufgeben und zur nächsten?");
         printf("\n  (J/N) ");
         char e = _getch();
         if(e == 'j') menü = true;
+      }
+
+      else if (c == '6') {
+        printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
+        printf("\n  (J/N) ");
+        char e = _getch();
+        if (e == 'j') menü = true;
       }
 
       else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
