@@ -131,7 +131,7 @@ struKarten* ausgabe(struKarten* pStart) {
   bool menü = false;
 
   for (struKarten* pOut = pStart; pOut != NULL; pOut = pOut->pNext) {
-    while (menü == false) {
+    while (!menü) {
       system("cls");
 
       printf("\n\n");
