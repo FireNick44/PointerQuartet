@@ -215,11 +215,7 @@ struKarten* ausgabe(struKarten* pStart) {
       }
 
     }
-
   }
-
-
-
   return 0;
 }
 
@@ -249,7 +245,7 @@ void end()
   printf("   888       o  888   888  888   888  Y8b.     \n");
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
 
-  Sleep(900);
+  Sleep(9);
 }
 
 int rundestart()
