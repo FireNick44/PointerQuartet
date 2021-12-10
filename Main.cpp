@@ -183,7 +183,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  (1/2/3/4/5): ");
 
       c = _getch();
-
+      
       if (c == '1' || c == 't') {
 
       }
