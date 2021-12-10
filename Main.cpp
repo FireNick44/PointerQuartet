@@ -29,6 +29,7 @@ struKarten* remove(struKarten*);                                           // Al
 struKarten* add(struKarten*);                                   // Algorithmus für das 
 int einstellungen(bool, bool);                                  // Farbeinstellungen
 int rundestart();                                               // Start einer Runde
+void falsche_eingabe();                                         // 
 void end();                                                     // Spielende
 void logo();
 
@@ -252,7 +253,7 @@ void end()
   printf("   888       o  888   888  888   888  Y8b.     \n");
   printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
 
-  Sleep(9);
+  Sleep(400);
 }
 
 int rundestart()
@@ -552,10 +553,18 @@ int einstellungen(bool first, bool root)
   return(root);
 }
 
+
 void farbmatrix(char hintergrundfarbe, char textfarbe)
 {
   char SysPrint[20];
 
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
   system(SysPrint);
+}
+
+void falsche_eingabe()
+{
+  printf("\n  Falsche Eingabe ");
+  system("timeout 1 >null");
+  system("cls");
 }
