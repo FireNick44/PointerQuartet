@@ -109,6 +109,7 @@ int main()
 
 int menü()
 {
+  return 0;
   //menü hier
 }
 
