@@ -8,6 +8,7 @@
 
 
 int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
+int menü();
 int einstellungen(bool, bool); // Farbeinstellungen
 void ausgabe(); // Test Methode
 void end(); // Spielende
@@ -104,6 +105,11 @@ int main()
 
   end();
   return 0;
+}
+
+int menü()
+{
+  //menü hier
 }
 
 int random(int min, int max) {
