@@ -313,9 +313,9 @@ struKarten* karten(struKarten* pStart, struKarten* pNew)
     pNew->pNext = NULL;
   }
   else {
-    struKarten* pLast = pStart;
-    while (pLast->pNext != NULL) pLast = pLast->pNext;
-    pLast->pNext = pNew;
+    struKarten* pLast = pStart; // Beispiel: Barbar wird in pLast hineingeschrieben.
+    while (pLast->pNext != NULL) pLast = pLast->pNext; // Solange Barbars nächste Karte nicht ist, ist diese die letzte Karte
+    pLast->pNext = pNew; //
   }
   return pStart;
 }
