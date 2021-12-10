@@ -55,7 +55,7 @@ int main()
   bool first = true;
 
   bool menü = true;
-  while (menü == true)
+  while (menü)
   {
     //variablen
     int spielmodus;
@@ -353,7 +353,7 @@ int einstellungen(bool first, bool root)
   //Erste Ausführung
 
 
-  while (settings == true)
+  while (settings)
   {
     system("cls");
 
@@ -373,7 +373,7 @@ int einstellungen(bool first, bool root)
     if (eingabe      == '1')
     {
       farben = true;
-      while (farben == true)
+      while (farben)
       {
         char on[6] = { 'A','k','t','i','v','\0' };
         char off[6] = { ' ',' ','-',' ',' ','\0' };
@@ -392,7 +392,7 @@ int einstellungen(bool first, bool root)
         char b_t[6] = { ' ',' ','-',' ',' ','\0' };
         char r_t[6] = { ' ',' ','-',' ',' ','\0' };
 
-        if (first == true) {
+        if (first) {
           hintergrundfarbe = '0';
           textfarbe = 'F';
           strcpy_s(s_h, on);
