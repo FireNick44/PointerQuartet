@@ -7,18 +7,6 @@
 #include <Windows.h>
 
 
-int random(int, int); // Zufällige Zahl mit Angabe von Wertebereich
-int menü();
-int einstellungen(bool, bool); // Farbeinstellungen
-void ausgabe(); // Test Methode
-void end(); // Spielende
-void logo();
-void karten(); // Algorithmus für das Mischen und Verteilen der Karten
-void füllkarten(); // Algorithmus für das Abfüllen der Karten mit Werten
-void farbmatrix(char, char); //Farbeinstellungen in der CMD
-void falsche_eingabe(); //Falsche Ausgaben
-
-
 typedef struct Karten // Struktur für Karten 
 {
   int Nr;
@@ -101,7 +89,12 @@ int main()
     }
 
     //falsche Eingabe
-    else if (eingabe != '1' && eingabe != '2' && eingabe != '3') falsche_eingabe();
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
+    {
+      printf("\n  Falsche Eingabe ");
+      system("timeout 1 >null");
+      system("cls");
+    }
   }
 
   end();
@@ -266,7 +259,7 @@ int rundestart()
 {
   system("cls");
 
-  for (int i = 0; i <= 3; i++) {
+  for (int i = 0; i < 3; i++) {
     system("cls");
 
     printf("\n\n");
@@ -359,11 +352,6 @@ struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
-void falsche_eingabe(){
-  printf("\n  Falsche Eingabe ");
-  system("timeout 1 >null");
-  system("cls");
-}
 
 int einstellungen(bool first, bool root)
 {
