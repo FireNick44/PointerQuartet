@@ -35,11 +35,9 @@ int random(int, int);                                           // Zufällige Zah
 struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
 struKarten* füllkarten(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
-struKarten* remove();
-struKarten* add(struKarten*);
-struKarten* verteile_PC();
-struKarten* vergleiche();
-int einstellungen(bool, bool);                                 // Farbeinstellungen
+struKarten* remove(struKarten*);                                           // Algorithmus für das Entfernen von Karten aus einer Liste
+struKarten* add(struKarten*);                                   // Algorithmus für das 
+int einstellungen(bool, bool);                                  // Farbeinstellungen
 int rundestart();                                               // Start einer Runde
 void end();                                                     // Spielende
 void logo();
@@ -210,7 +208,7 @@ struKarten* ausgabe(struKarten* pStart) {
         printf("\n\n  M\x94""chten Sie wirklich diese Karte aufgeben und zur nächsten?");
         printf("\n  (J/N) ");
         char e = _getch();
-        if(e == 'j') menü = true;
+        if(e == 'j') nextkarte_lose = true;
       }
 
       else if (c == '6') {
