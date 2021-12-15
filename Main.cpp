@@ -19,20 +19,25 @@ typedef struct Karten // Struktur für Karten
 
 
 //Prototypen der Methoden
-int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
+
 struKarten* ausgabe(struKarten*);                               // Test Methode
-struKarten* karten(struKarten*, struKarten*);                   // Algorithmus für das Mischen und Verteilen der Karten
-struKarten* originlist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten mit Werten
-struKarten* playerlist(int, const char*, int, int, int);        // Algorithmus für das Abfüllen der Karten des Users mit Werten
-struKarten* cpulist(int, const char*, int, int, int);           // Algorithmus für das Abfüllen der Karten des CPU-Spielers mit Werten
-struKarten* remove(struKarten*);                                // Algorithmus für das Entfernen von Karten aus einer Liste
-struKarten* add(struKarten*);                                   // Algorithmus für das Entfernen von Karten aus einer Liste
-int einstellungen(bool, bool);                                  // Farbeinstellungen
-void farbmatrix(char, char);                                      //
+struKarten* karten(struKarten*, struKarten*);                   // Funktion für das Mischen und Verteilen der Karten
+struKarten* originlist(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten mit Werten
+struKarten* playerlist(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten des Users mit Werten
+struKarten* cpulist(int, const char*, int, int, int);           // Funktion für das Abfüllen der Karten des CPU-Spielers mit Werten
+struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
+struKarten* add(struKarten*);                                   // Funktion für das Entfernen von Karten aus einer Liste
+struKarten* vergleiche(struKarten*);                                   // Funktion für das Entfernen von Karten aus einer Liste
+
+int menü();
+int einstellungen(bool, bool);                                  // Einstellungen
+void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben
 int rundestart();                                               // Start einer Runde
-void falsche_eingabe();                                         // 
-void end();                                                     // Spielende
-void logo();
+void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
+void end();                                                     // Ausgabe für Spielende
+void logo();                                                    // Ausgabe für Logo des Spiels
+int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
+
 
 
 int main()
@@ -41,12 +46,21 @@ int main()
   srand(time(NULL));
 
   system("mode con cols=138 lines=30");
-  int main;
+
+  menü();
+
+
+  end();
+  return 0;
+}
+
+int menü()
+{
   bool admin = false;
   bool first = true;
 
-  bool menü = true;
-  while (menü)
+  bool hauptmenü = true;
+  while (hauptmenü)
   {
     //variablen
     int spielmodus;
@@ -84,10 +98,10 @@ int main()
     {
       printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
       printf("\n  (J/N) ");
-      
+
       eingabe = _getch();
 
-      if (eingabe == 'J' || eingabe == 'j') menü = false;
+      if (eingabe == 'J' || eingabe == 'j') hauptmenü = false;
     }
 
     //falsche Eingabe
@@ -98,14 +112,6 @@ int main()
       system("cls");
     }
   }
-
-  end();
-  return 0;
-}
-
-int menü()
-{
-
   return 0;
   //menü hier
 }
@@ -144,7 +150,8 @@ struKarten* ausgabe(struKarten* pStart) {
   bool nextkarte_lose = false;
 
   for (struKarten* pOut = pStart; pOut != NULL && !menü; pOut = pOut->pNext) {
-
+    nextkarte_win = false;
+    nextkarte_lose = false;
 
     while (!nextkarte_win && !nextkarte_lose) {
       system("cls");
@@ -159,7 +166,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |         CoC Quartett          |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |         %-14s        |", pStart->Bez);
+      printf("\n  |%31s|", pStart->Bez);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
@@ -186,7 +193,7 @@ struKarten* ausgabe(struKarten* pStart) {
       c = _getch();
       
       if (c == '1' || c == 't') {
-
+        
       }
 
       else if (c == '2' || c == 'g') {
@@ -202,7 +209,7 @@ struKarten* ausgabe(struKarten* pStart) {
       }
 
       else if (c == '5') {
-        printf("\n\n  M\x94""chten Sie wirklich diese Karte aufgeben und zur nächsten?");
+        printf("\n\n  M\x94""chten Sie wirklich diese Karte aufgeben und zur n\x84""chsten?");
         printf("\n  (J/N) ");
         char e = _getch();
         if(e == 'j') nextkarte_lose = true;
