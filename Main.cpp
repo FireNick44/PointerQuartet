@@ -361,7 +361,6 @@ struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
-
 int einstellungen(bool first, bool root)
 {
   //variablen
