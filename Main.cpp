@@ -45,12 +45,12 @@ int main()
   // Rand Initialisierung für die Methode "random".
   srand(time(NULL));
 
-  system("mode con cols=138 lines=30");
+  system("mode con cols=75 lines=35");
 
   menü();
-
-
   end();
+
+
   return 0;
 }
 
@@ -149,11 +149,11 @@ struKarten* ausgabe(struKarten* pStart) {
   bool nextkarte_win = false;
   bool nextkarte_lose = false;
 
-  for (struKarten* pOut = pStart; pOut != NULL && !menü; pOut = pOut->pNext) {
+  for (struKarten* pOut = pStart; pOut != NULL && !menü && !nextkarte_lose && !nextkarte_win; pOut = pOut->pNext) {
     nextkarte_win = false;
     nextkarte_lose = false;
 
-    while (!nextkarte_win && !nextkarte_lose) {
+    while (!nextkarte_win && !nextkarte_lose && !menü) {
       system("cls");
 
       printf("\n\n");
@@ -161,12 +161,12 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n\n");
       printf("\n   _______________________________ ");
       printf("\n  /                               \x5C");
-      printf("\n  |                  Karte Nr. %-2i |", pStart->Nr);
-      printf("\n  |                               |");
-      printf("\n  |         CoC Quartett          |");
+      printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pStart->Nr);
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |%31s|", pStart->Bez);
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |%*31s|", pStart->Bez);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
