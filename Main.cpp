@@ -238,9 +238,6 @@ struKarten* ausgabe(struKarten* pStart) {
 struKarten* verteile_User() {
   return 0;
 
-  premove 
-
-
 
   while (true)
   {
@@ -277,7 +274,7 @@ int rundestart()
 {
   system("cls");
 
-  for (int i = 0; i < 3; i++) {
+  /*for (int i = 0; i < 3; i++) {
     system("cls");
 
     printf("\n\n");
@@ -304,7 +301,7 @@ int rundestart()
     printf("\n\n  Bitte Warten");
 
     Sleep(500);
-  }
+  }*/
 
   struKarten* pStart = NULL;
   pStart = karten(pStart, originlist(1, "Barbar", 0, 0, 0));
@@ -317,6 +314,52 @@ int rundestart()
   pStart = karten(pStart, originlist(8, "Tunnelgraeber", 0, 0, 0));
   pStart = karten(pStart, originlist(9, "Riese", 0, 0, 0));
   pStart = karten(pStart, originlist(10, "Ballon", 0, 0, 0));
+
+  struKarten* pStartPlayer = NULL;
+  struKarten* pStartCPU = NULL;
+
+  int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
+  while (runde >= 10) {
+    if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
+    {
+      pStartCPU = Temp;
+    }
+    else if (pStartCPU == NULL) //Wenn in CPU noch keine Karte ist
+    {
+      pStartPlayer = Temp;
+    }
+    else if(pStartPlayer != NULL) //Wenn in Player eine Karte ist
+    {
+      pStartPlayer->pNext = pTemp;
+    }
+    else if(pStartCPU != NULL) //Wenn in CPU eine Karte ist
+    {
+      pStartPlayer->pNext = pTemp;
+    }
+  }
+  
+
+
+
+
+  struKarten* pTemp = pStart;
+  int listcount = 1;
+  //int pEnd = 1;
+
+ while (pTemp->pNext != NULL) {
+    pTemp = pTemp->pNext;
+    listcount++;
+  }
+
+  int r = random(1, listcount);
+
+  for (int c = 0; c != r; c++)
+  {
+    pTemp = pTemp->pNext;
+  }
+    pStartPlayer = pTemp;
+
+
 
   ausgabe(pStart);
   return 0;
@@ -528,7 +571,8 @@ int einstellungen(bool first, bool root)
     {
       system("cls");
       logo();
-      printf("\n\n      .@@@@@@@@@@@@@@@@@@.                                        .@@@@@@@@            \n");
+      printf("\n\n");
+      printf("      .@@@@@@@@@@@@@@@@@@.                                        .@@@@@@@@            \n");
       printf("      @                  @.                                    @@@@@@@@@@@@@           \n");
       printf("     @@                  @@.                                  @@@@@@@@@@@@@@@@         \n");
       printf("    @@                    @@                                 ,@@@@@@@@       @@        \n");
