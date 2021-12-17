@@ -230,6 +230,15 @@ struKarten* ausgabe(struKarten* pStart) {
 
 struKarten* verteile_User() {
   return 0;
+
+  premove 
+
+
+
+  while (true)
+  {
+
+  }
 }
 
 struKarten* verteile_PC() {
@@ -341,7 +350,6 @@ struKarten* playerlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
-
   return pTmp;
 }
 
@@ -350,10 +358,8 @@ struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
-
   return pTmp;
 }
-
 
 int einstellungen(bool first, bool root)
 {
@@ -529,8 +535,8 @@ int einstellungen(bool first, bool root)
       printf("      @@ ##________## @@@                                @@@@ ########## @@@@ .@@*     \n");
       printf("      @@@ '########'  @@@                                '@@@              @@@@@@*     \n");
       printf("      @@@             @@@           Clash Of Clans        @@@@ #########,@@@@@@@       \n");
-      printf("       @               @               Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
-      printf("       @               @                                     @@@@@@@@@@@@@@@@          \n");
+      printf("                                       Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
+      printf("                                                             @@@@@@@@@@@@@@@@          \n");
       system("timeout 3 >null");
 
     }
