@@ -337,7 +337,8 @@ int rundestart()
       pStartPlayer->pNext = pTemp;
     }
   }
-  
+ 
+
 
 
 
