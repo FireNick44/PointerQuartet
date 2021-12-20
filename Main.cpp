@@ -299,6 +299,7 @@ int rundestart()
 
   int r = random(1, listcount);
 
+
   pTemp = pStart;
 
   for (int c = 1; c != r; c++)
