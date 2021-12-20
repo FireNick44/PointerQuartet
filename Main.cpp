@@ -344,14 +344,15 @@ int rundestart()
 
 struKarten* karten(struKarten* pStart, struKarten* pNew)
 {
-  if (pStart == NULL) {
-    pStart = pNew;
-    pNew->pNext = NULL;
+  
+  if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart".
+    pStart = pNew; // Wenn diese leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
+    pNew->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
   }
   else {
-    struKarten* pLast = pStart; // Beispiel: "Barbar" wird in pLast hineingeschrieben.
-    while (pLast->pNext != NULL) pLast = pLast->pNext; // Solange Barbars nächste Karte nicht NULL ist, ist diese die letzte Karte
-    pLast->pNext = pNew; // 
+    struKarten* pLast = pStart; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    while (pLast->pNext != NULL) pLast = pLast->pNext; // Schleife: Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist, ist diese die letzte Karte.
+    pLast->pNext = pNew; // Jeder neue Inhalt, der sich in pNew befindet
   }
   return pStart;
 }
