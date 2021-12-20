@@ -153,7 +153,7 @@ struKarten* firstlast(struKarten* pStart)
     pTempLastMinus = pTempLast;
     pTempLast = pTempLast->pNext;
 
-    printf("pTempLast %i\n", pTempFirst->Nr);
+    printf("pTempFirst %i\n", pTempFirst->Nr);
     printf("pTempLast %i\n", pTempLast->Nr);
     printf("pTempLastMinus %i\n\n", pTempLastMinus->Nr);
   }
