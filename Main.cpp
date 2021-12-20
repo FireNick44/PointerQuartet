@@ -342,7 +342,6 @@ int rundestart()
 
 
 
-
   struKarten* pTemp = pStart;
   int listcount = 1;
   //int pEnd = 1;
