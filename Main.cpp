@@ -311,6 +311,8 @@ int rundestart()
   int k = pStartPlayer->Nr;
   printf("Die zufällige Karte: Karte Nr. %i \n\n", k);
 
+
+  remove(pStartPlayer);
   system("pause");
 
 
