@@ -351,6 +351,7 @@ int rundestart()
     listcount++;
   }
 
+
   int r = random(1, listcount);
 
   for (int c = 0; c != r; c++)
