@@ -27,7 +27,7 @@ struKarten* playerlist(int, const char*, int, int, int);        // Funktion für 
 struKarten* cpulist(int, const char*, int, int, int);           // Funktion für das Abfüllen der Karten des CPU-Spielers mit Werten
 struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
 struKarten* add(struKarten*);                                   // Funktion für das Entfernen von Karten aus einer Liste
-struKarten* vergleiche(struKarten*);                                   // Funktion für das Entfernen von Karten aus einer Liste
+struKarten* vergleiche(struKarten*);                            // Funktion für das Entfernen von Karten aus einer Liste
 
 int menü();
 int einstellungen(bool, bool);                                  // Einstellungen
@@ -347,7 +347,7 @@ int rundestart()
   int listcount = 1;
   //int pEnd = 1;
 
- while (pTemp->pNext != NULL) {
+  while (pTemp->pNext != NULL) {
     pTemp = pTemp->pNext;
     listcount++;
   }
