@@ -43,10 +43,10 @@ void end();                                                     // Ausgabe für S
 void logo();                                                    // Ausgabe für Logo des Spiels
 int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
 
-bool admin = false;                                           // Wird für die Einstellungen/Entwicklermodus benötigt.
-bool first = true;                                            // Wird für die Einstellungen/Farben benötigt.
-char hintergrundfarbe;                                        // Hintergrundfarbe der CMD.
-char textfarbe;                                               // Textfarbe der CMD.
+bool admin = false;                                             // Wird für die Einstellungen/Entwicklermodus benötigt.
+bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
+char hintergrundfarbe;                                          // Hintergrundfarbe der CMD.
+char textfarbe;                                                 // Textfarbe der CMD.
 
 struKarten* ausgabe(struKarten* pStart) {
 
@@ -297,7 +297,9 @@ int rundestart()
 
   int r = random(1, listcount);
 
-  for (int c = 0; c != r; c++)
+  pTemp = pStart;
+
+  for (int c = 1; c != r; c++)
   {
     pTemp = pTemp->pNext;
   }
