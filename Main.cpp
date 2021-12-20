@@ -383,9 +383,7 @@ int menü()
     //falsche Eingabe
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
     {
-      printf("\n  Falsche Eingabe ");
-      system("timeout 1 >null");
-      system("cls");
+      falsche_eingabe();
     }
   }
   return 0;
