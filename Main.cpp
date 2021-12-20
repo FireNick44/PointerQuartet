@@ -320,6 +320,8 @@ int rundestart()
   int k = pStartPlayer->Nr;
   printf("Die zufällige Karte: Karte Nr. %i \n\n", k);
 
+
+  remove(pStartPlayer);
   system("pause");
 
 
@@ -392,9 +394,7 @@ int menü()
     //falsche Eingabe
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
     {
-      printf("\n  Falsche Eingabe ");
-      system("timeout 1 >null");
-      system("cls");
+      falsche_eingabe();
     }
   }
   return 0;
