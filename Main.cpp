@@ -318,25 +318,25 @@ int rundestart()
   struKarten* pStartPlayer = NULL;
   struKarten* pStartCPU = NULL;
 
-  int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
-  while (runde >= 10) {
-    if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
-    {
-      pStartCPU = Temp;
-    }
-    else if (pStartCPU == NULL) //Wenn in CPU noch keine Karte ist
-    {
-      pStartPlayer = Temp;
-    }
-    else if(pStartPlayer != NULL) //Wenn in Player eine Karte ist
-    {
-      pStartPlayer->pNext = pTemp;
-    }
-    else if(pStartCPU != NULL) //Wenn in CPU eine Karte ist
-    {
-      pStartPlayer->pNext = pTemp;
-    }
-  }
+  //int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
+  //while (runde >= 10) {
+  //  if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
+  //  {
+  //    pStartCPU = Temp;
+  //  }
+  //  else if (pStartCPU == NULL) //Wenn in CPU noch keine Karte ist
+  //  {
+  //    pStartPlayer = Temp;
+  //  }
+  //  else if(pStartPlayer != NULL) //Wenn in Player eine Karte ist
+  //  {
+  //    pStartPlayer->pNext = pTemp;
+  //  }
+  //  else if(pStartCPU != NULL) //Wenn in CPU eine Karte ist
+  //  {
+  //    pStartPlayer->pNext = pTemp;
+  //  }
+  //}
  
 
 
