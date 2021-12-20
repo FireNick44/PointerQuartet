@@ -50,27 +50,6 @@ bool first = true;                                            // Wird für die Ei
 char hintergrundfarbe;                                        // Hintergrundfarbe der CMD.
 char textfarbe;                                               // Textfarbe der CMD.
 
-
-
-struKarten* firstlast(struKarten* pStart)
-{
-  struKarten* pTempFirst = pStart;
-  struKarten* pTempLast = pStart;
-  struKarten* pTempLastMinus = NULL;
-
-  while (pTempLast->pNext != NULL) {
-    pTempLast = pTempLast->pNext;
-    pTempLastMinus = pTempLast;
-
-    printf("pTempLast %i", pTempLast->Nr);
-    printf("pTempLastMinus %i", pTempLastMinus->Nr);
-  }
-  system("pause");
-  
-  return 0;
-}
-
-
 struKarten* ausgabe(struKarten* pStart) {
 
   char c;
@@ -95,7 +74,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |%*31s|", pStart->Bez);
+      printf("\n  |%31s|", pStart->Bez);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
@@ -120,9 +99,9 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  (1/2/3/4/5): ");
 
       c = _getch();
-      
+
       if (c == '1' || c == 't') {
-        
+
       }
 
       else if (c == '2' || c == 'g') {
@@ -141,7 +120,7 @@ struKarten* ausgabe(struKarten* pStart) {
         printf("\n\n  M\x94""chten Sie wirklich diese Karte aufgeben und zur n\x84""chsten?");
         printf("\n  (J/N) ");
         char e = _getch();
-        if(e == 'j') nextkarte_lose = true;
+        if (e == 'j') nextkarte_lose = true;
       }
 
       else if (c == '6') {
@@ -184,7 +163,7 @@ struKarten* vergleiche() {
 
 struKarten* karten(struKarten* pStart, struKarten* pNew)
 {
-  
+
   if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart".
     pStart = pNew; // Wenn diese leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
     pNew->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
@@ -237,30 +216,22 @@ int rundestart()
 
   /*for (int i = 0; i < 3; i++) {
     system("cls");
-
     printf("\n\n");
     printf("\n  ==================================");
     printf("\n\n  Karten werden erstellt und gemischt.");
     printf("\n\n  Bitte Warten");
-
     Sleep(500);
-
     system("cls");
-
     printf("\n\n");
     printf("\n  ==================================");
     printf("\n\n  Karten werden erstellt und gemischt..");
     printf("\n\n  Bitte Warten");
-
     Sleep(500);
-
     system("cls");
-
     printf("\n\n");
     printf("\n  ==================================");
     printf("\n\n  Karten werden erstellt und gemischt...");
     printf("\n\n  Bitte Warten");
-
     Sleep(500);
   }*/
 
@@ -281,7 +252,7 @@ int rundestart()
   pStart = karten(pStart, originlist(10, "Ballon", 0, 0, 0));
 
 
-  int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
+  //int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
   //while (runde >= 10) {
   //  if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
   //  {
@@ -300,7 +271,7 @@ int rundestart()
   //    pStartPlayer->pNext = pTemp;
   //  }
   //}
-  firstlast(pStart);
+
 
   struKarten* pTemp = pStart;
   int listcount = 1;
@@ -332,8 +303,6 @@ int rundestart()
   int k = pStartPlayer->Nr;
   printf("Die zufällige Karte: Karte Nr. %i \n\n", k);
 
-
-  remove(pStartPlayer);
   system("pause");
 
 
@@ -342,8 +311,6 @@ int rundestart()
   ausgabe(pStart);
   return 0;
 }
-
-
 
 int main()
 {
@@ -406,7 +373,9 @@ int menü()
     //falsche Eingabe
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
     {
-      falsche_eingabe();
+      printf("\n  Falsche Eingabe ");
+      system("timeout 1 >null");
+      system("cls");
     }
   }
   return 0;
@@ -451,7 +420,7 @@ int einstellungen()
 
     eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
 
-    if (eingabe      == '1')
+    if (eingabe == '1')
     {
       farben = true;
       while (farben)
@@ -487,7 +456,7 @@ int einstellungen()
         else if (hintergrundfarbe == '2') strcpy_s(gr_h, on);
         else if (hintergrundfarbe == '1') strcpy_s(b_h, on);
         else if (hintergrundfarbe == '4') strcpy_s(r_h, on);
-        
+
         if (textfarbe == '0')      strcpy_s(s_t, on);
         else if (textfarbe == '8') strcpy_s(g_t, on);
         else if (textfarbe == 'F') strcpy_s(w_t, on);
@@ -539,7 +508,7 @@ int einstellungen()
             farbmatrix(hintergrundfarbe, textfarbe);
           }
 
-          else if (neue_hintergrundfarbe == textfarbe){
+          else if (neue_hintergrundfarbe == textfarbe) {
             printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
             system("timeout 1 >null");
             system("cls");
