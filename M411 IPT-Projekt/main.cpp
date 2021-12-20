@@ -290,6 +290,7 @@ int rundestart()
   //  }
   //}
 
+  firstlast(pStart);
 
   struKarten* pTemp = pStart;
   int listcount = 1;
