@@ -54,8 +54,20 @@ char textfarbe;                                               // Textfarbe der C
 
 struKarten* firstlast(struKarten* pStart)
 {
-  
+  struKarten* pTempFirst = pStart;
+  struKarten* pTempLast = pStart;
+  struKarten* pTempLastMinus = NULL;
 
+  while (pTempLast->pNext != NULL) {
+    pTempLast = pTempLast->pNext;
+    pTempLastMinus = pTempLast;
+
+    printf("pTempLast %i", pTempLast->Nr);
+    printf("pTempLastMinus %i", pTempLastMinus->Nr);
+  }
+  system("pause");
+  
+  return 0;
 }
 
 
