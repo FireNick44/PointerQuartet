@@ -307,6 +307,9 @@ int rundestart()
   }
   pStartPlayer = pTemp;
 
+  char* k = pStartPlayer->Bez;
+  printf("Die zufällige Karte: %c", k);
+
 
 
 
