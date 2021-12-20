@@ -143,7 +143,6 @@ struKarten* ausgabe(struKarten* pStart) {
   return 0;
 }
 
-
 struKarten* firstlast(struKarten* pStart)
 {
   struKarten* pTempFirst = pStart;
@@ -161,7 +160,6 @@ struKarten* firstlast(struKarten* pStart)
 
   return 0;
 }
-
 
 struKarten* verteile_User() {
   return 0;
