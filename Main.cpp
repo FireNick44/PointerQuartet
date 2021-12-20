@@ -25,11 +25,16 @@ struKarten* karten(struKarten*, struKarten*);                   // Funktion für 
 struKarten* originlist(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten mit Werten
 struKarten* playerlist(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten des Users mit Werten
 struKarten* cpulist(int, const char*, int, int, int);           // Funktion für das Abfüllen der Karten des CPU-Spielers mit Werten
-struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
-struKarten* add(struKarten*);                                   // Funktion für das Entfernen von Karten aus einer Liste
-struKarten* vergleiche(struKarten*);                            // Funktion für das Entfernen von Karten aus einer Liste
 
-int menü();
+
+struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
+struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten aus einer Liste
+
+
+struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
+struKarten* vergleiche(struKarten*);                            // Funktion für das Vergleichen von Karten aus einer Liste
+
+int menü(bool, bool);
 int einstellungen(bool, bool);                                  // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben
 int rundestart();                                               // Start einer Runde
@@ -42,29 +47,27 @@ int random(int, int);                                           // Zufällige Zah
 
 int main()
 {
-  // Rand Initialisierung für die Methode "random".
-  srand(time(NULL));
+  bool admin = false;                                           // Wird für die Einstellungen/Entwicklermodus benötigt.
+  bool first = true;                                            // Wird für die Einstellungen/Farben benötigt.
 
-  system("mode con cols=75 lines=35");
+  srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
+  system("mode con cols=175 lines=35");                         // Setzt die Grösse der CMD
 
-  menü();
-  end();
-
+  menü(admin, first);                                           // Menü wird Aufgerufen
+  end();                                                        // Spiel wird beendet
 
   return 0;
 }
 
-int menü()
+int menü(bool admin, bool first)
 {
-  bool admin = false;
-  bool first = true;
 
-  bool hauptmenü = true;
+  bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
+  
   while (hauptmenü)
   {
     //variablen
-    int spielmodus;
-    char eingabe; //Variabel für Eingabe
+    char eingabe; // Variabel für Eingabe
 
     system("cls"); // Leeren des Bildschirms
 
@@ -123,24 +126,6 @@ int random(int min, int max) {
   return(r);
 }
 
-void logo()
-{
-  printf("\n     ___  _             _             __     ___ _");
-  printf("\n    / __\x5C| |  __ _  ___| |__     ___ / _|   / __\x5C | __ _ _ __  ___");
-  printf("\n   / /   | | / _` / __ | '_ \x5C   / _ \x5C| |_  / /  | |/ _` | '_ \x5C/ __|");
-  printf("\n  / /___ | |(  _| \x5C__ \x5C| | | |  |(_) | _| / /___| | (_| | | | \x5C__ \x5C ");
-  printf("\n  \x5C____/ |_| \x5C__,_|___/|_| |_|  \x5C___/|_|  \x5C____/|_|\x5C__,_|_| |_|___/");
-  printf("\n");
-  printf("    .d88888b.                            888            888    888     \n");
-  printf("   d88P   Y88b                           888            888    888     \n");
-  printf("   888     888                           888            888    888     \n");
-  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
-  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
-  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
-  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
-  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
-  printf("          Y8b                                                          \n\n");
-}
 
 struKarten* ausgabe(struKarten* pStart) {
 
@@ -254,21 +239,7 @@ struKarten* vergleiche() {
 }
 
 
-void end()
-{
-  system("cls");
 
-  printf("\n\n");
-  printf("  oooooooooooo                   .o8           \n");
-  printf("  `888'     `8                  '888           \n");
-  printf("   888         ooo. .oo.    .oooo888   .d88b.  \n");
-  printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b \n");
-  printf("   888    '     888   888  888   888  88888888 \n");
-  printf("   888       o  888   888  888   888  Y8b.     \n");
-  printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
-
-  Sleep(400);
-}
 
 int rundestart()
 {
@@ -303,6 +274,10 @@ int rundestart()
     Sleep(500);
   }*/
 
+  struKarten* pStartPlayer = NULL; //Erstellt pStart von Player
+  struKarten* pStartCPU = NULL;    //Erstellt pStart von CPU
+
+
   struKarten* pStart = NULL;
   pStart = karten(pStart, originlist(1, "Barbar", 0, 0, 0));
   pStart = karten(pStart, originlist(2, "Bogenschuetzin", 0, 0, 0));
@@ -315,8 +290,6 @@ int rundestart()
   pStart = karten(pStart, originlist(9, "Riese", 0, 0, 0));
   pStart = karten(pStart, originlist(10, "Ballon", 0, 0, 0));
 
-  struKarten* pStartPlayer = NULL;
-  struKarten* pStartCPU = NULL;
 
   //int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
   //while (runde >= 10) {
@@ -339,9 +312,6 @@ int rundestart()
   //}
  
 
-
-
-
   struKarten* pTemp = pStart;
   int listcount = 1;
   //int pEnd = 1;
@@ -349,7 +319,13 @@ int rundestart()
   while (pTemp->pNext != NULL) {
     pTemp = pTemp->pNext;
     listcount++;
+
+    int z = pTemp->Nr;
+    //Zum Testen
+    printf("pTempt Zeigt auf die Karte Nr: %i \n", z);
+
   }
+  system("pause");
 
 
   int r = random(1, listcount);
@@ -368,7 +344,6 @@ int rundestart()
 
 struKarten* karten(struKarten* pStart, struKarten* pNew)
 {
-  
   if (pStart == NULL) {
     pStart = pNew;
     pNew->pNext = NULL;
@@ -414,7 +389,7 @@ struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
-int einstellungen(bool first, bool root)
+int einstellungen(bool first, bool admin)
 {
   //variablen
   bool debug;
@@ -595,14 +570,14 @@ int einstellungen(bool first, bool root)
 
     }
     else if (eingabe == '3') {
-      if (root == true) {
-        root = false;
+      if (admin == true) {
+        admin = false;
         printf("\n  Entwicklermodus Deativiert ");
         system("timeout 1 >null");
         system("cls");
       }
-      else if (root == false) {
-        root = true;
+      else if (admin == false) {
+        admin = true;
         printf("\n  Entwicklermodus Aktiviert ");
         system("timeout 1 >null");
         system("cls");
@@ -611,7 +586,7 @@ int einstellungen(bool first, bool root)
     else if (eingabe == '4') settings = false;
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4') falsche_eingabe();
   }
-  return(root);
+  return 0;
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe)
@@ -627,4 +602,39 @@ void falsche_eingabe()
   printf("\n  Falsche Eingabe ");
   system("timeout 1 >null");
   system("cls");
+}
+
+void logo()
+{
+  printf("\n     ___  _             _             __     ___ _");
+  printf("\n    / __\x5C| |  __ _  ___| |__     ___ / _|   / __\x5C | __ _ _ __  ___");
+  printf("\n   / /   | | / _` / __ | '_ \x5C   / _ \x5C| |_  / /  | |/ _` | '_ \x5C/ __|");
+  printf("\n  / /___ | |(  _| \x5C__ \x5C| | | |  |(_) | _| / /___| | (_| | | | \x5C__ \x5C ");
+  printf("\n  \x5C____/ |_| \x5C__,_|___/|_| |_|  \x5C___/|_|  \x5C____/|_|\x5C__,_|_| |_|___/");
+  printf("\n");
+  printf("    .d88888b.                            888            888    888     \n");
+  printf("   d88P   Y88b                           888            888    888     \n");
+  printf("   888     888                           888            888    888     \n");
+  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
+  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
+  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
+  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
+  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
+  printf("          Y8b                                                          \n\n");
+}
+
+void end()
+{
+  system("cls");
+
+  printf("\n\n");
+  printf("  oooooooooooo                   .o8           \n");
+  printf("  `888'     `8                  '888           \n");
+  printf("   888         ooo. .oo.    .oooo888   .d88b.  \n");
+  printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b \n");
+  printf("   888    '     888   888  888   888  88888888 \n");
+  printf("   888       o  888   888  888   888  Y8b.     \n");
+  printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
+
+  Sleep(400);
 }
