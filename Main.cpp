@@ -31,7 +31,7 @@ struKarten* remove(struKarten*);                                // Funktion für 
 struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten aus einer Liste
 
 
-struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
+struKarten* firstlast(struKarten* pStart);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
 struKarten* vergleiche(struKarten*);                            // Funktion für das Vergleichen von Karten aus einer Liste
 
 int menü();
@@ -49,6 +49,15 @@ bool admin = false;                                           // Wird für die Ei
 bool first = true;                                            // Wird für die Einstellungen/Farben benötigt.
 char hintergrundfarbe;                                        // Hintergrundfarbe der CMD.
 char textfarbe;                                               // Textfarbe der CMD.
+
+
+
+struKarten* firstlast(struKarten* pStart)
+{
+  
+
+}
+
 
 struKarten* ausgabe(struKarten* pStart) {
 
@@ -279,7 +288,7 @@ int rundestart()
   //    pStartPlayer->pNext = pTemp;
   //  }
   //}
-
+  firstlast(pStart);
 
   struKarten* pTemp = pStart;
   int listcount = 1;
