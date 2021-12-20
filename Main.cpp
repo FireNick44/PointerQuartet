@@ -308,8 +308,8 @@ int rundestart()
   }
   pStartPlayer = pTemp;
 
-  char* k = pStartPlayer->Bez;
-  printf("Die zufällige Karte: %c", k);
+  int k = pStartPlayer->Nr;
+  printf("Die zufällige Karte: Karte Nr. %i \n\n", k);
 
   system("pause");
 
