@@ -260,7 +260,7 @@ int rundestart()
   pStart = karten(pStart, originlist(10, "Ballon", 0, 0, 0));
 
 
-  //int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
+  int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
   //while (runde >= 10) {
   //  if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
   //  {
