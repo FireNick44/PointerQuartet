@@ -34,8 +34,8 @@ struKarten* add(struKarten*);                                   // Funktion für 
 struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
 struKarten* vergleiche(struKarten*);                            // Funktion für das Vergleichen von Karten aus einer Liste
 
-int menü(bool, bool);
-int einstellungen(bool, bool);                                  // Einstellungen
+int menü();
+int einstellungen();                                            // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben
 int rundestart();                                               // Start einer Runde
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
@@ -43,89 +43,10 @@ void end();                                                     // Ausgabe für S
 void logo();                                                    // Ausgabe für Logo des Spiels
 int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
 
-
-
-int main()
-{
-  bool admin = false;                                           // Wird für die Einstellungen/Entwicklermodus benötigt.
-  bool first = true;                                            // Wird für die Einstellungen/Farben benötigt.
-
-  srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
-  system("mode con cols=175 lines=35");                         // Setzt die Grösse der CMD
-
-  menü(admin, first);                                           // Menü wird Aufgerufen
-  end();                                                        // Spiel wird beendet
-
-  return 0;
-}
-
-int menü(bool admin, bool first)
-{
-
-  bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
-  
-  while (hauptmenü)
-  {
-    //variablen
-    char eingabe; // Variabel für Eingabe
-
-    system("cls"); // Leeren des Bildschirms
-
-    logo();
-
-    printf("\n  ==================================");
-    printf("\n  W\x84hlen Sie ihren Spielmodus:");
-    printf("\n  1 Spieler     (1)");
-    printf("\n  Einstellungen (2)");
-    printf("\n  Beenden       (3)");
-    printf("\n  ==================================");
-    printf("\n");
-    printf("\n  (1/2/3): ");
-
-    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
-
-    //1 Spieler (PC vs Spieler)
-    if (eingabe == '1')
-    {
-      rundestart();
-    }
-
-    //Einstellungen
-    else if (eingabe == '2')
-    {
-      einstellungen(first, admin);
-    }
-
-    //Ende
-    else if (eingabe == '3')
-    {
-      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
-      printf("\n  (J/N) ");
-
-      eingabe = _getch();
-
-      if (eingabe == 'J' || eingabe == 'j') hauptmenü = false;
-    }
-
-    //falsche Eingabe
-    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
-    {
-      printf("\n  Falsche Eingabe ");
-      system("timeout 1 >null");
-      system("cls");
-    }
-  }
-  return 0;
-  //menü hier
-}
-
-int random(int min, int max) {
-  // Random-Funktion, wo Zahlen für das zufällige Verteilen der Karten 
-  int r = rand() % max + min;
-
-  return(r);
-}
-
+bool admin = false;                                           // Wird für die Einstellungen/Entwicklermodus benötigt.
+bool first = true;                                            // Wird für die Einstellungen/Farben benötigt.
+char hintergrundfarbe;                                        // Hintergrundfarbe der CMD.
+char textfarbe;                                               // Textfarbe der CMD.
 
 struKarten* ausgabe(struKarten* pStart) {
 
@@ -238,7 +159,53 @@ struKarten* vergleiche() {
   return 0;
 }
 
+struKarten* karten(struKarten* pStart, struKarten* pNew)
+{
+  
+  if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart".
+    pStart = pNew; // Wenn diese leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
+    pNew->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
+  }
+  else {
+    struKarten* pLast = pStart; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    while (pLast->pNext != NULL) pLast = pLast->pNext; // Schleife: Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist, ist diese die letzte Karte.
+    pLast->pNext = pNew; // Jeder neue Inhalt, der sich in pNew befindet
+  }
+  return pStart;
+}
 
+struKarten* originlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+{
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+  pTmp->Nr = pTruppe;
+  strcpy_s(pTmp->Bez, pBez);
+  pTmp->Trefferpunkte = Hp;
+  pTmp->Geschw = Spd;
+  pTmp->Schaden = Dmg;
+  pTmp->pNext = NULL;
+
+  return pTmp;
+}
+
+struKarten* playerlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+{
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+
+
+  return pTmp;
+}
+
+struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+{
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+  return pTmp;
+}
 
 
 int rundestart()
@@ -310,7 +277,7 @@ int rundestart()
   //    pStartPlayer->pNext = pTemp;
   //  }
   //}
- 
+
 
   struKarten* pTemp = pStart;
   int listcount = 1;
@@ -334,7 +301,7 @@ int rundestart()
   {
     pTemp = pTemp->pNext;
   }
-    pStartPlayer = pTemp;
+  pStartPlayer = pTemp;
 
 
 
@@ -342,55 +309,86 @@ int rundestart()
   return 0;
 }
 
-struKarten* karten(struKarten* pStart, struKarten* pNew)
+
+
+int main()
 {
-  
-  if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart".
-    pStart = pNew; // Wenn diese leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
-    pNew->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
+  srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
+  system("mode con cols=175 lines=35");                         // Setzt die Grösse der CMD
+
+  menü();                                           // Menü wird Aufgerufen
+  end();                                                        // Spiel wird beendet
+
+  return 0;
+}
+
+int menü()
+{
+  bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
+
+  while (hauptmenü)
+  {
+    //variablen
+    char eingabe; // Variabel für Eingabe
+
+    system("cls"); // Leeren des Bildschirms
+
+    logo();
+
+    printf("\n  ==================================");
+    printf("\n  W\x84hlen Sie ihren Spielmodus:");
+    printf("\n  1 Spieler     (1)");
+    printf("\n  Einstellungen (2)");
+    printf("\n  Beenden       (3)");
+    printf("\n  ==================================");
+    printf("\n");
+    printf("\n  (1/2/3): ");
+
+    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
+
+    //1 Spieler (PC vs Spieler)
+    if (eingabe == '1')
+    {
+      rundestart();
+    }
+
+    //Einstellungen
+    else if (eingabe == '2')
+    {
+      einstellungen();
+    }
+
+    //Ende
+    else if (eingabe == '3')
+    {
+      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
+      printf("\n  (J/N) ");
+
+      eingabe = _getch();
+
+      if (eingabe == 'J' || eingabe == 'j') hauptmenü = false;
+    }
+
+    //falsche Eingabe
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
+    {
+      printf("\n  Falsche Eingabe ");
+      system("timeout 1 >null");
+      system("cls");
+    }
   }
-  else {
-    struKarten* pLast = pStart; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
-    while (pLast->pNext != NULL) pLast = pLast->pNext; // Schleife: Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist, ist diese die letzte Karte.
-    pLast->pNext = pNew; // Jeder neue Inhalt, der sich in pNew befindet
-  }
-  return pStart;
+  return 0;
+  //menü hier
 }
 
-struKarten* originlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
-{
+int random(int min, int max) {
+  // Random-Funktion, wo Zahlen für das zufällige Verteilen der Karten 
+  int r = rand() % max + min;
 
-  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
-
-  pTmp->Nr = pTruppe;
-  strcpy_s(pTmp->Bez, pBez);
-  pTmp->Trefferpunkte = Hp;
-  pTmp->Geschw = Spd;
-  pTmp->Schaden = Dmg;
-  pTmp->pNext = NULL;
-
-  return pTmp;
+  return(r);
 }
 
-struKarten* playerlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
-{
-
-  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
-
-
-
-  return pTmp;
-}
-
-struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
-{
-
-  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
-
-  return pTmp;
-}
-
-int einstellungen(bool first, bool admin)
+int einstellungen()
 {
   //variablen
   bool debug;
@@ -399,8 +397,6 @@ int einstellungen(bool first, bool admin)
 
   char eingabe;
   char neue_hintergrundfarbe;
-  char hintergrundfarbe;
-  char textfarbe;
   char neue_textfarbe;
 
   //Erste Ausführung
