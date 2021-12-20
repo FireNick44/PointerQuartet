@@ -31,7 +31,7 @@ struKarten* remove(struKarten*);                                // Funktion für 
 struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten aus einer Liste
 
 
-struKarten* firstlast(struKarten* pStart);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
+struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
 struKarten* vergleiche(struKarten*);                            // Funktion für das Vergleichen von Karten aus einer Liste
 
 int menü();
