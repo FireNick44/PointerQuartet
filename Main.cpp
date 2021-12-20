@@ -375,8 +375,8 @@ struKarten* karten(struKarten* pStart, struKarten* pNew)
   }
   else {
     struKarten* pLast = pStart; // Beispiel: "Barbar" wird in pLast hineingeschrieben.
-    while (pLast->pNext != NULL) pLast = pLast->pNext; // Solange Barbars nächste Karte nicht ist, ist diese die letzte Karte
-    pLast->pNext = pNew; //
+    while (pLast->pNext != NULL) pLast = pLast->pNext; // Solange Barbars nächste Karte nicht NULL ist, ist diese die letzte Karte
+    pLast->pNext = pNew; // 
   }
   return pStart;
 }
@@ -400,6 +400,8 @@ struKarten* playerlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+
 
   return pTmp;
 }
