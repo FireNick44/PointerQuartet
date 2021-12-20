@@ -43,6 +43,8 @@ void end();                                                     // Ausgabe für S
 void logo();                                                    // Ausgabe für Logo des Spiels
 int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
 
+
+// Globale Variable
 bool admin = false;                                           // Wird für die Einstellungen/Entwicklermodus benötigt.
 bool first = true;                                            // Wird für die Einstellungen/Farben benötigt.
 char hintergrundfarbe;                                        // Hintergrundfarbe der CMD.
@@ -289,7 +291,7 @@ int rundestart()
 
     int z = pTemp->Nr;
     //Zum Testen
-    printf("pTempt Zeigt auf die Karte Nr: %i \n", z);
+    printf("pTemp Zeigt auf die Karte Nr: %i \n", z);
 
   }
   system("pause");
@@ -302,6 +304,8 @@ int rundestart()
     pTemp = pTemp->pNext;
   }
   pStartPlayer = pTemp;
+
+
 
 
 
