@@ -21,14 +21,11 @@ typedef struct Karten // Struktur für Karten
 //Prototypen der Methoden
 
 struKarten* ausgabe(struKarten*);                               // Test Methode
-struKarten* createlist(struKarten*, struKarten*);                   // Funktion für das Mischen und Verteilen der Karten
-struKarten* karten(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten mit Werten
-struKarten* playerlist(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten des Users mit Werten
-struKarten* cpulist(int, const char*, int, int, int);           // Funktion für das Abfüllen der Karten des CPU-Spielers mit Werten
-
+struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Mischen und Verteilen der Karten
+struKarten* karten(int, const char*, int, int, int);            // Funktion für das Abfüllen der Karten mit Werten
 
 struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
-struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten aus einer Liste
+struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten in eine Liste
 
 
 struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
@@ -45,10 +42,10 @@ int random(int, int);                                           // Zufällige Zah
 
 
 // Globale Variable
-bool admin = false;                                           // Wird für die Einstellungen/Entwicklermodus benötigt.
-bool first = true;                                            // Wird für die Einstellungen/Farben benötigt.
-char hintergrundfarbe;                                        // Hintergrundfarbe der CMD.
-char textfarbe;                                               // Textfarbe der CMD.
+bool admin = false;                                             // Wird für die Einstellungen/Entwicklermodus benötigt.
+bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
+char hintergrundfarbe;                                          // Hintergrundfarbe der CMD.
+char textfarbe;                                                 // Textfarbe der CMD.
 
 struKarten* ausgabe(struKarten* pStart) {
 
@@ -212,7 +209,7 @@ struKarten* createlist(struKarten* pStart, struKarten* pNew)
   return pStart;
 }
 
-struKarten* createlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+struKarten* karten(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
