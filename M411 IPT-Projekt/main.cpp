@@ -149,9 +149,9 @@ struKarten* firstlast(struKarten* pStart)
   struKarten* pTempLast = pStart;
   struKarten* pTempLastMinus = NULL;
 
-  int f;
-  int l;
-  int lm;
+  int f; //waren gedacht als index für eine for schleife
+  int l; //waren gedacht als index für eine for schleife
+  int lm; //waren gedacht als index für eine for schleife
 
   while (pTempLast->pNext != NULL)
   {
