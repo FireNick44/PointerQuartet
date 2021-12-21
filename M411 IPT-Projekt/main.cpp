@@ -73,9 +73,9 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |%31s|", pStart->Bez);
-      printf("\n  |                               |");
+      printf("\n  |-------------------------------|");
+      printf("\n  |-------%-14s-------|", pStart->Bez);
+      printf("\n  |-------------------------------|");
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
