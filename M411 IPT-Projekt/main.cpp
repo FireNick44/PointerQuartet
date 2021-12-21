@@ -50,61 +50,6 @@ bool first = true;                                            // Wird für die Ei
 char hintergrundfarbe;                                        // Hintergrundfarbe der CMD.
 char textfarbe;                                               // Textfarbe der CMD.
 
-
-
-struKarten* firstlast(struKarten* pStart)
-{
-  struKarten* pTempFirst = pStart;
-  struKarten* pTempLast = pStart;
-  struKarten* pTempLastMinus = NULL;
-
-  while (pTempLast->pNext != NULL) {
-    pTempLast = pTempLast->pNext;
-    pTempLastMinus = pTempLast;
-
-    printf("pTempLast %i", pTempLast->Nr);
-    printf("pTempLastMinus %i", pTempLastMinus->Nr);
-  }
-  system("pause");
-  
-  return 0;
-}
-
-
-  struKarten* pTempFirst = pStart;
-  struKarten* pTempLast = pStart;
-  struKarten* pTempLastMinus = NULL;
-
-  while (pTempLast->pNext != NULL) {
-    pTempLast = pTempLast->pNext;
-    pTempLastMinus = pTempLast;
-
-    printf("pTempLast %i", pTempLast->Nr);
-    printf("pTempLastMinus %i", pTempLastMinus->Nr);
-  }
-  system("pause");
-  
-  return 0;
-}
-
-
-  struKarten* pTempFirst = pStart;
-  struKarten* pTempLast = pStart;
-  struKarten* pTempLastMinus = NULL;
-
-  while (pTempLast->pNext != NULL) {
-    pTempLast = pTempLast->pNext;
-    pTempLastMinus = pTempLast;
-
-    printf("pTempLast %i", pTempLast->Nr);
-    printf("pTempLastMinus %i", pTempLastMinus->Nr);
-  }
-  system("pause");
-  
-  return 0;
-}
-
-
 struKarten* ausgabe(struKarten* pStart) {
 
   char c;
@@ -218,7 +163,7 @@ struKarten* firstlast(struKarten* pStart)
     printf("pTempLast %i\n", l = pTempLast->Nr);
     printf("pTempLastMinus %i\n\n", lm = pTempLastMinus->Nr);
   }
-    printf("==================================\n");
+  printf("==================================\n");
 
 
   pTempLast->pNext = pTempFirst;
