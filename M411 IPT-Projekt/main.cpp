@@ -24,7 +24,7 @@ struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Mischen und Verteilen der Karten
 struKarten* karten(int, const char*, int, int, int);            // Funktion für das Abfüllen der Karten mit Werten
 
-struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
+struKarten* firstlast(struKarten*);                             // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
 struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus einer Liste
 
 struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
