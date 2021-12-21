@@ -21,8 +21,8 @@ typedef struct Karten // Struktur für Karten
 //Prototypen der Methoden
 
 struKarten* ausgabe(struKarten*);                               // Test Methode
-struKarten* karten(struKarten*, struKarten*);                   // Funktion für das Mischen und Verteilen der Karten
-struKarten* originlist(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten mit Werten
+struKarten* createlist(struKarten*, struKarten*);                   // Funktion für das Mischen und Verteilen der Karten
+struKarten* karten(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten mit Werten
 struKarten* playerlist(int, const char*, int, int, int);        // Funktion für das Abfüllen der Karten des Users mit Werten
 struKarten* cpulist(int, const char*, int, int, int);           // Funktion für das Abfüllen der Karten des CPU-Spielers mit Werten
 
@@ -32,7 +32,7 @@ struKarten* add(struKarten*);                                   // Funktion für 
 
 
 struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
-struKarten* vergleiche(struKarten*);                            // Funktion für das Vergleichen von Karten aus einer Liste
+struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus einer Liste
 
 int menü();
 int einstellungen();                                            // Einstellungen
@@ -69,7 +69,7 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n\n");
       printf("\n   _______________________________ ");
       printf("\n  /                               \x5C");
-      printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pStart->Nr);
+      printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pOut->Nr);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
@@ -79,11 +79,11 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |   Trefferpunkte  :%4i        |", pStart->Trefferpunkte);
+      printf("\n  |   Trefferpunkte  :%4i        |", pOut->Trefferpunkte);
       printf("\n  |                               |");
-      printf("\n  |   Geschwindigkeit:%4i        |", pStart->Geschw);
+      printf("\n  |   Geschwindigkeit:%4i        |", pOut->Geschw);
       printf("\n  |                               |");
-      printf("\n  |   Schaden        :%4i        |", pStart->Schaden);
+      printf("\n  |   Schaden        :%4i        |", pOut->Schaden);
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
       printf("\n  Ihre Naechste Karte: %14s ", pStart->pNext->Bez);
@@ -96,12 +96,12 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n\n  Neu Starten            (4)");
       printf("\n\n  Aufgeben und zur nächsten Karte (5)");
       printf("\n  Zur\x81" "ck zum Hauptmen\x81   (6)");
-      printf("\n  (1/2/3/4/5): ");
+      printf("\n  (1/2/3/4/5/6): ");
 
       c = _getch();
 
       if (c == '1' || c == 't') {
-
+        //vergleiche(pOut, pCPU);
       }
 
       else if (c == '2' || c == 'g') {
@@ -193,25 +193,11 @@ struKarten* firstlast(struKarten* pStart)
   return 0;
 }
 
-struKarten* verteile_User() {
-  return 0;
-
-
-  while (true)
-  {
-
-  }
-}
-
-struKarten* verteile_PC() {
+struKarten* vergleiche(struKarten* playerlist, struKarten* cpulist) {
   return 0;
 }
 
-struKarten* vergleiche() {
-  return 0;
-}
-
-struKarten* karten(struKarten* pStart, struKarten* pNew)
+struKarten* createlist(struKarten* pStart, struKarten* pNew)
 {
 
   if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart".
@@ -226,7 +212,7 @@ struKarten* karten(struKarten* pStart, struKarten* pNew)
   return pStart;
 }
 
-struKarten* originlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+struKarten* createlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
@@ -290,16 +276,16 @@ int rundestart()
 
 
   struKarten* pStart = NULL;
-  pStart = karten(pStart, originlist(1, "Barbar", 0, 0, 0));
-  pStart = karten(pStart, originlist(2, "Bogenschuetzin", 0, 0, 0));
-  pStart = karten(pStart, originlist(3, "Drache", 0, 0, 0));
-  pStart = karten(pStart, originlist(4, "P.E.K.K.A", 0, 0, 0));
-  pStart = karten(pStart, originlist(5, "Hexe", 0, 0, 0));
-  pStart = karten(pStart, originlist(6, "Schweinereiter", 0, 0, 0));
-  pStart = karten(pStart, originlist(7, "Lakai", 0, 0, 0));
-  pStart = karten(pStart, originlist(8, "Tunnelgraeber", 0, 0, 0));
-  pStart = karten(pStart, originlist(9, "Riese", 0, 0, 0));
-  pStart = karten(pStart, originlist(10, "Ballon", 0, 0, 0));
+  pStart = createlist(pStart, karten(1, "Barbar", 0, 0, 0));
+  pStart = createlist(pStart, karten(2, "Bogenschuetzin", 0, 0, 0));
+  pStart = createlist(pStart, karten(3, "Drache", 0, 0, 0));
+  pStart = createlist(pStart, karten(4, "P.E.K.K.A", 0, 0, 0));
+  pStart = createlist(pStart, karten(5, "Hexe", 0, 0, 0));
+  pStart = createlist(pStart, karten(6, "Schweinereiter", 0, 0, 0));
+  pStart = createlist(pStart, karten(7, "Lakai", 0, 0, 0));
+  pStart = createlist(pStart, karten(8, "Tunnelgraeber", 0, 0, 0));
+  pStart = createlist(pStart, karten(9, "Riese", 0, 0, 0));
+  pStart = createlist(pStart, karten(10, "Ballon", 0, 0, 0));
 
 
   //int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
