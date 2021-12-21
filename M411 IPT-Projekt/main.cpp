@@ -24,12 +24,12 @@ struKarten* ausgabe(struKarten*);                               // Test Methode
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Mischen und Verteilen der Karten
 struKarten* karten(int, const char*, int, int, int);            // Funktion für das Abfüllen der Karten mit Werten
 
+struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
+struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus einer Liste
+
 struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
 struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten in eine Liste
 
-
-struKarten* firstlast(struKarten*);                             // Funktion für das verschiben der 1. Karte an den letzten Platz
-struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus einer Liste
 
 int menü();
 int einstellungen();                                            // Einstellungen
@@ -53,8 +53,9 @@ struKarten* ausgabe(struKarten* pStart) {
   bool menü = false;
   bool nextkarte_win = false;
   bool nextkarte_lose = false;
+  
 
-  for (struKarten* pOut = pStart; pOut != NULL && !menü && !nextkarte_lose && !nextkarte_win; pOut = pOut->pNext) {
+  for (pStart; pStart != NULL && !menü; pStart = pStart->pNext) {
     nextkarte_win = false;
     nextkarte_lose = false;
 
@@ -66,24 +67,26 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n\n");
       printf("\n   _______________________________ ");
       printf("\n  /                               \x5C");
-      printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pOut->Nr);
+      printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pStart->Nr);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |-------------------------------|");
-      printf("\n  |-------%-14s-------|", pStart->Bez);
+      printf("\n  |---------%-14s--------|", pStart->Bez);
       printf("\n  |-------------------------------|");
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |   Trefferpunkte  :%4i        |", pOut->Trefferpunkte);
+      printf("\n  |   Trefferpunkte  :%4i        |", pStart->Trefferpunkte);
       printf("\n  |                               |");
-      printf("\n  |   Geschwindigkeit:%4i        |", pOut->Geschw);
+      printf("\n  |   Geschwindigkeit:%4i        |", pStart->Geschw);
       printf("\n  |                               |");
-      printf("\n  |   Schaden        :%4i        |", pOut->Schaden);
+      printf("\n  |   Schaden        :%4i        |", pStart->Schaden);
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
-      printf("\n  Ihre Naechste Karte: %14s ", pStart->pNext->Bez);
+
+      struKarten* pDanach = pStart->pNext;
+      printf("\n  Ihre Naechste Karte: %14s ", pDanach->Bez);
       /* */
 
       printf("\n\n\n  Trefferpunkte?         (1)");
@@ -220,24 +223,6 @@ struKarten* karten(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   pTmp->Geschw = Spd;
   pTmp->Schaden = Dmg;
   pTmp->pNext = NULL;
-
-  return pTmp;
-}
-
-struKarten* playerlist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
-{
-
-  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
-
-
-
-  return pTmp;
-}
-
-struKarten* cpulist(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
-{
-
-  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
   return pTmp;
 }
