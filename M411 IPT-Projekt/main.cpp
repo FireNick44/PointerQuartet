@@ -367,7 +367,7 @@ int menü()
   while (hauptmenü)
   {
     //variablen
-    char eingabe; // Variabel für Eingabe
+    char eingabe; // Variable für Eingabe
 
     system("cls"); // Leeren des Bildschirms
 
@@ -416,7 +416,6 @@ int menü()
     }
   }
   return 0;
-  //menü hier
 }
 
 int random(int min, int max) {
