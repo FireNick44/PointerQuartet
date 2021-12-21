@@ -149,14 +149,48 @@ struKarten* firstlast(struKarten* pStart)
   struKarten* pTempLast = pStart;
   struKarten* pTempLastMinus = NULL;
 
-  while (pTempLast->pNext != NULL) {
+  int f;
+  int l;
+  int lm;
+
+  while (pTempLast->pNext != NULL)
+  {
+
     pTempLastMinus = pTempLast;
     pTempLast = pTempLast->pNext;
 
-    printf("pTempFirst %i\n", pTempFirst->Nr);
-    printf("pTempLast %i\n", pTempLast->Nr);
-    printf("pTempLastMinus %i\n\n", pTempLastMinus->Nr);
+    printf("pTempFirst %i\n", f = pTempFirst->Nr);
+    printf("pTempLast %i\n", l = pTempLast->Nr);
+    printf("pTempLastMinus %i\n\n", lm = pTempLastMinus->Nr);
   }
+    printf("==================================\n");
+
+
+  pTempLast->pNext = pTempFirst;
+
+  pStart = pTempFirst->pNext;
+  pTempLast->pNext->pNext = NULL;
+  pStart->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext = pTempLast->pNext;
+
+  pTempLast = pStart;
+
+  while (pTempLast->pNext != NULL)
+  {
+
+    pTempLastMinus = pTempLast;
+    pTempLast = pTempLast->pNext;
+
+    //printf("pTempFirst %i\n", pTempFirst->Nr);
+    //printf("pTempLast %i\n", pTempLast->Nr);
+    //printf("pTempLastMinus %i\n\n", pTempLastMinus->Nr);
+
+    int z = pTempLast->Nr;
+    //Zum Testen
+    printf("pTemp Zeigt auf die Karte Nr: %i \n", z);
+
+  }
+  printf("==================================\n");
+
   system("pause");
 
   return 0;
