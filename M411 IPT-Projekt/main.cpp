@@ -272,16 +272,16 @@ int rundestart()
 
 
   struKarten* pStart = NULL;
-  pStart = createlist(pStart, karte(1, "Barbar", 0, 0, 0));
-  pStart = createlist(pStart, karte(2, "Bogenschuetzin", 0, 0, 0));
-  pStart = createlist(pStart, karte(3, "Drache", 0, 0, 0));
-  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 0, 0, 0));
-  pStart = createlist(pStart, karte(5, "Hexe", 0, 0, 0));
-  pStart = createlist(pStart, karte(6, "Schweinereiter", 0, 0, 0));
-  pStart = createlist(pStart, karte(7, "Lakai", 0, 0, 0));
-  pStart = createlist(pStart, karte(8, "Tunnelgraeber", 0, 0, 0));
-  pStart = createlist(pStart, karte(9, "Riese", 0, 0, 0));
-  pStart = createlist(pStart, karte(10, "Ballon", 0, 0, 0));
+  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30));
+  pStart = createlist(pStart, karte(2, "Bogenschuetzin", 48, 24, 25));
+  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240));
+  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470));
+  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100));
+  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60));
+  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38));
+  pStart = createlist(pStart, karte(8, "Tunnelgraeber", 610, 32, 88));
+  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31));
+  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108));
 
 
 
