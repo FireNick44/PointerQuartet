@@ -277,8 +277,8 @@ int rundestart()
     Sleep(500);
   }*/
 
-  struKarten* pStartPlayer = NULL;  //Erstellt Liste von Player
-  struKarten* pStartCPU = NULL;     //Erstellt Liste von CPU
+  struKarten* pListePlayer = NULL;  //Erstellt Liste von Player
+  struKarten* pListeCPU = NULL;     //Erstellt Liste von CPU
   struKarten* pStart = NULL;        //Erstellt Startliste mit der gearbeitet wird
 
   pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30));
@@ -292,24 +292,28 @@ int rundestart()
   pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31));
   pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108));
 
+  printf("hallo");
 
+  int runde = 0; //Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, der Rest der noch in pStart übrig bleibt gehört dem CPU.
 
-  int r = 0; //Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, der Rest der noch in pStart übrig bleibt gehört dem CPU.
-
-  for (r;r <= 5; r++)
+  for (runde; runde < 5; runde++)
   {
-    int listcount = 1;
+    struKarten* pTmp = pStart;
+    int listcount = 0;
     //int pEnd = 1;
 
-    for (struKarten* pTmp = pStart; pTmp->pNext != NULL; pTmp->pNext) {  // Es werden alle Elemente der Liste pStart gezählt.
+    for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente der Liste pStart gezählt.
       listcount++;
     }
+    
+    // int r = random(1, listcount); // Zufällige Zahl, die nicht grösser als die Liste ist, mit der man arbeitet.
 
-    int r = random(1, listcount); // Zufällige Zahl, die nicht grösser als die Liste ist, mit der man arbeitet.
+    srand(time(NULL));
+    int r = rand() % listcount;
 
     struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste hineinspeichert, hier pStart.
 
-    for (int c = 1; c != r; c++)
+    for (int c = 1; c <= r; c++)
     {
       pKarte = pKarte->pNext;
       int z = pStart->Nr;
@@ -318,10 +322,10 @@ int rundestart()
     }
 
     pStart = remove(pStart, pKarte);
-    pStartPlayer = createlist(pStartPlayer, pKarte);
+    pListePlayer = createlist(pListePlayer, pKarte);
   }
 
-  pStartCPU = pStart;
+  pListeCPU = pStart;
 
   //while (runde >= 10) {
   //  if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
@@ -344,7 +348,7 @@ int rundestart()
 
   //firstlast(pStart);
 
-  ausgabe(pStartPlayer, pStartCPU);
+  ausgabe(pListePlayer, pListeCPU);
   return 0;
 }
 
