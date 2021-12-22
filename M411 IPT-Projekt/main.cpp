@@ -1,9 +1,9 @@
 #include <stdlib.h> 
 #include <stdio.h>  
-#include <string.h> //Wird für "string" Funktionen benötigt.
+#include <string.h>     //Wird für "string" Funktionen benötigt.
 #include <string>   
-#include <time.h>   //Wird für "random" Funktionen benötigt.
-#include <conio.h>   //Wird für Tastatur Eingaben benötigt.
+#include <time.h>       //Wird für "random" Funktionen benötigt.
+#include <conio.h>      //Wird für Tastatur Eingaben benötigt.
 #include <Windows.h>
 
 
@@ -19,29 +19,27 @@ typedef struct Karten // Struktur für Karten
 
 
 //Prototypen der Methoden
-
-struKarten* ausgabe(struKarten*);                               // Test-Methode für Ausgabe der Karten
-struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen mit Hilfe der Methode karte
-struKarten* karte(int, const char*, int, int, int);            // Funktion für das Erstellen und Abfüllen der Karten mit Werten
+struKarten* ausgabe(struKarten*, struKarten*);                  // Test-Methode für Ausgabe der Karten
+struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode karte
+struKarten* remove(struKarten*, struKarten*);                   // Funktion für das Entfernen von Karten aus einer Liste
+struKarten* karte(int, const char*, int, int, int);             // Funktion für das Erstellen und Abfüllen der Karten mit Werten
 
 struKarten* firstlast(struKarten*);                             // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
 struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus zwei Listen
 
-struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
-struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten in eine Liste
 
 
-int menü();
+int menü();                                                     // Hauptmenü
 int einstellungen();                                            // Einstellungen
-void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben
+void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben der CMD
 int rundestart();                                               // Start einer Runde
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
-void end();                                                     // Ausgabe für Spielende
+void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
 void logo();                                                    // Ausgabe für Logo des Spiels
 int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
 
 
-// Globale Variable
+// Globale Variablen
 bool admin = false;                                             // Wird für die Einstellungen/Entwicklermodus benötigt.
 bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
 char hintergrundfarbe;                                          // Hintergrundfarbe der CMD.
@@ -94,9 +92,9 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  Geschwindigkeit?       (2)");
       printf("\n  Schaden?               (3)");
       printf("\n  =================================");
-      printf("\n\n  Neu Starten            (4)");
-      printf("\n\n  Aufgeben und zur nächsten Karte (5)");
-      printf("\n  Zur\x81" "ck zum Hauptmen\x81   (6)");
+      printf("\n\n  Neu Starten                        (4)");
+      printf("\n  Aufgeben und zur n\xE4""chsten Karte (5)");
+      printf("\n  Zur\x81" "ck zum Hauptmen\x81      (6)");
       printf("\n  (1/2/3/4/5/6): ");
 
       c = _getch();
@@ -198,19 +196,22 @@ struKarten* vergleiche(struKarten* playerlist, struKarten* cpulist) {
   return 0;
 }
 
-struKarten* createlist(struKarten* pStart, struKarten* pNew)
+struKarten* createlist(struKarten* pListe, struKarten* pKarte)
 {
 
-  if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
-    pStart = pNew; // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
-    pNew->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
+  if (pListe == NULL) {   // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
+    pListe = pKarte;      // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
+    pKarte->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
   }
   else {
-    struKarten* pLast = pStart; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
-    while (pLast->pNext != NULL) pLast = pLast->pNext; // Schleife: Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist, ist diese die letzte Karte.
-    pLast->pNext = pNew; // Jeder neue Inhalt, der sich in pNew befindet (Beispiel Bogenschützin) ist die nächste Karte der "letzten" Karte (Beispiel Barbar)
+    struKarten* pLast = pListe; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    while (pLast->pNext != NULL) {
+      pLast = pLast->pNext;     // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,
+                                // ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
+    }
+    pLast->pNext = pKarte;      // Jeder neue Inhalt, der sich in pNew befindet (Beispiel: Bogenschützin) ist die nächste Karte der temporär "letzten" Karte (Beispiel: Barbar).
   }
-  return pStart;
+  return pListe;                // Die Liste wird samt allen neuen Elementen zurückgegeben.
 }
 
 struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
@@ -228,6 +229,18 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
+struKarten* remove(struKarten* pListe, struKarten* pKarte)
+{
+  if (pListe == NULL)
+  {
+
+  }
+
+  else
+  {
+
+  }
+}
 
 int rundestart()
 {
@@ -280,7 +293,7 @@ int rundestart()
     int listcount = 1;
     //int pEnd = 1;
 
-    while (pTemp->pNext != NULL) {
+    while (pTemp->pNext != NULL) {  // Es werden alle Elemente der Liste pStart gezählt.
       pTemp = pTemp->pNext;
       listcount++;
 
@@ -292,8 +305,7 @@ int rundestart()
     system("pause");
 
 
-    int r = random(1, listcount);
-
+    int r = random(1, listcount); // Zufällige Zahl, die nicht grösser als die Liste ist, mit der man arbeitet.
 
     pTemp = pStart;
 
@@ -304,7 +316,7 @@ int rundestart()
     pStartPlayer = pTemp;
 
     pStartPlayer = createlist(pStartPlayer, pTemp);
-    pStart = remove(pTemp);
+    pStart = remove(pStart, pTemp);
   }
 
   for (r;r <= 10; r++)
@@ -333,16 +345,7 @@ int rundestart()
 
   firstlast(pStart);
 
-
-  int k = pStartPlayer->Nr;
-  printf("\n\nDie zufällige Karte: Karte Nr. %i \n\n", k);
-
-  system("pause");
-
-
-
-
-  ausgabe(pStart);
+  ausgabe(pStartPlayer, pStartCPU);
   return 0;
 }
 
