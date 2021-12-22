@@ -214,6 +214,28 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte)
   return pListe;                // Die Liste wird samt allen neuen Elementen zurückgegeben.
 }
 
+struKarten* remove(struKarten* pListe, struKarten* pKarte)
+{
+  if (pListe == pKarte)
+  {
+    pListe = pListe->pNext;
+    pKarte->pNext = NULL;
+  }
+
+  else
+  {
+    struKarten* pTmp;
+    for (pTmp = pListe; pTmp->pNext != pKarte; pTmp = pTmp->pNext) {
+      break;
+    }
+    pTmp->pNext = pKarte->pNext;
+    pKarte->pNext = NULL;
+  }
+
+
+  return pListe;
+}
+
 struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
 
@@ -229,18 +251,6 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
-struKarten* remove(struKarten* pListe, struKarten* pKarte)
-{
-  if (pListe == NULL)
-  {
-
-  }
-
-  else
-  {
-
-  }
-}
 
 int rundestart()
 {
