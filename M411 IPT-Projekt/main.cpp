@@ -20,12 +20,12 @@ typedef struct Karten // Struktur für Karten
 
 //Prototypen der Methoden
 
-struKarten* ausgabe(struKarten*);                               // Test Methode
-struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Mischen und Verteilen der Karten
-struKarten* karten(int, const char*, int, int, int);            // Funktion für das Abfüllen der Karten mit Werten
+struKarten* ausgabe(struKarten*);                               // Test-Methode für Ausgabe der Karten
+struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen mit Hilfe der Methode karte
+struKarten* karte(int, const char*, int, int, int);            // Funktion für das Erstellen und Abfüllen der Karten mit Werten
 
 struKarten* firstlast(struKarten*);                             // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
-struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus einer Liste
+struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus zwei Listen
 
 struKarten* remove(struKarten*);                                // Funktion für das Entfernen von Karten aus einer Liste
 struKarten* add(struKarten*);                                   // Funktion für das Hinzufügen von Karten in eine Liste
@@ -86,8 +86,8 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
 
-      struKarten* pNaechste = pStart->pNext;
-      printf("\n  Ihre Naechste Karte: %14s ", pNaechste->Bez);
+      char* pNaechste = pStart->pNext->Bez;
+      printf("\n  Ihre Naechste Karte: %14s ", pNaechste);
       /* */
 
       printf("\n\n\n  Trefferpunkte?         (1)");
@@ -201,19 +201,19 @@ struKarten* vergleiche(struKarten* playerlist, struKarten* cpulist) {
 struKarten* createlist(struKarten* pStart, struKarten* pNew)
 {
 
-  if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart".
-    pStart = pNew; // Wenn diese leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
+  if (pStart == NULL) { // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
+    pStart = pNew; // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
     pNew->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
   }
   else {
     struKarten* pLast = pStart; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
     while (pLast->pNext != NULL) pLast = pLast->pNext; // Schleife: Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist, ist diese die letzte Karte.
-    pLast->pNext = pNew; // Jeder neue Inhalt, der sich in pNew befindet
+    pLast->pNext = pNew; // Jeder neue Inhalt, der sich in pNew befindet (Beispiel Bogenschützin) ist die nächste Karte der "letzten" Karte (Beispiel Barbar)
   }
   return pStart;
 }
 
-struKarten* karten(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
@@ -259,19 +259,59 @@ int rundestart()
 
 
   struKarten* pStart = NULL;
-  pStart = createlist(pStart, karten(1, "Barbar", 0, 0, 0));
-  pStart = createlist(pStart, karten(2, "Bogenschuetzin", 0, 0, 0));
-  pStart = createlist(pStart, karten(3, "Drache", 0, 0, 0));
-  pStart = createlist(pStart, karten(4, "P.E.K.K.A", 0, 0, 0));
-  pStart = createlist(pStart, karten(5, "Hexe", 0, 0, 0));
-  pStart = createlist(pStart, karten(6, "Schweinereiter", 0, 0, 0));
-  pStart = createlist(pStart, karten(7, "Lakai", 0, 0, 0));
-  pStart = createlist(pStart, karten(8, "Tunnelgraeber", 0, 0, 0));
-  pStart = createlist(pStart, karten(9, "Riese", 0, 0, 0));
-  pStart = createlist(pStart, karten(10, "Ballon", 0, 0, 0));
+  pStart = createlist(pStart, karte(1, "Barbar", 0, 0, 0));
+  pStart = createlist(pStart, karte(2, "Bogenschuetzin", 0, 0, 0));
+  pStart = createlist(pStart, karte(3, "Drache", 0, 0, 0));
+  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 0, 0, 0));
+  pStart = createlist(pStart, karte(5, "Hexe", 0, 0, 0));
+  pStart = createlist(pStart, karte(6, "Schweinereiter", 0, 0, 0));
+  pStart = createlist(pStart, karte(7, "Lakai", 0, 0, 0));
+  pStart = createlist(pStart, karte(8, "Tunnelgraeber", 0, 0, 0));
+  pStart = createlist(pStart, karte(9, "Riese", 0, 0, 0));
+  pStart = createlist(pStart, karte(10, "Ballon", 0, 0, 0));
 
 
-  //int runde = 0; //Runde 1 bis 5 = Player / Runde 6 bis 10 = CPU
+
+  int r = 0; //Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 6 bis 10 dem CPU.
+
+  for (r;r <= 5; r++)
+  {
+    struKarten* pTemp = pStart;
+    int listcount = 1;
+    //int pEnd = 1;
+
+    while (pTemp->pNext != NULL) {
+      pTemp = pTemp->pNext;
+      listcount++;
+
+      int z = pTemp->Nr;
+      //Zum Testen
+      printf("pTemp Zeigt auf die Karte Nr: %i \n", z);
+
+    }
+    system("pause");
+
+
+    int r = random(1, listcount);
+
+
+    pTemp = pStart;
+
+    for (int c = 1; c != r; c++)
+    {
+      pTemp = pTemp->pNext;
+    }
+    pStartPlayer = pTemp;
+
+    pStartPlayer = createlist(pStartPlayer, pTemp);
+    pStart = remove(pTemp);
+  }
+
+  for (r;r <= 10; r++)
+  {
+
+  }
+
   //while (runde >= 10) {
   //  if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
   //  {
@@ -293,32 +333,6 @@ int rundestart()
 
   firstlast(pStart);
 
-  struKarten* pTemp = pStart;
-  int listcount = 1;
-  //int pEnd = 1;
-
-  while (pTemp->pNext != NULL) {
-    pTemp = pTemp->pNext;
-    listcount++;
-
-    int z = pTemp->Nr;
-    //Zum Testen
-    printf("pTemp Zeigt auf die Karte Nr: %i \n", z);
-
-  }
-  system("pause");
-
-
-  int r = random(1, listcount);
-
-
-  pTemp = pStart;
-
-  for (int c = 1; c != r; c++)
-  {
-    pTemp = pTemp->pNext;
-  }
-  pStartPlayer = pTemp;
 
   int k = pStartPlayer->Nr;
   printf("\n\nDie zufällige Karte: Karte Nr. %i \n\n", k);
