@@ -70,23 +70,24 @@ struKarten* ausgabe(struKarten* pStart) {
       printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pStart->Nr);
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |                               |");
+      printf("\n  |-------------------------------|");
       printf("\n  |-------------------------------|");
       printf("\n  |---------%-14s--------|", pStart->Bez);
       printf("\n  |-------------------------------|");
+      printf("\n  |-------------------------------|");
       printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |   Trefferpunkte  :%4i        |", pStart->Trefferpunkte);
-      printf("\n  |                               |");
-      printf("\n  |   Geschwindigkeit:%4i        |", pStart->Geschw);
-      printf("\n  |                               |");
-      printf("\n  |   Schaden        :%4i        |", pStart->Schaden);
+      printf("\n  |  ______________________       |");
+      printf("\n  |  |Trefferpunkte  |%4i        |", pStart->Trefferpunkte);
+      printf("\n  |  |               |            |");
+      printf("\n  |  |Geschwindigkeit|%4i        |", pStart->Geschw);
+      printf("\n  |  |               |            |");
+      printf("\n  |  |Schaden        |%4i        |", pStart->Schaden);
+      printf("\n  |  ______________________       |");
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
 
-      struKarten* pDanach = pStart->pNext;
-      printf("\n  Ihre Naechste Karte: %14s ", pDanach->Bez);
+      struKarten* pNaechste = pStart->pNext;
+      printf("\n  Ihre Naechste Karte: %14s ", pNaechste->Bez);
       /* */
 
       printf("\n\n\n  Trefferpunkte?         (1)");
