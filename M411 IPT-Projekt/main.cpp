@@ -21,7 +21,7 @@ typedef struct Karten // Struktur für Karten
 //Prototypen der Methoden
 struKarten* ausgabe(struKarten*, struKarten*);                  // Test-Methode für Ausgabe der Karten
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode karte
-struKarten* remove(struKarten*, struKarten*);                   // Funktion für das Entfernen von Karten aus einer Liste
+struKarten* remove(struKarten*, struKarten*);                   // Funktion für das Entfernen von einer Karte/n aus einer Liste
 struKarten* karte(int, const char*, int, int, int);             // Funktion für das Erstellen und Abfüllen der Karten mit Werten
 
 struKarten* firstlast(struKarten*);                             // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
@@ -224,9 +224,9 @@ struKarten* remove(struKarten* pListe, struKarten* pKarte)
 
   else
   {
-    struKarten* pTmp;
-    for (pTmp = pListe; pTmp->pNext != pKarte; pTmp = pTmp->pNext) {
-      break;
+    struKarten* pTmp = pListe;
+    while (pTmp->pNext != pKarte) {
+      pTmp = pTmp->pNext;
     }
     pTmp->pNext = pKarte->pNext;
     pKarte->pNext = NULL;
