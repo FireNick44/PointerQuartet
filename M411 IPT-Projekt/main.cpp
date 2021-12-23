@@ -107,24 +107,36 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       c = _getch();
 
       if (c == '1' || c == 't') {
+        printf("\n\n  M\x94""chten Sie wirklich Trefferpunkte abfragen?");
+        printf("\n  (J/N) ");
         //vergleiche(1, pListePlayer, pListeCPU);
       }
 
       else if (c == '2' || c == 'g') {
-
+        printf("\n\n  M\x94""chten Sie wirklich Geschwindigkeit abfragen?");
+        printf("\n  (J/N) ");
+        //vergleiche(2, pListePlayer, pListeCPU);
       }
 
       else if (c == '3' || c == 's') {
+        printf("\n\n  M\x94""chten Sie wirklich Schaden?");
+        printf("\n  (J/N) ");
+        //vergleiche(3, pListePlayer, pListeCPU);
 
       }
 
       else if (c == '4') {
+        printf("\n\n  M\x94""chten Sie wirklich das Spiel neustarten?");
+        printf("\n  (J/N) ");
 
+        char e = _getch();
+        if (e == 'j') nextkarte_lose = true;
       }
 
       else if (c == '5') {
         printf("\n\n  M\x94""chten Sie wirklich diese Karte aufgeben und zur n\x84""chsten?");
         printf("\n  (J/N) ");
+
         char e = _getch();
         if (e == 'j') nextkarte_lose = true;
       }
@@ -132,6 +144,7 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       else if (c == '6') {
         printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
         printf("\n  (J/N) ");
+
         char e = _getch();
         if (e == 'j') menü = true;
       }
@@ -271,6 +284,7 @@ int rundestart()
 {
   system("cls");
 
+
   /*for (int i = 0; i < 3; i++) {
     system("cls");
     printf("\n\n");
@@ -314,28 +328,26 @@ int rundestart()
 
   for (runde; runde < 5; runde++)
   {
-    pTmp = pStart;
-    int listcount = 0;
+    int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
     //int pEnd = 1;
-
-    for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente der Liste pStart gezählt.
-      listcount++;
-    }
     
     // int r = random(1, listcount); // Zufällige Zahl, die nicht grösser als die Liste ist, mit der man arbeitet.
 
     srand(time(NULL));
-    int r = rand() % listcount;
+    int r = rand() % anz;
 
     struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
 
+    int z;
     for (int c = 1; c <= r; c++)
     {
       pKarte = pKarte->pNext;
-      int z = pKarte->Nr;
-      //Ausgabe zum Testen
-      printf("\nDie zufällige Karte ist Karte Nr: %i ", z);
+      z = pKarte->Nr;
     }
+    
+    //Ausgabe zum Testen
+    printf("\nDie zuf\xE4llige Karte ist Karte Nr: %i ", z);
+    printf("\nDiese Karte heisst %c ", pKarte->Bez);
 
     pStart = removelist(pStart, pKarte);
     pListePlayer = createlist(pListePlayer, pKarte);
@@ -346,15 +358,16 @@ int rundestart()
   //firstlast(pStart);
 
   ausgabe(pListePlayer, pListeCPU);
+
   return 0;
 }
 
 int main()
 {
   srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
-  system("mode con cols=175 lines=35");                         // Setzt die Grösse der CMD
+  system("mode con cols=150 lines=45");                         // Setzt die Grösse der CMD
 
-  menü();                                           // Menü wird Aufgerufen
+  menü();                                                       // Menü wird Aufgerufen
   end();                                                        // Spiel wird beendet
 
   return 0;
@@ -375,9 +388,9 @@ int menü()
 
     printf("\n  ==================================");
     printf("\n  W\x84hlen Sie ihren Spielmodus:");
-    printf("\n  1 Spieler     (1)");
-    printf("\n  Einstellungen (2)");
-    printf("\n  Beenden       (3)");
+    printf("\n  Spiel starten     (1)");
+    printf("\n  Einstellungen     (2)");
+    printf("\n  Beenden           (3)");
     printf("\n  ==================================");
     printf("\n");
     printf("\n  (1/2/3): ");
@@ -410,9 +423,7 @@ int menü()
     //falsche Eingabe
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
     {
-      printf("\n  Falsche Eingabe ");
-      system("timeout 1 >null");
-      system("cls");
+      falsche_eingabe();
     }
   }
   return 0;
