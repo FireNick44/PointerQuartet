@@ -1,10 +1,10 @@
 #include <stdlib.h> 
 #include <stdio.h>  
-#include <string.h>     //Wird für "string" Funktionen benötigt.
+#include <string.h>     //Wird für "string"-Funktionen benötigt.
 #include <string>   
-#include <time.h>       //Wird für "random" Funktionen benötigt.
-#include <conio.h>      //Wird für Tastatur Eingaben benötigt.
-#include <Windows.h>
+#include <time.h>       //Wird für "random"-Funktionen benötigt.
+#include <conio.h>      //Wird für Tastatureingaben benötigt.
+#include <Windows.h>    //Wird für Sleep-Funktion benötigt.
 
 
 typedef struct Karten // Struktur für Karten 
@@ -21,14 +21,14 @@ typedef struct Karten // Struktur für Karten
 //Prototypen der Methoden
 struKarten* ausgabe(struKarten*, struKarten*);                  // Test-Methode für Ausgabe der Karten
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode karte
-struKarten* remove(struKarten*, struKarten*);                   // Funktion für das Entfernen von einer Karte/n aus einer Liste
+struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
 struKarten* karte(int, const char*, int, int, int);             // Funktion für das Erstellen und Abfüllen der Karten mit Werten
 
 struKarten* firstlast(struKarten*);                             // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
-struKarten* vergleiche(struKarten*, struKarten*);               // Funktion für das Vergleichen von Karten aus zwei Listen
+struKarten* vergleiche(int, struKarten*, struKarten*);          // Funktion für das Vergleichen von Karten aus zwei Listen
 
 
-
+int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
 int einstellungen();                                            // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben der CMD
@@ -45,7 +45,7 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe;                                          // Hintergrundfarbe der CMD.
 char textfarbe;                                                 // Textfarbe der CMD.
 
-struKarten* ausgabe(struKarten* pStartPlayer, struKarten* pStartCPU) {
+struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
   char c;
   bool menü = false;
@@ -53,9 +53,15 @@ struKarten* ausgabe(struKarten* pStartPlayer, struKarten* pStartCPU) {
   bool nextkarte_lose = false;
   
 
-  for (pStartPlayer; pStartPlayer != NULL && !menü; pStartPlayer = pStartPlayer->pNext) {
+  for (pListePlayer; pListePlayer != NULL && !menü; pListePlayer = pListePlayer->pNext) {
     nextkarte_win = false;
     nextkarte_lose = false;
+
+    int AnzPlayer;
+    AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
+
+    int AnzCPU;
+    AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
 
     while (!nextkarte_win && !nextkarte_lose && !menü) {
       system("cls");
@@ -65,27 +71,28 @@ struKarten* ausgabe(struKarten* pStartPlayer, struKarten* pStartCPU) {
       printf("\n\n");
       printf("\n   _______________________________ ");
       printf("\n  /                               \x5C");
-      printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pStartPlayer->Nr);
+      printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pListePlayer->Nr);
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |-------------------------------|");
       printf("\n  |-------------------------------|");
-      printf("\n  |---------%-14s--------|", pStartPlayer->Bez);
+      printf("\n  |---------%-14s--------|", pListePlayer->Bez);
       printf("\n  |-------------------------------|");
       printf("\n  |-------------------------------|");
       printf("\n  |                               |");
       printf("\n  |  ______________________       |");
-      printf("\n  |  |Trefferpunkte  |%4i        |", pStartPlayer->Trefferpunkte);
+      printf("\n  |  |Trefferpunkte  |%4i        |", pListePlayer->Trefferpunkte);
       printf("\n  |  |               |            |");
-      printf("\n  |  |Geschwindigkeit|%4i        |", pStartPlayer->Geschw);
+      printf("\n  |  |Geschwindigkeit|%4i        |", pListePlayer->Geschw);
       printf("\n  |  |               |            |");
-      printf("\n  |  |Schaden        |%4i        |", pStartPlayer->Schaden);
+      printf("\n  |  |Schaden        |%4i        |", pListePlayer->Schaden);
       printf("\n  |  ______________________       |");
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
 
-      char* pNaechste = pStartPlayer->pNext->Bez;
+      char* pNaechste = pListePlayer->pNext->Bez;
       printf("\n  Ihre Naechste Karte: %14s ", pNaechste);
+      printf("\n  Sie besitzen noch %i Karten.", AnzPlayer);
       /* */
 
       printf("\n\n\n  Trefferpunkte?         (1)");
@@ -100,7 +107,7 @@ struKarten* ausgabe(struKarten* pStartPlayer, struKarten* pStartCPU) {
       c = _getch();
 
       if (c == '1' || c == 't') {
-        //vergleiche(pOut, pCPU);
+        //vergleiche(1, pListePlayer, pListeCPU);
       }
 
       else if (c == '2' || c == 'g') {
@@ -192,7 +199,7 @@ struKarten* firstlast(struKarten* pStart)
   return 0;
 }
 
-struKarten* vergleiche(struKarten* playerlist, struKarten* cpulist) {
+struKarten* vergleiche(int typ, struKarten* pListePlayer, struKarten* pListeCPU) {
   return 0;
 }
 
@@ -214,7 +221,7 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte)
   return pListe;                // Die Liste wird samt allen neuen Elementen zurückgegeben.
 }
 
-struKarten* remove(struKarten* pListe, struKarten* pKarte)
+struKarten* removelist(struKarten* pListe, struKarten* pKarte)
 {
   if (pListe == pKarte)
   {
@@ -251,6 +258,14 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
+int listcount(struKarten* pListe) {
+  int anz = 0;
+  struKarten* pTmp = pListe;
+  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente im eigenen Kartenstapel gezählt.
+    anz++;
+  }
+  return anz;
+}
 
 int rundestart()
 {
@@ -294,11 +309,12 @@ int rundestart()
 
   printf("hallo");
 
-  int runde = 0; //Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, der Rest der noch in pStart übrig bleibt gehört dem CPU.
+  int runde = 0;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, der Rest der noch in pStart übrig bleibt gehört dem CPU.
+  struKarten* pTmp; // Temporäre Variable fürs Zählen in einer 
 
   for (runde; runde < 5; runde++)
   {
-    struKarten* pTmp = pStart;
+    pTmp = pStart;
     int listcount = 0;
     //int pEnd = 1;
 
@@ -311,40 +327,21 @@ int rundestart()
     srand(time(NULL));
     int r = rand() % listcount;
 
-    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste hineinspeichert, hier pStart.
+    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
 
     for (int c = 1; c <= r; c++)
     {
       pKarte = pKarte->pNext;
-      int z = pStart->Nr;
+      int z = pKarte->Nr;
       //Ausgabe zum Testen
-      printf("\npTemp Zeigt auf die Karte Nr: %i ", z);
+      printf("\nDie zufällige Karte ist Karte Nr: %i ", z);
     }
 
-    pStart = remove(pStart, pKarte);
+    pStart = removelist(pStart, pKarte);
     pListePlayer = createlist(pListePlayer, pKarte);
   }
 
   pListeCPU = pStart;
-
-  //while (runde >= 10) {
-  //  if(pStartPlayer == NULL) //Wenn in Player noch keine Karte ist
-  //  {
-  //    pStartCPU = Temp;
-  //  }
-  //  else if (pStartCPU == NULL) //Wenn in CPU noch keine Karte ist
-  //  {
-  //    pStartPlayer = Temp;
-  //  }
-  //  else if(pStartPlayer != NULL) //Wenn in Player eine Karte ist
-  //  {
-  //    pStartPlayer->pNext = pTemp;
-  //  }
-  //  else if(pStartCPU != NULL) //Wenn in CPU eine Karte ist
-  //  {
-  //    pStartPlayer->pNext = pTemp;
-  //  }
-  //}
 
   //firstlast(pStart);
 
