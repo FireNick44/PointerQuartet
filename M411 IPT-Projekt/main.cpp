@@ -74,24 +74,24 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pListePlayer->Nr);
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |-------------------------------|");
+      printf("\n  |                               |");
       printf("\n  |-------------------------------|");
       printf("\n  |---------%-14s--------|", pListePlayer->Bez);
       printf("\n  |-------------------------------|");
-      printf("\n  |-------------------------------|");
       printf("\n  |                               |");
-      printf("\n  |  ______________________       |");
-      printf("\n  |  |Trefferpunkte  |%4i        |", pListePlayer->Trefferpunkte);
+      printf("\n  |                               |");
+      printf("\n  |  _______________________      |");
+      printf("\n  |  |Trefferpunkte  | %4i       |", pListePlayer->Trefferpunkte);
       printf("\n  |  |               |            |");
-      printf("\n  |  |Geschwindigkeit|%4i        |", pListePlayer->Geschw);
+      printf("\n  |  |Geschwindigkeit| %4i       |", pListePlayer->Geschw);
       printf("\n  |  |               |            |");
-      printf("\n  |  |Schaden        |%4i        |", pListePlayer->Schaden);
-      printf("\n  |  ______________________       |");
+      printf("\n  |  |Schaden        | %4i       |", pListePlayer->Schaden);
+      printf("\n  |  _______________________      |");
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
 
       char* pNaechste = pListePlayer->pNext->Bez;
-      printf("\n  Ihre Naechste Karte: %14s ", pNaechste);
+      printf("\n\n\n  Ihre N\x84""chste Karte: %-14s ", pNaechste);
       printf("\n  Sie besitzen noch %i Karten.", AnzPlayer);
       /* */
 
@@ -99,10 +99,9 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  Geschwindigkeit?       (2)");
       printf("\n  Schaden?               (3)");
       printf("\n  =================================");
-      printf("\n\n  Neu Starten                        (4)");
-      printf("\n  Aufgeben und zur n\xE4""chsten Karte (5)");
-      printf("\n  Zur\x81" "ck zum Hauptmen\x81      (6)");
-      printf("\n  (1/2/3/4/5/6): ");
+      printf("\n\n  Neu Starten            (4)");
+      printf("\n  Zur\x81" "ck zum Hauptmen\x81   (5)");
+      printf("\n  (1/2/3/4/5): ");
 
       c = _getch();
 
@@ -130,18 +129,10 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
         printf("\n  (J/N) ");
 
         char e = _getch();
-        if (e == 'j') nextkarte_lose = true;
+        if (e == 'j') bool neustart = true;
       }
 
       else if (c == '5') {
-        printf("\n\n  M\x94""chten Sie wirklich diese Karte aufgeben und zur n\x84""chsten?");
-        printf("\n  (J/N) ");
-
-        char e = _getch();
-        if (e == 'j') nextkarte_lose = true;
-      }
-
-      else if (c == '6') {
         printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
         printf("\n  (J/N) ");
 
@@ -338,7 +329,7 @@ int rundestart()
 
     struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
 
-    int z;
+    int z = 0;
     for (int c = 1; c <= r; c++)
     {
       pKarte = pKarte->pNext;
@@ -346,8 +337,11 @@ int rundestart()
     }
     
     //Ausgabe zum Testen
-    printf("\nDie zuf\xE4llige Karte ist Karte Nr: %i ", z);
-    printf("\nDiese Karte heisst %c ", pKarte->Bez);
+    printf("\n  Die zuf\xE4llige Karte ist Karte Nr: %i ", z);
+    printf("\n  Diese Karte heisst %c.", pKarte->Bez);
+    printf("\n  Diese wird jetzt aus der Startliste entfernt.");
+
+    system("pause");
 
     pStart = removelist(pStart, pKarte);
     pListePlayer = createlist(pListePlayer, pKarte);
