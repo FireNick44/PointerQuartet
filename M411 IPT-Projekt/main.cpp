@@ -68,7 +68,7 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       printf("\n\n");
       printf("\n  ==================================");
-      printf("\n\n");
+      printf("\n");
       printf("\n   _______________________________ ");
       printf("\n  /                               \x5C");
       printf("\n  | CoC Quartett  |  Karte Nr. %-2i |", pListePlayer->Nr);
@@ -80,28 +80,28 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |-------------------------------|");
       printf("\n  |                               |");
       printf("\n  |                               |");
-      printf("\n  |  _______________________      |");
-      printf("\n  |  |Trefferpunkte  | %4i       |", pListePlayer->Trefferpunkte);
-      printf("\n  |  |               |            |");
-      printf("\n  |  |Geschwindigkeit| %4i       |", pListePlayer->Geschw);
-      printf("\n  |  |               |            |");
-      printf("\n  |  |Schaden        | %4i       |", pListePlayer->Schaden);
-      printf("\n  |  _______________________      |");
+      printf("\n  |   -----------------------     |");
+      printf("\n  |   |Trefferpunkte   | %4i|    |", pListePlayer->Trefferpunkte);
+      printf("\n  |   |                |     |    |");
+      printf("\n  |   |Geschwindigkeit | %4i|    |", pListePlayer->Geschw);
+      printf("\n  |   |                |     |    |");
+      printf("\n  |   |Schaden         | %4i|    |", pListePlayer->Schaden);
+      printf("\n  |   -----------------------     |");
       printf("\n  |                               |");
       printf("\n  \x5C_______________________________/");
+      printf("\n\n");
+      printf("\n  =================================");
 
       char* pNaechste = pListePlayer->pNext->Bez;
-      printf("\n\n\n  Ihre N\x84""chste Karte: %-14s ", pNaechste);
-      printf("\n  Sie besitzen noch %i Karten.", AnzPlayer);
+      printf("\n\n\n  Ihre N\x84""chste Karte lautet: %-14s ", pNaechste);
+      printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
       /* */
-
       printf("\n\n\n  Trefferpunkte?         (1)");
       printf("\n  Geschwindigkeit?       (2)");
       printf("\n  Schaden?               (3)");
-      printf("\n  =================================");
       printf("\n\n  Neu Starten            (4)");
       printf("\n  Zur\x81" "ck zum Hauptmen\x81   (5)");
-      printf("\n  (1/2/3/4/5): ");
+      printf("\n\n  (1/2/3/4/5): ");
 
       c = _getch();
 
@@ -312,8 +312,6 @@ int rundestart()
   pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31));
   pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108));
 
-  printf("hallo");
-
   int runde = 0;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, der Rest der noch in pStart übrig bleibt gehört dem CPU.
   struKarten* pTmp; // Temporäre Variable fürs Zählen in einer 
 
@@ -335,13 +333,14 @@ int rundestart()
       pKarte = pKarte->pNext;
       z = pKarte->Nr;
     }
-    
+
+    /*
     //Ausgabe zum Testen
     printf("\n  Die zuf\xE4llige Karte ist Karte Nr: %i ", z);
     printf("\n  Diese Karte heisst %c.", pKarte->Bez);
     printf("\n  Diese wird jetzt aus der Startliste entfernt.");
-
     system("pause");
+    */
 
     pStart = removelist(pStart, pKarte);
     pListePlayer = createlist(pListePlayer, pKarte);
