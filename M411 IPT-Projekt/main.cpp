@@ -37,8 +37,6 @@ int rundeneustart();                                            // Neustart eine
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
 void logo();                                                    // Ausgabe für Logo des Spiels
-int random(int, int);                                           // Zufällige Zahl mit Angabe von Wertebereich
-
 
 // Globale Variablen
 bool admin = false;                                             // Wird für die Einstellungen/Entwicklermodus benötigt.
@@ -375,8 +373,6 @@ int rundestart()
     int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
     //int pEnd = 1;
     
-    // int r = random(1, listcount); // Zufällige Zahl, die nicht grösser als die Liste ist, mit der man arbeitet.
-
     srand(time(NULL));
     int r = rand() % anz;
 
@@ -459,7 +455,6 @@ int rundeneustart()
     int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
     //int pEnd = 1;
 
-    // int r = random(1, listcount); // Zufällige Zahl, die nicht grösser als die Liste ist, mit der man arbeitet.
 
     srand(time(NULL));
     int r = rand() % anz;
@@ -562,12 +557,7 @@ int menü()
   return 0;
 }
 
-int random(int min, int max) {
-  // Random-Funktion, wo Zahlen für das zufällige Verteilen der Karten 
-  int r = rand() % max + min;
 
-  return(r);
-}
 
 int einstellungen()
 {
@@ -774,6 +764,8 @@ void farbmatrix(char hintergrundfarbe, char textfarbe)
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
   system(SysPrint);
 }
+
+
 
 void falsche_eingabe()
 {
