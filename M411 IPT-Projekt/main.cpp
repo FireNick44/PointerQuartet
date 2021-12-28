@@ -54,9 +54,6 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   char j;
   bool menü = false;
   bool nextkarte_win = false;
-  bool nextkarte_lose = false;
-  bool neustart;
-
 
   for (pListePlayer; pListePlayer != NULL && !menü; pListePlayer = pListePlayer->pNext) {
     nextkarte_win = false;
@@ -65,13 +62,13 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
     int AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
 
-    while (!nextkarte_win && !menü && AnzPlayer > 0) {
+    while (!nextkarte_win && !menü && AnzPlayer > 0) {  // In dieser While-Schleife wird immer wieder 
       system("cls");
 
       printf("\n\n");
       printf("\n  ==================================");
-      printf("\n");
-      printf("\n    _____________________________ ");
+      printf("\n\n               KARTE               ");
+      printf("\n\n    _____________________________ ");
       printf("\n   /                             \x5C");
       printf("\n  /  CoC Quartett | Karte Nr. %-2i  \x5C", pListePlayer->Nr);
       printf("\n  |                               |");
@@ -92,7 +89,7 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |    ----------------------     |");
       printf("\n  \x5C                               /");
       printf("\n   \x5C_____________________________/");
-      printf("\n\n\n\n");
+      printf("\n\n");
 
       printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
@@ -111,17 +108,21 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       if (c == '1' || c == 't') {
         printf("\n\n  M\x94""chten Sie wirklich Trefferpunkte abfragen?");
-        printf("\n  (J/N): ");
+        printf("\n\n  (J/N): ");
 
         j = _getch();
         if (j == 'j') {
           //vergleiche(1, pListePlayer, pListeCPU);
         }
+
+        else if (j == 'n');
+
+        else falsche_eingabe();
       }
 
       else if (c == '2' || c == 'g') {
         printf("\n\n  M\x94""chten Sie wirklich Geschwindigkeit abfragen?");
-        printf("\n  (J/N): ");
+        printf("\n\n  (J/N): ");
 
         j = _getch();
         if (j == 'j') {
@@ -131,7 +132,7 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       else if (c == '3' || c == 's') {
         printf("\n\n  M\x94""chten Sie wirklich Schaden abfragen?");
-        printf("\n  (J/N): ");
+        printf("\n\n  (J/N): ");
 
         j = _getch();
         if (j == 'j') {
@@ -142,13 +143,17 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       else if (c == '4') {
         printf("\n\n  M\x94""chten Sie wirklich das Spiel neustarten?");
         printf("\n  Ihre Karten werden somit neu gemischt und Sie verlieren Ihren Spielstand.");
-        printf("\n  (J/N): ");
+        printf("\n\n  (J/N): ");
 
         j = _getch();
         if (j == 'j') {
           rundeneustart();
           menü = true;
         }
+
+        else if (j == 'n');
+
+        else falsche_eingabe();
       }
 
       else if (c == '5') {
@@ -468,26 +473,23 @@ int rundeneustart()
   system("cls");
 
 
-  for (int i = 0; i == 0; i++) {
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden wieder neu erstellt und gemischt .");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden wieder neu erstellt und gemischt ..");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden wieder neu erstellt und gemischt ...");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-  }
+  printf("\n\n");
+  printf("\n  ==================================");
+  printf("\n\n  Karten werden wieder neu erstellt und gemischt .");
+  printf("\n\n  Bitte Warten");
+  Sleep(500);
+  system("cls");
+  printf("\n\n");
+  printf("\n  ==================================");
+  printf("\n\n  Karten werden wieder neu erstellt und gemischt ..");
+  printf("\n\n  Bitte Warten");
+  Sleep(500);
+  system("cls");
+  printf("\n\n");
+  printf("\n  ==================================");
+  printf("\n\n  Karten werden wieder neu erstellt und gemischt ...");
+  printf("\n\n  Bitte Warten");
+  Sleep(500);
 
   struKarten* pStart = NULL;
 
@@ -574,7 +576,7 @@ int rundeneustart()
 int main()
 {
   srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
-  system("mode con cols=125 lines=50");                         // Setzt die Grösse der CMD
+  system("mode con cols=100 lines=50");                         // Setzt die Grösse der CMD
 
   menü();                                                       // Menü wird Aufgerufen
   end();                                                        // Spiel wird beendet
@@ -596,7 +598,8 @@ int menü()
     logo();
 
     printf("\n  ==================================");
-    printf("\n  W\x84hlen Sie ihren Spielmodus:");
+    printf("\n              Hauptmen\x81             ");
+    printf("\n");
     printf("\n  Spiel starten     (1)");
     printf("\n  Einstellungen     (2)");
     printf("\n  Beenden           (3)");
