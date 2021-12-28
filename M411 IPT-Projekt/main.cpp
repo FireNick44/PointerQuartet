@@ -231,9 +231,9 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
 
   pTempLast->pNext = pTempFirst;
 
-  pListeGewinner = pTempFirst->pNext;
-  pTempLast->pNext->pNext = NULL;
-  pListeGewinner->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext = pTempLast->pNext;
+  pListeGewinner = pTempFirst->pNext; //pListeGewinner zeigt direkt auf die 2. Karte
+  pTempLast->pNext->pNext = NULL; //Bei der Karte 1 wird pNext auf 0 gesetzt
+  pListeGewinner->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext = pTempLast->pNext; //Bei Orginal-Liste wird pNext auf Karte 11 bzw 1 gesetzt.
 
   pTempLast = pListeGewinner;
 
@@ -462,7 +462,6 @@ int rundestart()
   //firstlast(pStart);
 
   ausgabe(pListePlayer, pListeCPU);
-
   return 0;
 }
 
