@@ -819,8 +819,8 @@ int einstellungen()
       printf("                                       Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
       printf("                                                             @@@@@@@@@@@@@@@@          \n");
       system("timeout 3 >null");
-
     }
+
     else if (eingabe == '3') {
       if (admin == true) {
         admin = false;
