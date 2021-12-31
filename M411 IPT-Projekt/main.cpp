@@ -571,7 +571,6 @@ int rundeneustart()
   return 0;
 }
 
-
 int main()
 {
   srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
