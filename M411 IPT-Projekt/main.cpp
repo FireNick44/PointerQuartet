@@ -640,8 +640,6 @@ int menü()
   return 0;
 }
 
-
-
 int einstellungen()
 {
   //Variablen
@@ -818,6 +816,7 @@ int einstellungen()
       printf("                                       Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
       printf("                                                             @@@@@@@@@@@@@@@@          \n");
       system("timeout 3 >null");
+      printf("\n\n");
     }
 
     else if (eingabe == '3') {
