@@ -278,7 +278,7 @@ struKarten* firstlast_gew(struKarten* pListe)
   struKarten* pLast = pListe;
 
   while (pLast->pNext != NULL) {
-    pLast = pListe->pNext;
+    pLast = pLast->pNext;
   }
 
   pLast->pNext = pTemp;
