@@ -14,33 +14,33 @@ typedef struct Karten
   char Bez[40];
   int Trefferpunkte;
   int Geschw;
-  int Schaden;
+  double Schaden;
   struct Karten* pNext;
 }struKarten;
 
 
 // Prototypen der Methoden
-struKarten* ausgabe(struKarten*, struKarten*);                  // Test-Methode für Ausgabe der Karten
-struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode karte
+int rundestart();                                               // Start einer Runde
+int rundeneustart();                                            // Neustart einer Runde
+int ausgabe(struKarten*, struKarten*);                          // Funktion für Ausgabe der Karten
+struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
 struKarten* karte(int, const char*, int, int, int);             // Funktion für das Erstellen und Abfüllen der Karten mit Werten
-
-struKarten* firstlast(struKarten*, struKarten*);                // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
-struKarten* firstlast2(struKarten*, struKarten*);
+struKarten* firstlast_gew(struKarten*);                         // Funktion für den Gewinner einer Karte
+struKarten* firstlast_verl(struKarten*, struKarten*);           // Funktion für den Verlierer einer Karte
 struKarten* vergleiche(int, struKarten*, struKarten*);          // Funktion für das Vergleichen von Karten aus zwei Listen
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
 int einstellungen();                                            // Einstellungen
-void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben der CMD
-int rundestart();                                               // Start einer Runde
-int rundeneustart();                                            // Neustart einer Runde
+void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben auf der CMD
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
 void logo();                                                    // Ausgabe für Logo des Spiels
 void verlieren();                                               // Ausgabe wenn man eine Karte verliert
 void gewinnen();                                                // Ausgabe wenn man eine Karte gewinnt
 
+// Weitere Beschreibungen findet man in den einzelnen Funktionen.
 
 
 // Globale Variablen
@@ -49,7 +49,8 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe;                                          // Hintergrundfarbe der CMD.
 char textfarbe;                                                 // Textfarbe der CMD.
 
-struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
+
+int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
   char c;
   char j;
@@ -86,7 +87,7 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |   |                |     |    |");
       printf("\n  |   |Geschwindigkeit | %4i|    |", pListePlayer->Geschw);
       printf("\n  |   |                |     |    |");
-      printf("\n  |   |Schaden         | %4i|    |", pListePlayer->Schaden);
+      printf("\n  |   |Schaden         | %4.1lf|    |", pListePlayer->Schaden);
       printf("\n  |    ----------------------     |");
       printf("\n  \x5C                               /");
       printf("\n   \x5C_____________________________/");
@@ -262,13 +263,17 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
   return 0;
 }
 
-struKarten* firstlast2(struKarten* pListe)
+struKarten* firstlast_gew(struKarten* pListe)
 {
   struKarten* pTemp = pListe;
   pListe = pListe->pNext;
   pTemp->pNext = NULL;
   
-  struKarten* pLast;
+  printf("\n  Die erste Karte ist: %c", pTemp->Bez);
+  printf("\n  Diese wird jetzt an den hintersten Platz versetzt.");
+  system("pause");
+
+  struKarten* pLast = pListe;
 
   while (pLast->pNext != NULL) {
     pLast = pListe->pNext;
@@ -278,7 +283,19 @@ struKarten* firstlast2(struKarten* pListe)
   pListe = pLast;
 
 
-  printf("Die letzte Karte ist: %c", pLast->Bez);
+  printf("\n  Die letzte Karte ist: %c", pLast->Bez);
+  printf("\n  Hinter dieser Karte befindet sich jetzt die Karte: %c", pTemp->Bez);
+
+
+  printf("\n  Die ganze Liste besteht jetzt aus den Karten:\n");
+
+  for (struKarten* pAusgabe = pListe; pAusgabe->pNext != NULL; pAusgabe->pNext)
+  {
+    printf("\n  %c", pAusgabe->Bez);
+  }
+  
+
+  system("pause");
   return pListe;
 }
 
@@ -352,7 +369,7 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte)
   return pListe;
 }
 
-struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
@@ -398,16 +415,18 @@ int rundestart()
   struKarten* pListePlayer = NULL;  //Erstellt Liste von Player
   struKarten* pListeCPU = NULL;     //Erstellt Liste von CPU
 
-  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30));
-  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25));
-  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240));
-  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470));
-  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100));
-  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60));
-  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38));
-  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88));
-  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31));
-  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108));
+  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
+  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
+  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240.1));
+  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
+  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
+  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
+  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38.2));
+  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
+  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
+  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
+
+
 
   int runde = 0;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU
 
@@ -471,7 +490,7 @@ int rundestart()
 
   //pListeCPU = pStart;
 
-  firstlast2(pListePlayer);
+  firstlast_gew(pListePlayer);
 
   //ausgabe(pListePlayer, pListeCPU);
   return 0;
