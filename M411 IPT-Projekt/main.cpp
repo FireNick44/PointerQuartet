@@ -26,6 +26,7 @@ struKarten* removelist(struKarten*, struKarten*);               // Funktion für 
 struKarten* karte(int, const char*, int, int, int);             // Funktion für das Erstellen und Abfüllen der Karten mit Werten
 
 struKarten* firstlast(struKarten*, struKarten*);                // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
+struKarten* firstlast2(struKarten*, struKarten*);
 struKarten* vergleiche(int, struKarten*, struKarten*);          // Funktion für das Vergleichen von Karten aus zwei Listen
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
@@ -261,6 +262,26 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
   return 0;
 }
 
+struKarten* firstlast2(struKarten* pListe)
+{
+  struKarten* pTemp = pListe;
+  pListe = pListe->pNext;
+  pTemp->pNext = NULL;
+  
+  struKarten* pLast;
+
+  while (pLast->pNext != NULL) {
+    pLast = pListe->pNext;
+  }
+
+  pLast->pNext = pTemp;
+  pListe = pLast;
+
+
+  printf("Die letzte Karte ist: %c", pLast->Bez);
+  return pListe;
+}
+
 struKarten* vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
 
   if (Typ == 1) {
@@ -346,20 +367,11 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
-int listcount(struKarten* pListe) {
-  int anz = 0;
-  struKarten* pTmp = pListe;
-  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente im eigenen Kartenstapel gezählt.
-    anz++;
-  }
-  return anz;
-}
-
 int rundestart()
 {
   system("cls");
 
-
+  /*
   for (int i = 0; i < 3; i++) {
     system("cls");
     printf("\n\n");
@@ -379,7 +391,7 @@ int rundestart()
     printf("\n\n  Karten werden erstellt und gemischt ...");
     printf("\n\n  Bitte Warten");
     Sleep(500);
-  }
+  }*/
 
   struKarten* pStart = NULL;        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
 
@@ -459,9 +471,9 @@ int rundestart()
 
   //pListeCPU = pStart;
 
-  //firstlast(pStart);
+  firstlast2(pListePlayer);
 
-  ausgabe(pListePlayer, pListeCPU);
+  //ausgabe(pListePlayer, pListeCPU);
   return 0;
 }
 
@@ -569,6 +581,15 @@ int rundeneustart()
   ausgabe(pListePlayer, pListeCPU);
 
   return 0;
+}
+
+int listcount(struKarten* pListe) {
+  int anz = 0;
+  struKarten* pTmp = pListe;
+  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente im eigenen Kartenstapel gezählt.
+    anz++;
+  }
+  return anz;
 }
 
 
