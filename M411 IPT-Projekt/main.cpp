@@ -25,7 +25,7 @@ int rundeneustart();                                            // Neustart eine
 int ausgabe(struKarten*, struKarten*);                          // Funktion für Ausgabe der Karten
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
-struKarten* karte(int, const char*, int, int, int);             // Funktion für das Erstellen und Abfüllen der Karten mit Werten
+struKarten* karte(int, const char*, int, int, double);          // Funktion für das Erstellen und Abfüllen der Karten mit Werten
 struKarten* firstlast_gew(struKarten*);                         // Funktion für den Gewinner einer Karte
 struKarten* firstlast_verl(struKarten*, struKarten*);           // Funktion für den Verlierer einer Karte
 struKarten* vergleiche(int, struKarten*, struKarten*);          // Funktion für das Vergleichen von Karten aus zwei Listen
@@ -57,7 +57,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   bool menü = false;
   bool nextkarte_win = false;
 
-  for (pListePlayer; pListePlayer != NULL && !menü; pListePlayer = pListePlayer->pNext) {
+  while (pListePlayer != NULL && !menü) {
     nextkarte_win = false;
 
     int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
@@ -269,7 +269,7 @@ struKarten* firstlast_gew(struKarten* pListe)
   pListe = pListe->pNext;
   pTemp->pNext = NULL;
   
-  printf("\n  Die erste Karte ist: %c", pTemp->Bez);
+  printf("\n  Die erste Karte ist: %i", pTemp->Nr);
   printf("\n  Diese wird jetzt an den hintersten Platz versetzt.");
   system("pause");
 
@@ -283,8 +283,8 @@ struKarten* firstlast_gew(struKarten* pListe)
   pListe = pLast;
 
 
-  printf("\n  Die letzte Karte ist: %c", pLast->Bez);
-  printf("\n  Hinter dieser Karte befindet sich jetzt die Karte: %c", pTemp->Bez);
+  printf("\n  Die letzte Karte ist: %i", pLast->Nr);
+  printf("\n  Hinter dieser Karte befindet sich jetzt die Karte: %i", pTemp->Nr);
 
 
   printf("\n  Die ganze Liste besteht jetzt aus den Karten:\n");
