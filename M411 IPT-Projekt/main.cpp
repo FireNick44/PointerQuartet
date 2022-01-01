@@ -55,16 +55,16 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   char c;
   char j;
   bool menü = false;
-  bool nextkarte_win = false;
+  bool kartegew = false;
 
   while (pListePlayer != NULL && !menü) {
-    nextkarte_win = false;
+    kartegew = false;
 
     int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
 
     int AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
 
-    while (!nextkarte_win && !menü && AnzPlayer > 0) {  // In dieser While-Schleife wird immer wieder 
+    while (!kartegew && !menü && AnzPlayer > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine Eingabe macht.
       system("cls");
 
       printf("\n\n");
@@ -74,12 +74,14 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n   /                             \x5C");
       printf("\n  /  CoC Quartett | Karte Nr. %-2i  \x5C", pListePlayer->Nr);
       printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
       printf("\n  |      --------------------     |");
       printf("\n  |      ---%-14s---     |", pListePlayer->Bez);
       printf("\n  |      --------------------     |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |    ----------------------     |");
@@ -410,10 +412,10 @@ int rundestart()
     Sleep(500);
   }*/
 
-  struKarten* pStart = NULL;        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
+  struKarten* pStart = (struKarten*)malloc(sizeof(struKarten));        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
 
-  struKarten* pListePlayer = NULL;  //Erstellt Liste von Player
-  struKarten* pListeCPU = NULL;     //Erstellt Liste von CPU
+  struKarten* pListePlayer = (struKarten*)malloc(sizeof(struKarten));  //Erstellt Liste von Player
+  struKarten* pListeCPU = (struKarten*)malloc(sizeof(struKarten));     //Erstellt Liste von CPU
 
   pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
   pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
@@ -521,21 +523,21 @@ int rundeneustart()
   printf("\n\n  Bitte Warten");
   Sleep(500);
 
-  struKarten* pStart = NULL;
+  struKarten* pStart = (struKarten*)malloc(sizeof(struKarten));
 
-  struKarten* pListePlayer = NULL;
-  struKarten* pListeCPU = NULL;
+  struKarten* pListePlayer = (struKarten*)malloc(sizeof(struKarten));
+  struKarten* pListeCPU = (struKarten*)malloc(sizeof(struKarten));
 
-  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30));
-  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25));
-  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240));
-  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470));
-  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100));
-  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60));
-  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38));
-  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88));
-  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31));
-  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108));
+  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
+  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
+  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240.1));
+  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
+  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
+  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
+  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38.2));
+  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
+  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
+  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
 
   int runde = 0;    
 
@@ -605,7 +607,7 @@ int rundeneustart()
 int listcount(struKarten* pListe) {
   int anz = 0;
   struKarten* pTmp = pListe;
-  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente im eigenen Kartenstapel gezählt.
+  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente in einer Liste gezählt.
     anz++;
   }
   return anz;
@@ -615,7 +617,7 @@ int listcount(struKarten* pListe) {
 int main()
 {
   srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
-  system("mode con cols=100 lines=50");                         // Setzt die Grösse der CMD
+  system("mode con cols=150 lines=70");                         // Setzt die Grösse der CMD
 
   menü();                                                       // Menü wird Aufgerufen
   end();                                                        // Spiel wird beendet
