@@ -324,7 +324,12 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
   struKarten* pTemp = pListeGew;
   pListeGew = pListeGew->pNext;
   pTemp->pNext = NULL;
-
+  
+  /*
+  printf("\n  Die erste Karte ist: %i", pTemp->Nr);
+  printf("\n  Diese wird jetzt an den hintersten Platz versetzt.");
+  system("pause");
+  */
 
   struKarten* pLast = pListeGew;
 
@@ -334,6 +339,10 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
 
   pLast->pNext = pTemp;
 
+  /*
+  printf("\n  Die letzte Karte ist: %i", pLast->Nr);
+  printf("\n  Hinter dieser Karte befindet sich jetzt die Karte: %i", pTemp->Nr);
+  */
 
   struKarten* pKarte = pListeVerl;
   pTemp->pNext = pKarte;
@@ -356,6 +365,10 @@ struKarten* firstlast_unent(struKarten* pListe)
   pListe = pListe->pNext;
   pTemp->pNext = NULL;
 
+  printf("\n  Die erste Karte ist: %i", pTemp->Nr);
+  printf("\n  Diese wird jetzt an den hintersten Platz versetzt.");
+  system("pause");
+
   struKarten* pLast = pListe;
 
   while (pLast->pNext != NULL) {
@@ -364,6 +377,7 @@ struKarten* firstlast_unent(struKarten* pListe)
 
   pLast->pNext = pTemp;
 
+  system("pause");
   return pListe;
 }
 
