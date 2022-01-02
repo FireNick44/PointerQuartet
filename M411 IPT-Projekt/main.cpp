@@ -321,7 +321,7 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
-{
+{ 
 
   if (listcount(pListeGew) == 1) {
     pLast = pListeGew;
@@ -380,48 +380,20 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
   int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
 
   if (Typ == 1) {
-
-    if (pListePlayer->Trefferpunkte > pListeCPU->Trefferpunkte) {
-      kartenänderung = 1;
-    }
-
-    else if (pListePlayer->Trefferpunkte < pListeCPU->Trefferpunkte) {
-      kartenänderung = 2;
-    }
-
-    else if (pListePlayer->Trefferpunkte = pListeCPU->Trefferpunkte) {
-      kartenänderung = 3;
-    }
+    if (pListePlayer->Trefferpunkte > pListeCPU->Trefferpunkte)      kartenänderung = 1;
+    else if (pListePlayer->Trefferpunkte < pListeCPU->Trefferpunkte) kartenänderung = 2;
+    else if (pListePlayer->Trefferpunkte = pListeCPU->Trefferpunkte) kartenänderung = 3;
   }
-
   else if (Typ == 2) {
-    if (pListePlayer->Geschw > pListeCPU->Geschw) {
-      kartenänderung = 1;
-    }
-
-    else if (pListePlayer->Geschw < pListeCPU->Geschw) {
-      kartenänderung = 2;
-    }
-
-    else if (pListePlayer->Geschw = pListeCPU->Geschw) {
-      kartenänderung = 3;
-    }
+    if (pListePlayer->Geschw > pListeCPU->Geschw)      kartenänderung = 1;
+    else if (pListePlayer->Geschw < pListeCPU->Geschw) kartenänderung = 2;
+    else if (pListePlayer->Geschw = pListeCPU->Geschw) kartenänderung = 3;
   }
-
   else if (Typ == 3) {
-    if (pListePlayer->Geschw > pListeCPU->Geschw) {
-      kartenänderung = 1;
-    }
-
-    else if (pListePlayer->Geschw < pListeCPU->Geschw) {
-      kartenänderung = 2;
-    }
-
-    else if (pListePlayer->Geschw = pListeCPU->Geschw) {
-      kartenänderung = 3;
-    }
+    if (pListePlayer->Schaden > pListeCPU->Geschw)      kartenänderung = 1;
+    else if (pListePlayer->Schaden < pListeCPU->Geschw) kartenänderung = 2;
+    else if (pListePlayer->Schaden = pListeCPU->Geschw) kartenänderung = 3;
   }
-
   return kartenänderung;
 }
 
@@ -724,7 +696,7 @@ int menü()
 {
   bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
 
-  while (hauptmenü)
+  while(hauptmenü)
   {
     //variablen
     char eingabe; // Variable für Eingabe
@@ -1281,4 +1253,4 @@ void end()
   Sleep(700);
 }
 
-//Letzte Zeile
+//Letzte Zeile 1249
