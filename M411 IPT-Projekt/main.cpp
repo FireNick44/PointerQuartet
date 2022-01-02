@@ -1253,4 +1253,4 @@ void end()
   Sleep(700);
 }
 
-//Letzte Zeile 1249
+//Letzte Zeile
