@@ -593,6 +593,7 @@ int rundestart()
   }
 
 
+
   ausgabe(pListePlayer, pListeCPU);
 
   return 0;
