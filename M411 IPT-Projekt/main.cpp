@@ -322,29 +322,28 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
 { 
+  struKarten* pLast;
+  struKarten* pTemp;
 
   if (listcount(pListeGew) == 1) {
     pLast = pListeGew;
+    struKarten* pKarte = pListeVerl;
+    pKarte->pNext = pLast;
   }
 
-  else if (listcount() != 1) {
-    struKarten* pTemp = pListeGew;
+  else if (listcount(pListeGew) != 1) {
+    pTemp = pListeGew;
     pListeGew = pListeGew->pNext;
     pTemp->pNext = NULL;
+    
+    while (pLast->pNext != NULL) pLast = pLast->pNext;
+
+    pLast->pNext = pTemp;
+    pLast = pListeGew;
+
+    struKarten* pKarte = pListeVerl;
+    pTemp->pNext = pKarte;
   }
-
-
-  struKarten* pLast = pListeGew;
-
-  while (pLast->pNext != NULL) {
-    pLast = pLast->pNext;
-  }
-
-  pLast->pNext = pTemp;
-
-
-  struKarten* pKarte = pListeVerl;
-  pTemp->pNext = pKarte;
 
   return pListeGew;
 }
