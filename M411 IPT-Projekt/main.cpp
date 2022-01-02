@@ -26,9 +26,10 @@ int ausgabe(struKarten*, struKarten*);                          // Funktion für 
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
 struKarten* karte(int, const char*, int, int, double);          // Funktion für das Erstellen und Abfüllen der Karten mit Werten
-struKarten* firstlast_gew(struKarten*);                         // Funktion für den Gewinner einer Karte
-struKarten* firstlast_verl(struKarten*, struKarten*);           // Funktion für den Verlierer einer Karte
-struKarten* vergleiche(int, struKarten*, struKarten*);          // Funktion für das Vergleichen von Karten aus zwei Listen
+struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für den Gewinner einer Karte
+struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
+struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
+int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
@@ -37,8 +38,9 @@ void farbmatrix(char, char);                                    // Farbmatrix fü
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
 void logo();                                                    // Ausgabe für Logo des Spiels
-void verlieren();                                               // Ausgabe wenn man eine Karte verliert
-void gewinnen();                                                // Ausgabe wenn man eine Karte gewinnt
+void verloren();                                                // Ausgabe wenn man eine Karte verliert
+void gewonnen();                                                // Ausgabe wenn man eine Karte gewinnt
+void unentschieden();                                           // Ausgabe wenn unentschieden
 
 // Weitere Beschreibungen findet man in den einzelnen Funktionen.
 
@@ -52,47 +54,56 @@ char textfarbe;                                                 // Textfarbe der
 
 int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
-  char c;
-  char j;
-  bool menü = false;
-  bool kartegew = false;
+  // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
 
-  while (pListePlayer != NULL && !menü) {
-    kartegew = false;
+  // Variablen
+  char c;                     // Wird zur Überprüfung der ersten Eingabe benötigt.
+  char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein).
+  bool menü = false;          // Wird für das Rückkehren zum Hauptmenü benötigt.
+  bool nextkarte = false;     // Wird benötigt, um aus der Ausgabe-Schleife raus zu kommen und, falls zur nächsten Karte gewechselt werden sollte.
+  int kartenänderung;         // Wird benötigt, um zu identifizieren, welche änderung an den beiden Listen vorgenommen werden sollte.
+                              // Kartenänderung: 0 = leer (keine Änderung), 1 = gewonnen, 2 = verloren, 3 = unentscheiden (siehe unter der Kartenausgabe-Schleife)
+
+  while (!menü) {
+    nextkarte = false;
+
+    kartenänderung = 0;                         // Fängt immer mit dem leeren Zustand an. Es geschieht nichts mit den Listen, bis eine gültige Eingabe gemacht wird.
 
     int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
 
     int AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
 
-    while (!kartegew && !menü && AnzPlayer > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine Eingabe macht.
+
+    // Kartenausgabe-Schleife
+    while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
       system("cls");
 
       printf("\n\n");
       printf("\n  ==================================");
       printf("\n\n               KARTE               ");
-      printf("\n\n    _____________________________ ");
-      printf("\n   /                             \x5C");
-      printf("\n  /  CoC Quartett | Karte Nr. %-2i  \x5C", pListePlayer->Nr);
-      printf("\n  |                               |");
-      printf("\n  |      --------------------     |");
-      printf("\n  |      ---%-14s---     |", pListePlayer->Bez);
-      printf("\n  |      --------------------     |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |    ----------------------     |");
-      printf("\n  |   |Trefferpunkte   | %4i|    |", pListePlayer->Trefferpunkte);
-      printf("\n  |   |                |     |    |");
-      printf("\n  |   |Geschwindigkeit | %4i|    |", pListePlayer->Geschw);
-      printf("\n  |   |                |     |    |");
-      printf("\n  |   |Schaden         | %4.1lf|    |", pListePlayer->Schaden);
-      printf("\n  |    ----------------------     |");
-      printf("\n  \x5C                               /");
-      printf("\n   \x5C_____________________________/");
+      printf("\n\n    ______________________________ ");
+      printf("\n   /                              \x5C");
+      printf("\n  /  CoC Quartett | Karte Nr.  %-2i  \x5C", pListePlayer->Nr);
+      printf("\n  |                                |");
+      printf("\n  |      --------------------      |");
+      printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
+      printf("\n  |      --------------------      |");
+      printf("\n  |                                |");
+      printf("\n  |                                |");
+      printf("\n  |                                |");
+      printf("\n  |                                |");
+      printf("\n  |                                |");
+      printf("\n  |                                |");
+      printf("\n  |                                |");
+      printf("\n  |    -----------------------     |");
+      printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
+      printf("\n  |   |                |      |    |");
+      printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
+      printf("\n  |   |                |      |    |");
+      printf("\n  |   |Schaden         |  %4.1lf|    |", pListePlayer->Schaden);
+      printf("\n  |    -----------------------     |");
+      printf("\n  \x5C                                /");
+      printf("\n   \x5C______________________________/");
       printf("\n\n");
 
       printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
@@ -116,7 +127,8 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         j = _getch();
         if (j == 'j') {
-          //vergleiche(1, pListePlayer, pListeCPU);
+          kartenänderung = vergleiche(1, pListePlayer, pListeCPU);
+          nextkarte = true;
         }
 
         else if (j == 'n');
@@ -130,8 +142,13 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         j = _getch();
         if (j == 'j') {
-          //vergleiche(2, pListePlayer, pListeCPU);
+          kartenänderung = vergleiche(2, pListePlayer, pListeCPU);
+          nextkarte = true;
         }
+
+        else if (j == 'n');
+
+        else falsche_eingabe();
       }
 
       else if (c == '3' || c == 's') {
@@ -140,8 +157,13 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         j = _getch();
         if (j == 'j') {
-          //vergleiche(3, pListePlayer, pListeCPU);
+          kartenänderung = vergleiche(3, pListePlayer, pListeCPU);
+          nextkarte = true;
         }
+
+        else if (j == 'n');
+
+        else falsche_eingabe();
       }
 
       else if (c == '4') {
@@ -175,6 +197,29 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
     }
 
+    if (kartenänderung == 1) // Bei Gewinn einer Karte
+    {
+      pListePlayer = firstlast_gew(pListePlayer, pListeCPU);
+      pListeCPU = firstlast_verl(pListeCPU);
+      gewonnen();
+    }
+
+    else if (kartenänderung == 2) // Bei Verlust einer Karte
+    {
+      pListeCPU = firstlast_gew(pListeCPU, pListePlayer);
+      pListePlayer = firstlast_verl(pListePlayer);
+      verloren();
+    }
+
+    else if (kartenänderung == 3) // Bei Unentschieden
+    {
+      pListePlayer = firstlast_unent(pListePlayer);
+      pListeCPU = firstlast_unent(pListeCPU);
+      unentschieden();
+    }
+
+
+    // Spielende: Verloren-Schleife
     while (AnzPlayer <= 0 && AnzCPU >= 10 && !menü) // Spielende: Wenn man das Spiel verliert.
     {
       system("cls");
@@ -187,8 +232,13 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       c = _getch();
       if (c == 'j') menü = true;
+
+      else if (j == 'n');
+
+      else falsche_eingabe();
     }
 
+    // Spielende: Gewonnen-Schleife
     while (AnzPlayer >= 10 && AnzCPU <= 0 && !menü) // Spielende: Wenn man das Spiel gewinnt.
     {
       system("cls");
@@ -200,6 +250,10 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       c = _getch();
       if (c == 'j') menü = true;
+
+      else if (j == 'n');
+
+      else falsche_eingabe();
     }
 
   }
@@ -265,12 +319,52 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
   return 0;
 }
 
-struKarten* firstlast_gew(struKarten* pListe)
+struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
+{
+  struKarten* pTemp = pListeGew;
+  pListeGew = pListeGew->pNext;
+  pTemp->pNext = NULL;
+  
+  /*
+  printf("\n  Die erste Karte ist: %i", pTemp->Nr);
+  printf("\n  Diese wird jetzt an den hintersten Platz versetzt.");
+  system("pause");
+  */
+
+  struKarten* pLast = pListeGew;
+
+  while (pLast->pNext != NULL) {
+    pLast = pLast->pNext;
+  }
+
+  pLast->pNext = pTemp;
+
+  /*
+  printf("\n  Die letzte Karte ist: %i", pLast->Nr);
+  printf("\n  Hinter dieser Karte befindet sich jetzt die Karte: %i", pTemp->Nr);
+  */
+
+  struKarten* pKarte = pListeVerl;
+  pTemp->pNext = pKarte;
+
+  return pListeGew;
+}
+
+struKarten* firstlast_verl(struKarten* pListeVerl)
+{
+  struKarten* pTemp = pListeVerl;
+  pListeVerl = pListeVerl->pNext;
+  pTemp->pNext = NULL;
+
+  return pListeVerl;
+}
+
+struKarten* firstlast_unent(struKarten* pListe)
 {
   struKarten* pTemp = pListe;
   pListe = pListe->pNext;
   pTemp->pNext = NULL;
-  
+
   printf("\n  Die erste Karte ist: %i", pTemp->Nr);
   printf("\n  Diese wird jetzt an den hintersten Platz versetzt.");
   system("pause");
@@ -282,53 +376,60 @@ struKarten* firstlast_gew(struKarten* pListe)
   }
 
   pLast->pNext = pTemp;
-  pListe = pLast;
-
-
-  printf("\n  Die letzte Karte ist: %i", pLast->Nr);
-  printf("\n  Hinter dieser Karte befindet sich jetzt die Karte: %i", pTemp->Nr);
-
-
-  printf("\n  Die ganze Liste besteht jetzt aus den Karten:\n");
-
-  for (struKarten* pAusgabe = pListe; pAusgabe->pNext != NULL; pAusgabe->pNext)
-  {
-    printf("\n  %c", pAusgabe->Bez);
-  }
-  
 
   system("pause");
   return pListe;
 }
 
-struKarten* vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
+
+int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
+  
+  int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
 
   if (Typ == 1) {
 
     if (pListePlayer->Trefferpunkte > pListeCPU->Trefferpunkte) {
-      firstlast(pListePlayer, pListeCPU);
-
-    }
-
-    else if (pListePlayer->Trefferpunkte = pListeCPU->Trefferpunkte) {
-
+      kartenänderung = 1;
     }
 
     else if (pListePlayer->Trefferpunkte < pListeCPU->Trefferpunkte) {
+      kartenänderung = 2;
+    }
 
+    else if (pListePlayer->Trefferpunkte = pListeCPU->Trefferpunkte) {
+      kartenänderung = 3;
     }
   }
 
   else if (Typ == 2) {
+    if (pListePlayer->Geschw > pListeCPU->Geschw) {
+      kartenänderung = 1;
+    }
 
+    else if (pListePlayer->Geschw < pListeCPU->Geschw) {
+      kartenänderung = 2;
+    }
+
+    else if (pListePlayer->Geschw = pListeCPU->Geschw) {
+      kartenänderung = 3;
+    }
   }
 
   else if (Typ == 3) {
+    if (pListePlayer->Geschw > pListeCPU->Geschw) {
+      kartenänderung = 1;
+    }
 
+    else if (pListePlayer->Geschw < pListeCPU->Geschw) {
+      kartenänderung = 2;
+    }
 
+    else if (pListePlayer->Geschw = pListeCPU->Geschw) {
+      kartenänderung = 3;
+    }
   }
 
-  return 0;
+  return kartenänderung;
 }
 
 struKarten* createlist(struKarten* pListe, struKarten* pKarte)
@@ -338,8 +439,10 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte)
     pListe = pKarte;      // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
     pKarte->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
   }
+
   else {
     struKarten* pLast = pListe; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    
     while (pLast->pNext != NULL) {
       pLast = pLast->pNext;     // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,
                                 // ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
@@ -390,7 +493,7 @@ int rundestart()
 {
   system("cls");
 
-  /*
+  
   for (int i = 0; i < 3; i++) {
     system("cls");
     printf("\n\n");
@@ -410,12 +513,12 @@ int rundestart()
     printf("\n\n  Karten werden erstellt und gemischt ...");
     printf("\n\n  Bitte Warten");
     Sleep(500);
-  }*/
+  }
 
-  struKarten* pStart = (struKarten*)malloc(sizeof(struKarten));        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
+  struKarten* pStart = NULL;        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
 
-  struKarten* pListePlayer = (struKarten*)malloc(sizeof(struKarten));  //Erstellt Liste von Player
-  struKarten* pListeCPU = (struKarten*)malloc(sizeof(struKarten));     //Erstellt Liste von CPU
+  struKarten* pListePlayer = NULL;  //Erstellt Liste von Player
+  struKarten* pListeCPU = NULL;     //Erstellt Liste von CPU
 
   pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
   pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
@@ -430,9 +533,9 @@ int rundestart()
 
 
 
-  int runde = 0;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU
+  int runde;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU
 
-  for (runde; runde < 5; runde++)
+  for (runde = 1; runde <= 5; runde++)
   {
     int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
     //int pEnd = 1;
@@ -490,11 +593,8 @@ int rundestart()
   }
 
 
-  //pListeCPU = pStart;
+  ausgabe(pListePlayer, pListeCPU);
 
-  firstlast_gew(pListePlayer);
-
-  //ausgabe(pListePlayer, pListeCPU);
   return 0;
 }
 
@@ -507,26 +607,26 @@ int rundeneustart()
 
   printf("\n\n");
   printf("\n  ==================================");
-  printf("\n\n  Karten werden wieder neu erstellt und gemischt .");
+  printf("\n\n  Karten werden wieder neu gemischt .");
   printf("\n\n  Bitte Warten");
   Sleep(500);
   system("cls");
   printf("\n\n");
   printf("\n  ==================================");
-  printf("\n\n  Karten werden wieder neu erstellt und gemischt ..");
+  printf("\n\n  Karten werden wieder neu gemischt ..");
   printf("\n\n  Bitte Warten");
   Sleep(500);
   system("cls");
   printf("\n\n");
   printf("\n  ==================================");
-  printf("\n\n  Karten werden wieder neu erstellt und gemischt ...");
+  printf("\n\n  Karten werden wieder neu gemischt ...");
   printf("\n\n  Bitte Warten");
   Sleep(500);
 
-  struKarten* pStart = (struKarten*)malloc(sizeof(struKarten));
+  struKarten* pStart = NULL;
 
-  struKarten* pListePlayer = (struKarten*)malloc(sizeof(struKarten));
-  struKarten* pListeCPU = (struKarten*)malloc(sizeof(struKarten));
+  struKarten* pListePlayer = NULL;
+  struKarten* pListeCPU = NULL;
 
   pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
   pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
@@ -539,9 +639,9 @@ int rundeneustart()
   pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
   pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
 
-  int runde = 0;    
+  int runde;    
 
-  for (runde; runde < 5; runde++)
+  for (runde = 1; runde < 5; runde++)
   {
     int anz = listcount(pStart);
 
@@ -604,7 +704,8 @@ int rundeneustart()
   return 0;
 }
 
-int listcount(struKarten* pListe) {
+int listcount(struKarten* pListe) 
+{
   int anz = 0;
   struKarten* pTmp = pListe;
   for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente in einer Liste gezählt.
@@ -890,7 +991,6 @@ void farbmatrix(char hintergrundfarbe, char textfarbe)
 }
 
 
-
 void falsche_eingabe()
 {
   printf("\n  Falsche Eingabe ");
@@ -898,27 +998,42 @@ void falsche_eingabe()
   system("cls");
 }
 
-void verlieren()
+void verloren()
 {
   system("cls");
 
   printf("\n  ==================================");
   printf("\n\n  ------------VERLOREN------------");
   printf("\n  Sie verlieren diese Karte leider.");
+  printf("\n  Der Gegner erhält Ihre Karte.");
   printf("\n\n  ==================================");
   Sleep(1500);
 }
 
-void gewinnen()
+void gewonnen()
 {
   system("cls");
 
   printf("\n  ==================================");
   printf("\n\n  ------------GEWONNEN------------");
-  printf("\n  Sie gewinnen diese Karte.");
+  printf("\n  Sie gewinnen die Karte des Gegners.");
+  printf("\n  Der Gegner verliert sie.");
   printf("\n\n  ==================================");
   Sleep(1500);
 }
+
+void unentschieden()
+{
+  system("cls");
+
+  printf("\n  ==================================");
+  printf("\n\n  ---------UNENTSCHIEDEN----------");
+  printf("\n  Niemand gewinnt dieses Mal.");
+  printf("\n  Die obersten Karten werden nach hinten versetzt.");
+  printf("\n\n  ==================================");
+  Sleep(1500);
+}
+
 
 void logo()
 {
