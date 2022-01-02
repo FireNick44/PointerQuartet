@@ -328,7 +328,7 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
   if (listcount(pListeGew) == 1) {
     pLast = pListeGew;
     struKarten* pKarte = pListeVerl;
-    pKarte->pNext = pLast;
+    pLast->pNext = pKarte;
   }
 
   else if (listcount(pListeGew) != 1) {
@@ -1190,9 +1190,9 @@ void verloren()
 {
   system("cls");
 
-  printf("\n  ==================================");
+  printf("\n\n\n  ==================================");
   printf("\n\n  ------------VERLOREN------------");
-  printf("\n  Sie verlieren diese Karte leider.");
+  printf("\n\n  Sie verlieren diese Karte leider.");
   printf("\n  Der Gegner erhält Ihre Karte.");
   printf("\n\n  ==================================");
   Sleep(2000);
@@ -1202,9 +1202,9 @@ void gewonnen()
 {
   system("cls");
 
-  printf("\n  ==================================");
+  printf("\n\n\n  ==================================");
   printf("\n\n  ------------GEWONNEN------------");
-  printf("\n  Sie gewinnen die Karte des Gegners.");
+  printf("\n\n  Sie gewinnen die Karte des Gegners.");
   printf("\n  Der Gegner verliert sie.");
   printf("\n\n  ==================================");
   Sleep(2000);
@@ -1214,9 +1214,9 @@ void unentschieden()
 {
   system("cls");
 
-  printf("\n  ==================================");
+  printf("\n\n\n  ==================================");
   printf("\n\n  ---------UNENTSCHIEDEN----------");
-  printf("\n  Niemand gewinnt dieses Mal.");
+  printf("\n\n  Niemand gewinnt dieses Mal.");
   printf("\n  Die obersten Karten werden nach hinten versetzt.");
   printf("\n\n  ==================================");
   Sleep(2000);
