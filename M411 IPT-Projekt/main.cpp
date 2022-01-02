@@ -701,7 +701,6 @@ int listcount(struKarten* pListe)
   return anz;
 }
 
-
 int main()
 {
 
@@ -1200,8 +1199,6 @@ void farbmatrix(char hintergrundfarbe, char textfarbe)
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
   system(SysPrint);
 }
-
-
 
 void falsche_eingabe()
 {
