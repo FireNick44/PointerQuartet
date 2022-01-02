@@ -367,7 +367,6 @@ struKarten* firstlast_unent(struKarten* pListe)
   return pListe;
 }
 
-
 int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
   
   int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
