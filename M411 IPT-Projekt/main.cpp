@@ -14,32 +14,33 @@ typedef struct Karten
   char Bez[40];
   int Trefferpunkte;
   int Geschw;
-  int Schaden;
+  double Schaden;
   struct Karten* pNext;
 }struKarten;
 
 
 // Prototypen der Methoden
-struKarten* ausgabe(struKarten*, struKarten*);                  // Test-Methode für Ausgabe der Karten
-struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode karte
+int rundestart();                                               // Start einer Runde
+int rundeneustart();                                            // Neustart einer Runde
+int ausgabe(struKarten*, struKarten*);                          // Funktion für Ausgabe der Karten
+struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
-struKarten* karte(int, const char*, int, int, int);             // Funktion für das Erstellen und Abfüllen der Karten mit Werten
-
-struKarten* firstlast(struKarten*, struKarten*);                // Funktion für das Verschieben der 1. und der gewonnenen Karte an den letzten Platz
+struKarten* karte(int, const char*, int, int, double);          // Funktion für das Erstellen und Abfüllen der Karten mit Werten
+struKarten* firstlast_gew(struKarten*);                         // Funktion für den Gewinner einer Karte
+struKarten* firstlast_verl(struKarten*, struKarten*);           // Funktion für den Verlierer einer Karte
 struKarten* vergleiche(int, struKarten*, struKarten*);          // Funktion für das Vergleichen von Karten aus zwei Listen
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
 int einstellungen();                                            // Einstellungen
-void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben der CMD
-int rundestart();                                               // Start einer Runde
-int rundeneustart();                                            // Neustart einer Runde
+void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben auf der CMD
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
 void logo();                                                    // Ausgabe für Logo des Spiels
 void verlieren();                                               // Ausgabe wenn man eine Karte verliert
 void gewinnen();                                                // Ausgabe wenn man eine Karte gewinnt
 
+// Weitere Beschreibungen findet man in den einzelnen Funktionen.
 
 
 // Globale Variablen
@@ -48,21 +49,22 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe;                                          // Hintergrundfarbe der CMD.
 char textfarbe;                                                 // Textfarbe der CMD.
 
-struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
+
+int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
   char c;
   char j;
   bool menü = false;
-  bool nextkarte_win = false;
+  bool kartegew = false;
 
-  for (pListePlayer; pListePlayer != NULL && !menü; pListePlayer = pListePlayer->pNext) {
-    nextkarte_win = false;
+  while (pListePlayer != NULL && !menü) {
+    kartegew = false;
 
     int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
 
     int AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
 
-    while (!nextkarte_win && !menü && AnzPlayer > 0) {  // In dieser While-Schleife wird immer wieder 
+    while (!kartegew && !menü && AnzPlayer > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine Eingabe macht.
       system("cls");
 
       printf("\n\n");
@@ -72,12 +74,14 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n   /                             \x5C");
       printf("\n  /  CoC Quartett | Karte Nr. %-2i  \x5C", pListePlayer->Nr);
       printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
-      printf("\n  |                               |");
       printf("\n  |      --------------------     |");
       printf("\n  |      ---%-14s---     |", pListePlayer->Bez);
       printf("\n  |      --------------------     |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
+      printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |                               |");
       printf("\n  |    ----------------------     |");
@@ -85,7 +89,7 @@ struKarten* ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |   |                |     |    |");
       printf("\n  |   |Geschwindigkeit | %4i|    |", pListePlayer->Geschw);
       printf("\n  |   |                |     |    |");
-      printf("\n  |   |Schaden         | %4i|    |", pListePlayer->Schaden);
+      printf("\n  |   |Schaden         | %4.1lf|    |", pListePlayer->Schaden);
       printf("\n  |    ----------------------     |");
       printf("\n  \x5C                               /");
       printf("\n   \x5C_____________________________/");
@@ -261,6 +265,42 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
   return 0;
 }
 
+struKarten* firstlast_gew(struKarten* pListe)
+{
+  struKarten* pTemp = pListe;
+  pListe = pListe->pNext;
+  pTemp->pNext = NULL;
+  
+  printf("\n  Die erste Karte ist: %i", pTemp->Nr);
+  printf("\n  Diese wird jetzt an den hintersten Platz versetzt.");
+  system("pause");
+
+  struKarten* pLast = pListe;
+
+  while (pLast->pNext != NULL) {
+    pLast = pLast->pNext;
+  }
+
+  pLast->pNext = pTemp;
+  pListe = pLast;
+
+
+  printf("\n  Die letzte Karte ist: %i", pLast->Nr);
+  printf("\n  Hinter dieser Karte befindet sich jetzt die Karte: %i", pTemp->Nr);
+
+
+  printf("\n  Die ganze Liste besteht jetzt aus den Karten:\n");
+
+  for (struKarten* pAusgabe = pListe; pAusgabe->pNext != NULL; pAusgabe->pNext)
+  {
+    printf("\n  %c", pAusgabe->Bez);
+  }
+  
+
+  system("pause");
+  return pListe;
+}
+
 struKarten* vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
 
   if (Typ == 1) {
@@ -331,7 +371,7 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte)
   return pListe;
 }
 
-struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
+struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
 {
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
@@ -346,20 +386,11 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, int Dmg)
   return pTmp;
 }
 
-int listcount(struKarten* pListe) {
-  int anz = 0;
-  struKarten* pTmp = pListe;
-  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente im eigenen Kartenstapel gezählt.
-    anz++;
-  }
-  return anz;
-}
-
 int rundestart()
 {
   system("cls");
 
-
+  /*
   for (int i = 0; i < 3; i++) {
     system("cls");
     printf("\n\n");
@@ -379,23 +410,25 @@ int rundestart()
     printf("\n\n  Karten werden erstellt und gemischt ...");
     printf("\n\n  Bitte Warten");
     Sleep(500);
-  }
+  }*/
 
-  struKarten* pStart = NULL;        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
+  struKarten* pStart = (struKarten*)malloc(sizeof(struKarten));        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
 
-  struKarten* pListePlayer = NULL;  //Erstellt Liste von Player
-  struKarten* pListeCPU = NULL;     //Erstellt Liste von CPU
+  struKarten* pListePlayer = (struKarten*)malloc(sizeof(struKarten));  //Erstellt Liste von Player
+  struKarten* pListeCPU = (struKarten*)malloc(sizeof(struKarten));     //Erstellt Liste von CPU
 
-  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30));
-  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25));
-  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240));
-  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470));
-  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100));
-  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60));
-  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38));
-  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88));
-  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31));
-  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108));
+  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
+  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
+  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240.1));
+  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
+  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
+  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
+  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38.2));
+  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
+  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
+  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
+
+
 
   int runde = 0;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU
 
@@ -459,9 +492,9 @@ int rundestart()
 
   //pListeCPU = pStart;
 
-  //firstlast(pStart);
+  firstlast_gew(pListePlayer);
 
-  ausgabe(pListePlayer, pListeCPU);
+  //ausgabe(pListePlayer, pListeCPU);
   return 0;
 }
 
@@ -490,21 +523,21 @@ int rundeneustart()
   printf("\n\n  Bitte Warten");
   Sleep(500);
 
-  struKarten* pStart = NULL;
+  struKarten* pStart = (struKarten*)malloc(sizeof(struKarten));
 
-  struKarten* pListePlayer = NULL;
-  struKarten* pListeCPU = NULL;
+  struKarten* pListePlayer = (struKarten*)malloc(sizeof(struKarten));
+  struKarten* pListeCPU = (struKarten*)malloc(sizeof(struKarten));
 
-  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30));
-  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25));
-  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240));
-  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470));
-  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100));
-  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60));
-  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38));
-  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88));
-  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31));
-  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108));
+  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
+  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
+  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240.1));
+  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
+  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
+  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
+  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38.2));
+  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
+  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
+  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
 
   int runde = 0;    
 
@@ -571,10 +604,20 @@ int rundeneustart()
   return 0;
 }
 
+int listcount(struKarten* pListe) {
+  int anz = 0;
+  struKarten* pTmp = pListe;
+  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) {  // Es werden alle Elemente in einer Liste gezählt.
+    anz++;
+  }
+  return anz;
+}
+
+
 int main()
 {
   srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
-  system("mode con cols=100 lines=50");                         // Setzt die Grösse der CMD
+  system("mode con cols=150 lines=70");                         // Setzt die Grösse der CMD
 
   menü();                                                       // Menü wird Aufgerufen
   end();                                                        // Spiel wird beendet
