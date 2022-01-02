@@ -100,7 +100,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |   |                |      |    |");
       printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
       printf("\n  |   |                |      |    |");
-      printf("\n  |   |Schaden         | %5.1lf|    |", pListePlayer->Schaden);
+      printf("\n  |   |Schaden         |  %4.1lf|    |", pListePlayer->Schaden);
       printf("\n  |    -----------------------     |");
       printf("\n  \x5C                                /");
       printf("\n   \x5C______________________________/");
