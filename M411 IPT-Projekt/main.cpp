@@ -335,11 +335,12 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
     pTemp = pListeGew;
     pListeGew = pListeGew->pNext;
     pTemp->pNext = NULL;
-    
+
+    pLast = pListeGew;
+
     while (pLast->pNext != NULL) pLast = pLast->pNext;
 
     pLast->pNext = pTemp;
-    pLast = pListeGew;
 
     struKarten* pKarte = pListeVerl;
     pTemp->pNext = pKarte;
