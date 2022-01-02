@@ -340,10 +340,7 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte)
   }
   else {
     struKarten* pLast = pListe; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
-    while (pLast->pNext != NULL) {
-      pLast = pLast->pNext;     // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,
-                                // ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
-    }
+    while (pLast->pNext != NULL)pLast = pLast->pNext;// Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,// ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
     pLast->pNext = pKarte;      // Jeder neue Inhalt, der sich in pNew befindet (Beispiel: Bogenschützin) ist die nächste Karte der temporär "letzten" Karte (Beispiel: Barbar).
   }
   return pListe;                // Die Liste wird samt allen neuen Elementen zurückgegeben.
@@ -412,10 +409,9 @@ int rundestart()
     Sleep(500);
   }*/
 
-  struKarten* pStart = (struKarten*)malloc(sizeof(struKarten));        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
-
-  struKarten* pListePlayer = (struKarten*)malloc(sizeof(struKarten));  //Erstellt Liste von Player
-  struKarten* pListeCPU = (struKarten*)malloc(sizeof(struKarten));     //Erstellt Liste von CPU
+  struKarten* pStart = NULL;        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
+  struKarten* pListePlayer = NULL;  //Erstellt Liste von Player
+  struKarten* pListeCPU = NULL;     //Erstellt Liste von CPU
 
   pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
   pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
@@ -616,6 +612,7 @@ int listcount(struKarten* pListe) {
 
 int main()
 {
+
   srand(time(NULL));                                            // Rand Initialisierung für die Methode "random".
   system("mode con cols=150 lines=70");                         // Setzt die Grösse der CMD
 
@@ -1143,35 +1140,30 @@ void gewinnen()
 
 void logo()
 {
-  printf("\n     ___  _             _             __     ___ _");
-  printf("\n    / __\x5C| |  __ _  ___| |__     ___ / _|   / __\x5C | __ _ _ __  ___");
-  printf("\n   / /   | | / _` / __ | '_ \x5C   / _ \x5C| |_  / /  | |/ _` | '_ \x5C/ __|");
-  printf("\n  / /___ | |(  _| \x5C__ \x5C| | | |  |(_) | _| / /___| | (_| | | | \x5C__ \x5C ");
-  printf("\n  \x5C____/ |_| \x5C__,_|___/|_| |_|  \x5C___/|_|  \x5C____/|_|\x5C__,_|_| |_|___/");
-  printf("\n");
-  printf("    .d88888b.                            888            888    888     \n");
-  printf("   d88P   Y88b                           888            888    888     \n");
-  printf("   888     888                           888            888    888     \n");
-  printf("   888     888 888  888  8888b.  888d888 888888 .d88b.  888888 888888  \n");
-  printf("   888     888 888  888     '88b 888P'   888   d8P  Y8b 888    888     \n");
-  printf("   888 Y8b 888 888  888 .d888888 888     888   88888888 888    888     \n");
-  printf("   Y88b.Y8b88P Y88b 888 888  888 888     Y88b. Y8b.     Y88b.  Y88b.   \n");
-  printf("    'Y888888'   'Y88888 'Y888888 888      'Y888 'Y8888'  'Y888  'Y888  \n");
-  printf("          Y8b                                                          \n\n");
+
+   printf("\n\n     ________           __             ____   ________                ");
+   printf("\n    / ____/ /___ ______/ /_     ____  / __/  / ____/ /___ _____  _____");
+   printf("\n   / /   / / __ `/ ___/ __ \x5C   / __ \x5C/ /_   / /   / / __ `/ __ \x5C/ ___/");
+   printf("\n  / /___/ / /_/ (__  ) / / /  / /_/ / __/  / /___/ / /_/ / / / (__  ) ");
+   printf("\n  \x5C____/_/\x5C__,_/____/_/ /_/ __\x5C____/_/_  __\x5C____/_/\x5C__,_/_/ /_/____/  ");
+   printf("\n    / __ \x5C__  ______ ______/ /____  / /_/ /_                          ");
+   printf("\n   / / / / / / / __ `/ ___/ __/ _ \x5C/ __/ __/                          ");
+   printf("\n  / /_/ / /_/ / /_/ / /  / /_/  __/ /_/ /_                            ");
+   printf("\n  \x5C___\x5C_\x5C__,_/\x5C__,_/_/   \x5C__/\x5C___/\x5C__/\x5C__/                            ");
+   printf("\n\n                                                                      ");
+
 }
 
 void end()
 {
   system("cls");
 
-  printf("\n\n");
-  printf("  oooooooooooo                   .o8           \n");
-  printf("  `888'     `8                  '888           \n");
-  printf("   888         ooo. .oo.    .oooo888   .d88b.  \n");
-  printf("   888oooo8    `888P'Y88b  d88' `888  d8P  Y8b \n");
-  printf("   888    '     888   888  888   888  88888888 \n");
-  printf("   888       o  888   888  888   888  Y8b.     \n");
-  printf("  o888ooooood8 o888o o888o `Y8bod88P'  'Y8888' \n\n\n");
+  printf("\n      ______          __   ");
+  printf("\n     / ____/___  ____/ /__ ");
+  printf("\n    / __/ / __ \x5C/ __  / _ \x5C");
+  printf("\n   / /___/ / / / /_/ /  __/");
+  printf("\n  /_____/_/ /_/\x5C__,_/\x5C___/ ");
+  printf("\n\n                           ");
 
   Sleep(700);
 }
