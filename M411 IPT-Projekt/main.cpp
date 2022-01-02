@@ -320,9 +320,8 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
-{
+{ 
 
-  if (pListeGew) {}
   struKarten* pTemp = pListeGew;
   pListeGew = pListeGew->pNext;
   pTemp->pNext = NULL;
@@ -689,7 +688,7 @@ int menü()
 {
   bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
 
-  while (hauptmenü)
+  while(hauptmenü)
   {
     //variablen
     char eingabe; // Variable für Eingabe
