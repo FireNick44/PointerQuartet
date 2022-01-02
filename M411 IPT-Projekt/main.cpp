@@ -228,7 +228,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n  Sie besitzen keine Karten mehr. Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
-
+      printf("\n\n  (J/N): ");
 
       c = _getch();
       if (c == 'j') menü = true;
@@ -247,6 +247,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n  Der CPU-Spieler besitzt keine Karten mehr. Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
+      printf("\n\n  (J/N): ");
 
       c = _getch();
       if (c == 'j') menü = true;
@@ -322,10 +323,16 @@ struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
 {
 
-  if (pListeGew) {}
-  struKarten* pTemp = pListeGew;
-  pListeGew = pListeGew->pNext;
-  pTemp->pNext = NULL;
+  if (listcount(pListeGew) == 1) {
+    pLast = pListeGew;
+  }
+
+  else if (listcount() != 1) {
+    struKarten* pTemp = pListeGew;
+    pListeGew = pListeGew->pNext;
+    pTemp->pNext = NULL;
+  }
+
 
   struKarten* pLast = pListeGew;
 
@@ -1216,7 +1223,7 @@ void verloren()
   printf("\n  Sie verlieren diese Karte leider.");
   printf("\n  Der Gegner erhält Ihre Karte.");
   printf("\n\n  ==================================");
-  Sleep(1500);
+  Sleep(2000);
 }
 
 void gewonnen()
@@ -1228,7 +1235,7 @@ void gewonnen()
   printf("\n  Sie gewinnen die Karte des Gegners.");
   printf("\n  Der Gegner verliert sie.");
   printf("\n\n  ==================================");
-  Sleep(1500);
+  Sleep(2000);
 }
 
 void unentschieden()
@@ -1240,7 +1247,7 @@ void unentschieden()
   printf("\n  Niemand gewinnt dieses Mal.");
   printf("\n  Die obersten Karten werden nach hinten versetzt.");
   printf("\n\n  ==================================");
-  Sleep(1500);
+  Sleep(2000);
 }
 
 
