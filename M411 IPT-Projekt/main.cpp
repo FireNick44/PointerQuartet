@@ -224,7 +224,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     {
       system("cls");
 
-      printf("\n  ==================================");
+      printf("\n\n\n  ==================================");
       printf("\n\n  Sie besitzen keine Karten mehr. Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
@@ -243,7 +243,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     {
       system("cls");
 
-      printf("\n  ==================================");
+      printf("\n\n\n  ==================================");
       printf("\n\n  Der CPU-Spieler besitzt keine Karten mehr. Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
@@ -258,65 +258,6 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     }
 
   }
-  return 0;
-}
-
-struKarten* firstlast(struKarten* pListeGewinner, struKarten* pListeVerlierer)
-{
-  // In dieser Funktion wird aus der Liste des Verl. die erste Karte und aus der Liste des Gew. die erste Karte
-  // an die letzte Stelle des Gew. versetzt
-
-
-  struKarten* pTempFirst = pListeGewinner;
-  struKarten* pTempLast = pListeGewinner;
-  struKarten* pTempLastMinus = NULL;
-
-  int f; //waren gedacht als index für eine for schleife
-  int l; //waren gedacht als index für eine for schleife
-  int lm; //waren gedacht als index für eine for schleife
-
-  while (pTempLast->pNext != NULL)
-  {
-
-    pTempLastMinus = pTempLast;
-    pTempLast = pTempLast->pNext;
-
-    printf("pTempFirst %i\n", f = pTempFirst->Nr);
-    printf("pTempLast %i\n", l = pTempLast->Nr);
-    printf("pTempLastMinus %i\n\n", lm = pTempLastMinus->Nr);
-  }
-  printf("==================================\n");
-
-
-  pTempLast->pNext = pTempFirst;
-
-  pListeGewinner = pTempFirst->pNext; //pListeGewinner zeigt direkt auf die 2. Karte
-  pTempLast->pNext->pNext = NULL; //Bei der Karte 1 wird pNext auf 0 gesetzt
-  pListeGewinner->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext->pNext = pTempLast->pNext; //Bei Orginal-Liste wird pNext auf Karte 11 bzw 1 gesetzt.
-
-  pTempLast = pListeGewinner;
-
-  while (pTempLast->pNext != NULL)
-  {
-
-    pTempLastMinus = pTempLast;
-    pTempLast = pTempLast->pNext;
-
-    //printf("pTempFirst %i\n", pTempFirst->Nr);
-    //printf("pTempLast %i\n", pTempLast->Nr);
-    //printf("pTempLastMinus %i\n\n", pTempLastMinus->Nr);
-
-    int z = pTempLast->Nr;
-    //Zum Testen
-    printf("\n  pTemp Zeigt auf die Karte Nr: %i", z);
-
-  }
-  printf("\n  ==================================");
-
-
-
-  system("pause");
-
   return 0;
 }
 
