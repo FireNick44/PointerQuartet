@@ -55,7 +55,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
   // Variablen
   char c;                     // Wird zur Überprüfung der ersten Eingabe benötigt.
-  char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein).
+  char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein). Ist nur im Entwicklermodus verfügbar.
   bool menü = false;          // Wird für das Rückkehren zum Hauptmenü benötigt.
   bool nextkarte = false;     // Wird benötigt, um aus der Ausgabe-Schleife raus zu kommen und, falls zur nächsten Karte gewechselt werden sollte.
   int kartenänderung;         // Wird benötigt, um zu identifizieren, welche änderung an den beiden Listen vorgenommen werden sollte.
@@ -74,6 +74,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n");
       printf("\n  ==================================");
       printf("\n\n  --------------KARTE---------------");
+      if (admin) printf("\n         ENTWICKLERMODUS EIN");
       printf("\n\n    ______________________________ ");
       printf("\n   /                              \x5C");
       printf("\n  /  CoC Quartett | Karte Nr.  %-2i  \x5C", pListePlayer->Nr);
@@ -101,6 +102,18 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
+
+      if (admin) {
+        printf("\n\n  Karten des CPU-Spielers:");
+        for (struKarten* pTemp = pListeCPU; pTemp != NULL; pTemp = pTemp->pNext) {
+          if (pTemp->pNext == NULL) {
+            printf(" %s", pTemp->Bez);
+          }
+
+          else printf(" %s->", pTemp->Bez);
+        }
+        printf("\n\n  Der CPU besitzt somit %i Karten.", AnzCPU);
+      }
       
 
       printf("\n\n\n  =================================");
@@ -114,82 +127,131 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       c = _getch();
 
-      if (c == '1' || c == 't') {
-        printf("\n\n  M\x94""chten Sie wirklich Trefferpunkte abfragen?");
-        printf("\n\n  (J/N): ");
+      if (admin) { // Was ausgeführt werden sollte, wenn der Entwicklermodus eingeschaltet ist.
+        if (c == '1' || c == 't') {
+          printf("\n\n  M\x94""chten Sie wirklich Trefferpunkte abfragen?");
+          printf("\n\n  (J/N): ");
 
-        j = _getch();
-        if (j == 'j') {
+          j = _getch();
+          if (j == 'j') {
+            kartenänderung = vergleiche(1, pListePlayer, pListeCPU);
+            nextkarte = true;
+          }
+
+          else if (j == 'n');
+
+          else falsche_eingabe();
+        }
+
+        else if (c == '2' || c == 'g') {
+          printf("\n\n  M\x94""chten Sie wirklich Geschwindigkeit abfragen?");
+          printf("\n\n  (J/N): ");
+
+          j = _getch();
+          if (j == 'j') {
+            kartenänderung = vergleiche(2, pListePlayer, pListeCPU);
+            nextkarte = true;
+          }
+
+          else if (j == 'n');
+
+          else falsche_eingabe();
+        }
+
+        else if (c == '3' || c == 's') {
+          printf("\n\n  M\x94""chten Sie wirklich Schaden abfragen?");
+          printf("\n\n  (J/N): ");
+
+          j = _getch();
+          if (j == 'j') {
+            kartenänderung = vergleiche(3, pListePlayer, pListeCPU);
+            nextkarte = true;
+          }
+
+          else if (j == 'n');
+
+          else falsche_eingabe();
+        }
+
+        else if (c == '4') {
+          printf("\n\n  M\x94""chten Sie wirklich das Spiel neustarten?");
+          printf("\n  Ihre Karten werden somit neu gemischt und Sie verlieren Ihren Spielstand.");
+          printf("\n\n  (J/N): ");
+
+          j = _getch();
+          if (j == 'j') {
+            rundestart();
+            menü = true;
+          }
+
+          else if (j == 'n');
+
+          else falsche_eingabe();
+        }
+
+        else if (c == '5') {
+          printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
+          printf("\n  (J/N): ");
+
+          j = _getch();
+          if (j == 'j') menü = true;
+        }
+
+        else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
+        {
+          falsche_eingabe();
+        }
+      }
+
+      if (!admin) { // Was ausgeführt werden sollte, wenn der Entwicklermodus ausgeschaltet ist.
+        if (c == '1' || c == 't') {
           kartenänderung = vergleiche(1, pListePlayer, pListeCPU);
           nextkarte = true;
         }
 
-        else if (j == 'n');
-
-        else falsche_eingabe();
-      }
-
-      else if (c == '2' || c == 'g') {
-        printf("\n\n  M\x94""chten Sie wirklich Geschwindigkeit abfragen?");
-        printf("\n\n  (J/N): ");
-
-        j = _getch();
-        if (j == 'j') {
-          kartenänderung = vergleiche(2, pListePlayer, pListeCPU);
-          nextkarte = true;
+        else if (c == '2' || c == 'g') {
+            kartenänderung = vergleiche(2, pListePlayer, pListeCPU);
+            nextkarte = true;
         }
 
-        else if (j == 'n');
-
-        else falsche_eingabe();
-      }
-
-      else if (c == '3' || c == 's') {
-        printf("\n\n  M\x94""chten Sie wirklich Schaden abfragen?");
-        printf("\n\n  (J/N): ");
-
-        j = _getch();
-        if (j == 'j') {
-          kartenänderung = vergleiche(3, pListePlayer, pListeCPU);
-          nextkarte = true;
+        else if (c == '3' || c == 's') {
+            kartenänderung = vergleiche(3, pListePlayer, pListeCPU);
+            nextkarte = true;
         }
 
-        else if (j == 'n');
+        else if (c == '4') {
+          printf("\n\n  M\x94""chten Sie wirklich das Spiel neustarten?");
+          printf("\n  Ihre Karten werden somit neu gemischt und Sie verlieren Ihren Spielstand.");
+          printf("\n\n  (J/N): ");
 
-        else falsche_eingabe();
-      }
+          j = _getch();
+          if (j == 'j') {
+            rundestart();
+            menü = true;
+          }
 
-      else if (c == '4') {
-        printf("\n\n  M\x94""chten Sie wirklich das Spiel neustarten?");
-        printf("\n  Ihre Karten werden somit neu gemischt und Sie verlieren Ihren Spielstand.");
-        printf("\n\n  (J/N): ");
+          else if (j == 'n');
 
-        j = _getch();
-        if (j == 'j') {
-          rundestart();
-          menü = true;
+          else falsche_eingabe();
         }
 
-        else if (j == 'n');
+        else if (c == '5') {
+          printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
+          printf("\n  (J/N): ");
 
-        else falsche_eingabe();
-      }
+          j = _getch();
+          if (j == 'j') menü = true;
+        }
 
-      else if (c == '5') {
-        printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-        printf("\n  (J/N): ");
-
-        j = _getch();
-        if (j == 'j') menü = true;
-      }
-
-      else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
-      {
-        falsche_eingabe();
+        else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
+        {
+          falsche_eingabe();
+        }
       }
 
     }
 
+    // Es wird durch den Rückgabewert von "vergleiche" ermittelt, wie sich die beiden Listen und Karten verändern sollen.
     if (kartenänderung == 1) // Bei Gewinn einer Karte sollen diese Änderungen vorgenommen werden.
     {
       pListePlayer = firstlast_gew(pListePlayer, pListeCPU);
@@ -224,8 +286,10 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       c = _getch();
       if (c == 'j') menü = true;
-      else if (c == 'n');
-      else falsche_eingabe();
+      else {
+        printf("\n\n  Leider haben Sie keine Wahl.  :)");
+        Sleep(2000);
+      }
     }
 
     // Spielende: Gewonnen-Schleife
@@ -243,17 +307,19 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       c = _getch();
       if (c == 'j') menü = true;
 
-      else if (j == 'n');
-
-      else falsche_eingabe();
+      else {
+        printf("\n\n  Leider haben Sie keine Wahl.  :)");
+        Sleep(2000);
+      }
     }
   }
+
   return 0;
 }
 
-struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
-{ 
+struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
   // Diese Funktion
+
   struKarten* pLast;
   struKarten* pTemp;
 
@@ -279,9 +345,8 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
   return pListeGew;
 }
 
-struKarten* firstlast_verl(struKarten* pListeVerl)
-{
-  // Diese Funktion
+struKarten* firstlast_verl(struKarten* pListeVerl) {
+  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt die Karte danach auf die zweite.
 
   struKarten* pTemp = pListeVerl;
   pListeVerl = pListeVerl->pNext;
@@ -383,9 +448,8 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
   return pTmp;
 }
 
-int rundestart()
-{
-  // Diese Funktion
+int rundestart() {
+  // In diese Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
 
   system("cls");
   
@@ -410,6 +474,10 @@ int rundestart()
     Sleep(500);
   }
 
+  system("cls");
+
+  printf("\n\n\n  ==================================");
+
   struKarten* pStart = NULL;        // Erstellt Startliste mit der beim Verteilen gearbeitet wird
   struKarten* pListePlayer = NULL;  // Erstellt Liste von Player
   struKarten* pListeCPU = NULL;     // Erstellt Liste von CPU
@@ -426,12 +494,11 @@ int rundestart()
   pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
   pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
 
-  int runde;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU
+  int runde;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU.
 
   for (runde = 1; runde <= 5; runde++)
   {
     int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
-    //int pEnd = 1;
     
     srand(time(NULL));
     int r = rand() % anz;
@@ -442,9 +509,12 @@ int rundestart()
 
     if (admin) {
       //Ausgabe zum Testen
-      printf("\n  Die zuf\xE4llige Karte ist Karte Nr: %i ", pKarte->Nr);
+
+
+      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
       printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt.");
+      printf("\n  Diese wird jetzt aus der Startliste entfernt und der Spielerliste hinzugef\x81gt.");
+      printf("\n\n");
       system("pause");
     }
 
@@ -467,15 +537,27 @@ int rundestart()
 
     if (admin) {
       //Ausgabe zum Testen
-      printf("\n  Die zuf\xE4llige Karte ist Karte Nr: %i ", pKarte->Nr);
+      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
       printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt und der Playerliste hinzugefügt.");
+      printf("\n  Diese wird jetzt aus der Startliste entfernt und der CPU-Liste hinzugef\x81gt.");
+      printf("\n\n");
       system("pause");
     }
+
+    
 
     pStart = removelist(pStart, pKarte);        // Parameter: Die Liste, aus der entfernt wird und welche Karte.
     pListeCPU = createlist(pListeCPU, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
   }
+
+  if (admin){
+    system("cls");
+
+    printf("\n  Jetzt wird das Spiel anfangen.");
+    printf("\n\n  ==================================");
+    system("pause");
+  }
+  
 
   ausgabe(pListePlayer, pListeCPU);
   return 0;
@@ -494,7 +576,7 @@ int listcount(struKarten* pListe)
 int main()
 {
   srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=100 lines=60");   // Setzt die Grösse der CMD
+  system("mode con cols=100 lines=50");   // Setzt die Grösse der CMD
 
   menü();                                 // Menü wird Aufgerufen
   end();                                  // Spiel wird beendet
@@ -971,13 +1053,13 @@ int einstellungen()
       if (admin == true) {
         admin = false;
         printf("\n  Entwicklermodus Deativiert ");
-        system("timeout 1 >null");
+        Sleep(700);
         system("cls");
       }
       else if (admin == false) {
         admin = true;
         printf("\n  Entwicklermodus Aktiviert ");
-        system("timeout 1 >null");
+        Sleep(700);
         system("cls");
       }
     }
