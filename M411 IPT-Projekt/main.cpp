@@ -434,7 +434,7 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte)
 
 struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
 {
-  // Diese Funktion
+  // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Strukturvariable zurück.
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
