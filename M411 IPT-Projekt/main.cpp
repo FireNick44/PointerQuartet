@@ -332,6 +332,8 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
 
 struKarten* createlist(struKarten* pListe, struKarten* pKarte)
 {
+  // Diese Funktion
+
   if (pListe == NULL) {   // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
     pListe = pKarte;      // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
     pKarte->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
@@ -350,6 +352,8 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte)
 
 struKarten* removelist(struKarten* pListe, struKarten* pKarte)
 {
+  // Diese Funktion
+
   if (pListe == pKarte) {
     pListe = pListe->pNext;
     pKarte->pNext = NULL;
@@ -365,6 +369,8 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte)
 
 struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
 {
+  // Diese Funktion
+
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
   pTmp->Nr = pTruppe;
@@ -379,6 +385,8 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
 
 int rundestart()
 {
+  // Diese Funktion
+
   system("cls");
   
   for (int i = 0; i < 2; i++) {
@@ -402,10 +410,11 @@ int rundestart()
     Sleep(500);
   }
 
-  struKarten* pStart = NULL;        //Erstellt Startliste mit der beim Verteilen gearbeitet wird
-  struKarten* pListePlayer = NULL;  //Erstellt Liste von Player
-  struKarten* pListeCPU = NULL;     //Erstellt Liste von CPU
+  struKarten* pStart = NULL;        // Erstellt Startliste mit der beim Verteilen gearbeitet wird
+  struKarten* pListePlayer = NULL;  // Erstellt Liste von Player
+  struKarten* pListeCPU = NULL;     // Erstellt Liste von CPU
 
+  // Einfüllen der Startliste mit Karten
   pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
   pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
   pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240.1));
@@ -474,6 +483,8 @@ int rundestart()
 
 int listcount(struKarten* pListe) 
 {
+  // Diese Funktion
+
   int anz = 0;
   struKarten* pTmp = pListe;
   for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) anz++;  // Es werden alle Elemente in der Liste gezählt und zurück gegeben.
@@ -493,6 +504,8 @@ int main()
 
 int menü()
 {
+  // Diese Funktion
+
   bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
 
   while(hauptmenü)
@@ -547,6 +560,8 @@ int menü()
 
 int einstellungen()
 {
+  // Diese Funktion
+
   //Variablen
   bool settings = true;
   bool farben = true;
