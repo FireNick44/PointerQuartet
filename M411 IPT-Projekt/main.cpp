@@ -21,7 +21,6 @@ typedef struct Karten
 
 // Prototypen der Methoden
 int rundestart();                                               // Start einer Runde
-int rundeneustart();                                            // Neustart einer Runde
 int ausgabe(struKarten*, struKarten*);                          // Funktion für Ausgabe der Karten
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
@@ -53,6 +52,7 @@ char textfarbe = 'F';                                           // Textfarbe der
 
 int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
+
   // Variablen
   char c;                     // Wird zur Überprüfung der ersten Eingabe benötigt.
   char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein).
@@ -190,19 +190,19 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
     }
 
-    if (kartenänderung == 1) // Bei Gewinn einer Karte
+    if (kartenänderung == 1) // Bei Gewinn einer Karte sollen diese Änderungen vorgenommen werden.
     {
       pListePlayer = firstlast_gew(pListePlayer, pListeCPU);
       pListeCPU = firstlast_verl(pListeCPU);
       gewonnen();
     }
-    else if (kartenänderung == 2) // Bei Verlust einer Karte
+    else if (kartenänderung == 2) // Bei Verlust einer Karte sollen diese Änderungen vorgenommen werden.
     {
       pListeCPU = firstlast_gew(pListeCPU, pListePlayer);
       pListePlayer = firstlast_verl(pListePlayer);
       verloren();
     }
-    else if (kartenänderung == 3) // Bei Unentschieden
+    else if (kartenänderung == 3) // Bei Unentschieden sollen diese Änderungen vorgenommen werden.
     {
       pListePlayer = firstlast_unent(pListePlayer);
       pListeCPU = firstlast_unent(pListeCPU);
@@ -216,6 +216,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       system("cls");
 
       printf("\n\n\n  ==================================");
+      printf("\n\n  ----------SPIEL VERLOREN----------");
       printf("\n\n  Sie besitzen keine Karten mehr. Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
@@ -233,6 +234,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       system("cls");
 
       printf("\n\n\n  ==================================");
+      printf("\n\n  ----------SPIEL GEWONNEN----------");
       printf("\n\n  Der CPU-Spieler besitzt keine Karten mehr. Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
@@ -251,6 +253,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
 { 
+  // Diese Funktion
   struKarten* pLast;
   struKarten* pTemp;
 
@@ -278,6 +281,8 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl)
 
 struKarten* firstlast_verl(struKarten* pListeVerl)
 {
+  // Diese Funktion
+
   struKarten* pTemp = pListeVerl;
   pListeVerl = pListeVerl->pNext;
   pTemp->pNext = NULL;
@@ -287,6 +292,8 @@ struKarten* firstlast_verl(struKarten* pListeVerl)
 
 struKarten* firstlast_unent(struKarten* pListe)
 {
+  // Diese Funktion
+
   struKarten* pTemp = pListe;
   pListe = pListe->pNext;
   pTemp->pNext = NULL;
@@ -299,8 +306,10 @@ struKarten* firstlast_unent(struKarten* pListe)
   return pListe;
 }
 
-int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
-  
+int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) 
+{
+  // Diese Funktion vergleicht zwei Listen und gibt
+
   int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
 
   if (Typ == 1) {
@@ -314,9 +323,9 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
     else if (pListePlayer->Geschw = pListeCPU->Geschw) kartenänderung = 3;
   }
   else if (Typ == 3) {
-    if (pListePlayer->Schaden > pListeCPU->Geschw)      kartenänderung = 1;
-    else if (pListePlayer->Schaden < pListeCPU->Geschw) kartenänderung = 2;
-    else if (pListePlayer->Schaden = pListeCPU->Geschw) kartenänderung = 3;
+    if (pListePlayer->Schaden > pListeCPU->Schaden)      kartenänderung = 1;
+    else if (pListePlayer->Schaden < pListeCPU->Schaden) kartenänderung = 2;
+    else if (pListePlayer->Schaden = pListeCPU->Schaden) kartenänderung = 3;
   }
   return kartenänderung;
 }
@@ -985,7 +994,7 @@ void verloren()
   printf("\n\n\n  ==================================");
   printf("\n\n  ------------VERLOREN------------");
   printf("\n\n  Sie verlieren diese Karte leider.");
-  printf("\n  Der Gegner erhält Ihre Karte.");
+  printf("\n  Der Gegner gewinnt Ihre aktuelle Karte.");
   printf("\n\n  ==================================");
   Sleep(2000);
 }
@@ -1013,7 +1022,6 @@ void unentschieden()
   printf("\n\n  ==================================");
   Sleep(2000);
 }
-
 
 void logo()
 {
