@@ -166,7 +166,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         j = _getch();
         if (j == 'j') {
-          rundeneustart();
+          rundestart();
           menü = true;
         }
 
@@ -372,23 +372,23 @@ int rundestart()
 {
   system("cls");
   
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 2; i++) {
     system("cls");
     printf("\n\n");
     printf("\n  ==================================");
-    printf("\n\n  Karten werden erstellt und gemischt .");
+    printf("\n\n  Karten werden erstellt und neu gemischt .");
     printf("\n\n  Bitte Warten");
     Sleep(500);
     system("cls");
     printf("\n\n");
     printf("\n  ==================================");
-    printf("\n\n  Karten werden erstellt und gemischt ..");
+    printf("\n\n  Karten werden erstellt und neu gemischt ..");
     printf("\n\n  Bitte Warten");
     Sleep(500);
     system("cls");
     printf("\n\n");
     printf("\n  ==================================");
-    printf("\n\n  Karten werden erstellt und gemischt ...");
+    printf("\n\n  Karten werden erstellt und neu gemischt ...");
     printf("\n\n  Bitte Warten");
     Sleep(500);
   }
@@ -460,116 +460,6 @@ int rundestart()
   }
 
   ausgabe(pListePlayer, pListeCPU);
-  return 0;
-}
-
-int rundeneustart()
-{
-  // Genau gleiche Funktion wie rundestart, wird aber nur ausgeführt wenn man das Spiel neustarten möchte.
-
-  system("cls");
-
-
-  for (int i = 0; i <= 0; i++) {
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden neu gemischt .");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden neu gemischt ..");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden neu gemischt ...");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-  }
-
-  struKarten* pStart = NULL;
-  struKarten* pListePlayer = NULL;
-  struKarten* pListeCPU = NULL;
-
-  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
-  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
-  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240.1));
-  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
-  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
-  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
-  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38.2));
-  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
-  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
-  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
-
-
-
-  int runde;
-
-  for (runde = 1; runde <= 5; runde++)
-  {
-    int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
-    //int pEnd = 1;
-
-    srand(time(NULL));
-    int r = rand() % anz;
-
-    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
-
-    for (int c = 1; c <= r; c++)
-    {
-      pKarte = pKarte->pNext;
-    }
-
-    /*
-    //Ausgabe zum Testen
-    printf("\n  Die zuf\xE4llige Karte ist Karte Nr: %i ", z);
-    printf("\n  Diese Karte heisst %c.", pKarte->Bez);
-    printf("\n  Diese wird jetzt aus der Startliste entfernt.");
-    system("pause");
-    */
-
-    pStart = removelist(pStart, pKarte);              // Parameter: Die Liste, aus der entfernt wird und welche Karte.
-    pListePlayer = createlist(pListePlayer, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
-  }
-
-  for (runde = 5; runde < 10; runde++)
-  {
-    int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt. 5 wurden schon entfernt.
-    //int pEnd = 1;
-
-
-    srand(time(NULL));
-    int r = rand() % anz;
-
-    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
-
-    int z = 0;
-    for (int c = 1; c <= r; c++)
-    {
-      pKarte = pKarte->pNext;
-      z = pKarte->Nr;
-    }
-
-    /*
-    //Ausgabe zum Testen
-    printf("\n  Die zuf\xE4llige Karte ist Karte Nr: %i ", z);
-    printf("\n  Diese Karte heisst %c.", pKarte->Bez);
-    printf("\n  Diese wird jetzt aus der Startliste entfernt und der Playerliste hinzugefügt.");
-    system("pause");
-    */
-
-    pStart = removelist(pStart, pKarte);        // Parameter: Die Liste, aus der entfernt wird und welche Karte.
-    pListeCPU = createlist(pListeCPU, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
-  }
-
-
-  ausgabe(pListePlayer, pListeCPU);
-
   return 0;
 }
 
