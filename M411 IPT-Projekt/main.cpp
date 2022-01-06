@@ -345,12 +345,11 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
       system("cls");
 
-      printf("\n\n");
-      printf("\n  ==================================");
       printf("\n\n  --------------KARTE---------------");
       if (admin) printf("\n         ENTWICKLERMODUS EIN");
       printf("\n\n    ______________________________ ");
       printf("\n   /                              \x5C");
+      printf("\n  /                                \x5C");
       printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |", pListePlayer->Nr);
       printf("\n  |                                |");
       printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
@@ -363,6 +362,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
       printf("\n  |   |                |      |    |");
       printf("\n  |   |Schaden         | %5.1lf|    |", pListePlayer->Schaden);
+      printf("\n  \x5C                                /");
       printf("\n   \x5C______________________________/");
       printf("\n\n");
 
@@ -840,7 +840,7 @@ int listcount(struKarten* pListe)
 int main()
 {
   srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=150 lines=55");   // Setzt die Grösse der CMD
+  system("mode con cols=90 lines=57");   // Setzt die Grösse der CMD
 
   menü();                                 // Menü wird Aufgerufen
   end();                                  // Spiel wird beendet
