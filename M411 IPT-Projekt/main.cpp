@@ -367,9 +367,10 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n   \x5C______________________________/");
       printf("\n\n");
 
-      if (pListePlayer->pNext != NULL)      printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
-      else if (pListePlayer->pNext == NULL) printf("\n");
+      if (pListePlayer->pNext != NULL && admin)      printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
+      else printf("\n");
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
+      printf("\n  Der CPU besitzt insgesamt noch %i Karten.", AnzCPU);
       
       if (admin) {
         printf("\n\n  Karten des CPU-Spielers:");
@@ -587,7 +588,8 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
-  // Diese Funktion
+  // 
+  // Diese Funktion verschiebt
 
   struKarten* pLast;
   struKarten* pTemp;
