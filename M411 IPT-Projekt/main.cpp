@@ -30,7 +30,7 @@ struKarten* firstlast_verl(struKarten*);                        // Funktion für 
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
 int vergleiche_karten(struKarten*, struKarten*);                // Funktion für die Ausgabe von Karten nebeneinander für das visuelle Vergleichen
-void ausgabe_kartenbild(struKarten*);                                // Funktion für die Ausgabe von Kartenbilder 
+void ausgabe_kartenbild(struKarten*);                           // Funktion für die Ausgabe von Kartenbilder 
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
