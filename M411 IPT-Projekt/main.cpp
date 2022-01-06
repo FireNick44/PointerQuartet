@@ -545,7 +545,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n\n  ==================================");
       printf("\n\n  ----------SPIEL VERLOREN----------");
       printf("\n\n  Sie besitzen keine Karten mehr.");
-      printf("\n\n  Sie haben das Spiel verloren.");
+      printf("\n  Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
       printf("\n\n  (J/N): ");
@@ -566,7 +566,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n\n  ==================================");
       printf("\n\n  ----------SPIEL GEWONNEN----------");
       printf("\n\n  Der CPU-Spieler besitzt keine Karten mehr.");
-      printf("\n\n  Sie haben das Spiel gewonnen.");
+      printf("\n  Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
       printf("\n\n  (J/N): ");
