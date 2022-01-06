@@ -54,7 +54,7 @@ char textfarbe = 'F';                                           // Textfarbe der
 int main()
 {
   srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=90 lines=57");    // Setzt die Grösse des CMD-Fensters
+  system("mode con cols=90 lines=60");    // Setzt die Grösse des CMD-Fensters
 
   menü();                                 // Menü wird Aufgerufen
   end();                                  // Spiel wird beendet
