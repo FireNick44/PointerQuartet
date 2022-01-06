@@ -366,7 +366,8 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n   \x5C______________________________/");
       printf("\n\n");
 
-      printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
+      if (pListePlayer->pNext != NULL)      printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
+      else if (pListePlayer->pNext == NULL) printf("\n  Sie haben nur noch eine Karte: %-14s ", pListePlayer->Bez);
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
 
       if (admin) {
@@ -1172,7 +1173,7 @@ void end()
   printf("\n    / __/ / __ \x5C/ __  / _ \x5C");
   printf("\n   / /___/ / / / /_/ /  __/");
   printf("\n  /_____/_/ /_/\x5C__,_/\x5C___/ ");
-  printf("\n\n\n                           ");
+  printf("\n\n\n                           \n");
 
   Sleep(800);
 }
