@@ -265,7 +265,7 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
   pTmp->Schaden = Dmg;
   pTmp->pNext = NULL;
 
-  return pTmp;
+  return pTmp;      // Die Karte wird samt 
 }
 
 struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
@@ -941,19 +941,19 @@ int vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
   // Mazen & Yannic
-  // Diese Funktion verschiebt die erste Karte des Gewinners und des Verlierers and die 
+  // Diese Funktion verschiebt die erste Karte des Gewinners und des Verlierers an die letzte Stelle der Gewinnerkarte.
 
   struKarten* pLast;
   struKarten* pTemp;
 
-  if (listcount(pListeGew) == 1) {
+  if (listcount(pListeGew) == 1) {                       // Wenn beim Gewinner nur noch 1 Karte vorhanden ist, wird die gewonnene hinter dieser verschoben.
     pLast = pListeGew;
     struKarten* pKarte = pListeVerl;
     pLast->pNext = pKarte;
   }
 
-  else if (listcount(pListeGew) != 1) {
-    pTemp = pListeGew;
+  else if (listcount(pListeGew) > 1) {                  // Wenn der Gewinner mehr als 1 Karte besitzt, wird zur letzten gewechselt, also pLast, 
+    pTemp = pListeGew;                                  // und deren nächste Karte ist die gewonnene Karte. Ebenfalls wird die eigene erste Karte an den letzten Platz versetzt.
     pListeGew = pListeGew->pNext;
     pTemp->pNext = NULL;
     pLast = pListeGew;
@@ -965,23 +965,24 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
     pTemp->pNext = pKarte;
   }
 
-  return pListeGew;
+  return pListeGew;                                   // Die Liste wird verändert zurückgegeben.
 }
 
 struKarten* firstlast_verl(struKarten* pListeVerl) {
   // Mazen & Yannic
-  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt fest, dass in dieser Liste die zweite Karte die erste sein soll.
+  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt fest, 
+  // dass in dieser Liste die zweite Karte die erste sein soll.
 
   struKarten* pTemp = pListeVerl;
   pListeVerl = pListeVerl->pNext;
   pTemp->pNext = NULL;
 
-  return pListeVerl;
+  return pListeVerl;                                  // Die Liste wird verändert zurückgegeben.
 }
 
 struKarten* firstlast_unent(struKarten* pListe) {
   // Mazen & Yannic
-  // Diese Funktion versetzt die erste Karte ganz hinten wenn ein unentschieden geschieht.
+  // Diese Funktion versetzt die erste Karte ganz hinten wenn ein Unentschieden geschieht.
 
   struKarten* pTemp = pListe;
   pListe = pListe->pNext;
@@ -992,7 +993,7 @@ struKarten* firstlast_unent(struKarten* pListe) {
   while (pLast->pNext != NULL) pLast = pLast->pNext;
   pLast->pNext = pTemp;
 
-  return pListe;
+  return pListe;                                      // Die Liste wird verändert zurückgegeben.
 }
 
 
