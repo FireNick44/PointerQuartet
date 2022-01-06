@@ -29,7 +29,7 @@ struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für 
 struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
-void karten_bild(struKarten*, struKarten*);
+void ausgabe_karte(struKarten*, struKarten*);
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
@@ -51,10 +51,201 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
 
-void karten_bild(struKarten* pListePlayer, struKarten* pListeCPU) {
+void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
+
+  //Kopie der mitgegebenen Werte
+  struKarten* pPlayer = pListePlayer;
+  struKarten* pCPU = pListeCPU;
+
+  char aktiv_player[15][30];
+  char aktiv_cpu[15][30];
+
+  char barbar[15][30]
+  {
+    "    .@@@@@@@@@@@@@@@@@@.    \0",
+    "    @                  @.   \0",
+    "   @@                  @@.  \0",
+    "  @@                    @@  \0",
+    "  @@                    &@  \0",
+    "  @ @@@@@@@    .@@@@@@@@ @. \0",
+    "  @@   (o)      (O)     @@@ \0",
+    " .@@        ((           @@ \0",
+    " @@@  @@@@@@@@@@@@@@@    @@ \0",
+    "     @@ ########## @@@      \0",
+    "    @@@            @@@      \0",
+    "    @@ ##________## @@@     \0",
+    "    @@@ '########'  @@@     \0",
+    "    @@@             @@@     \0",
+    "                            \0",
+  };
+  char schweinereiter[15][30]
+  {
+    "         @@@@@@@@@@         \0",
+    "       @@@@@@@@@@@@@@       \0",
+    "    ,@@@@@@@@       @@      \0",
+    "   @  @@@@'           @     \0",
+    " ,@                    @ ,@.\0",
+    " @@ @@@@    /@@@@@.    @@  @\0",
+    " @@  (O)      (O)     .@@  @\0",
+    " @        /           @@@(.)\0",
+    " @       (@.          @@@   \0",
+    ".@@@@@@@@@@@@@@@@@@   @@,   \0",
+    "@@@@ ########## @@@@ .@@*   \0",
+    "'@@@              @@@@@@*   \0",
+    " @@@@ #########,@@@@@@@     \0",
+    "  @@@@@@@@@@@@@@@@@@@       \0",
+    "    @@@@@@@@@@@@@@@@        \0",
+  };
+  char balloon[15][30]
+  {
+    "        @@@@@@@@@@@         \0",
+    "     @@@@@@@@@@@@@@@@@      \0",
+    "   @@@@@@         @@@@@@    \0",
+    "  @@@@@@ (O)   (O) @@@@@@   \0",
+    "  @@@@@@     @     @@@@@@   \0",
+    "  @@@@@@@  , , ,  @@@@@@@   \0",
+    "   @@@@@@@ @ @ @ @@@@@@@    \0",
+    "    @@@@@@U@U@U@U@@@@@@     \0",
+    "       @@@@@@@@@@@@@        \0",
+    "        |  |   |  |         \0",
+    "        |  |   |  |  `      \0",
+    "       (###########)    `   \0",
+    "        @@@@@@@@@@@  ` `    \0",
+    "         @@@@@@@@@  `  #  ` \0",
+    "                      `  `  \0",
+  };
+  char riese[15][30]
+  {
+    "    @                 @     \0",
+    "  @@                   @@   \0",
+    " @                       @  \0",
+    "@@@@@@@@@@@@   @@@@@@@@@@@@ \0",
+    "@@@@@@@@@@@@@ @@@@@@@@@@@@@@\0",
+    "@        @@@   @@@        @ \0",
+    "   ( o )     .     ( o )  @@\0",
+    "@@          ,@            @@\0",
+    "@@@       ,@@  @.        @@@\0",
+    "@@@)        @@@         (@@@\0",
+    "@@@@                    @@@@\0",
+    " @@@@@   ###########  @@@@@@\0",
+    " @@@@@@              @@@@@@ \0",
+    "   @@@@@@          @@@@@@   \0",
+    "     @@@@@@.     .@@@@@     \0",
+  };
+  char pekka[15][30]
+  {
+    "                            \0",
+    "@                         @ \0",
+    "@@                       @@ \0",
+    "@@@@  ,-------------,  @@@@ \0",
+    " @@@@@@'           '@@@@@@  \0",
+    " @@@@                 @@@@  \0",
+    "  @@  @(O)@)   (@(O)@  @@   \0",
+    "   |  @@@'   M   '@@@  |    \0",
+    "   |  '     MMM     '  |    \0",
+    "   |        MMM        |    \0",
+    "   |        MMM        |    \0",
+    " /MMMMMMMMMM/ \x5CMMMMMMMMMM\x5C  \0",
+    "/'         /   \x5C         '\x5C \0",
+    "          /     \x5C           \0",
+    "                            \0",
+  };
+  char magier[15][30]
+  {
+    "    ,@@@@@@@@@@@@@@@@@@,    \0",
+    "  @@@@@@@@@@@@@@@@@@@@@@@@  \0",
+    " @@@@@@@@@@@@@@@@@@@@@@@@@@ \0",
+    "@@@@                    @@@@\0",
+    "@@@ Xx                xX @@@\0",
+    "@@|  'XXXx,      ,xXXX'  |@@\0",
+    "@ |   (O)    ,     (O)   | @\0",
+    "@ |         ,@           | @\0",
+    "@ |        ,@  @.        | @\0",
+    "@@|    @@@@@@@@@@@@@@    |@@\0",
+    " @,\x5C   @@ ######## @@   /,@ \0",
+    "  @@ \x5C '@          @' / @@  \0",
+    "   @@  \x5C@@@@@@@@@@@@/  @@   \0",
+    "    @    '@@@@@@@@'    @    \0",
+    "   @@       '@@'       @@   \0",
+  };
+  char hexe[15][30]
+  {
+    "   ,@@@@@@@@@@@@@@@@@@@@,   \0",
+    " @@@@@@@@@@@@@@@@@@@@@@@@@@ \0",
+    " @@@@@@@@@@@@@@@@@@@@@@@@@@ \0",
+    "@@@@@@@@@@@@@@@@@@@@@@@@@@@@\0",
+    "@@  '@@@@@@@@@@@@@@@@@@'  @@\0",
+    "@@,     @@@@@@@@@@@@     ,@@\0",
+    "@@@        @@@@@@        @@@\0",
+    " @@    (O)  @@@@  (O)    @@ \0",
+    " @@          @@          @@ \0",
+    "  @@        ,' .        @@  \0",
+    "  @@                    @@  \0",
+    " @@.\x5C     ########     /.@@ \0",
+    "@@...\x5C     '####'     /...@@\0",
+    "@@@....\x5C            /....@@@\0",
+    " @@@.....\x5C________/.....@@@ \0",
+  };
+  char golem[15][30]
+  {
+    ".x...,@@@@@@@@@@@@@@@@@,....\0",
+    "..X @@'               '@@...\0",
+    "...@@                   @@..\0",
+    "..@' ___             ___ '@.\0",
+    "..@  '@@@@@@XxxxX@@@@@@'  @@\0",
+    ".@'   @@.O`@     @,O`@@  `@@\0",
+    ",@@   `@@@@+     +@@@@:   @@\0",
+    "@@@,                    ,@@@\0",
+    "@@  @@@@@@@,        ,@@@@@'@\0",
+    "'@  .@/   '@@@@@@@@@@     ,@\0",
+    ".@@  @        @@'   @`    @@\0",
+    "..@.          `@          @@\0",
+    "xX `@@`              ,@@@/..\0",
+    ".....+@@@@@@@@@@@@@@@@@'x...\0",
+    ".....X...................X..\0",
+  };
+  char skelet[15][30]
+  {
+    "    ,..xx@@@@@@@@@@xx..,    \0",
+    "  @'                   ,'@, \0",
+    " @@@'`  `' ` `'  `'@@@'  `@,\0",
+    "@@'                   @@  `@\0",
+    "@   @@@@        @@@@  '@@  @\0",
+    "@  @@@@@@      @@@@@@   @  @\0",
+    "@   @@@@        @@@@    @, @\0",
+    "@           ,           @  @\0",
+    "@          .@@,        @ @  \0",
+    " @@       ,@@@@.       @@'` \0",
+    "   @@@@            @@@@     \0",
+    "      @,###########,@       \0",
+    "        ###########         \0",
+    "             @   @  @@@@@@  \0",
+    "      @@@@@@  @   @         \0",
+  };
+  char tunnelgräber[15][30]
+  {
+    "       )                    \0",
+    "      (_)                   \0",
+    "      |`|MMMMMMMMM          \0",
+    "    MM| |MMMMMMMMMMMMM      \0",
+    "   MMMMMMMMMMMMMMMMMMMM     \0",
+    "  MMMMMMMMMMMMMMMMMMMMMM    \0",
+    "MMMMMMMMMMMMMMMMMMMMMMMMMMM \0",
+    " @@@ @@@@@     @@@@@  @@@   \0",
+    "  @@  (O)       (O)   @@    \0",
+    "   @        )         @     \0",
+    "   @       (@@       @      \0",
+    "    @  ##,     ,###  @      \0",
+    "    @  `'#######'`  @       \0",
+    "     @@,.       .,@@        \0",
+    "        `'@@@@@'`           \0",
+  };
 
 
-
+  for (int i = 0; i < 15; i++)
+  {
+    printf("%s\n",hexe[i]);
+  }
 
   //printf("\n\n");
   //printf("\n  ==================================");
@@ -85,273 +276,10 @@ void karten_bild(struKarten* pListePlayer, struKarten* pListeCPU) {
   //printf("\n   \x5C______________________________/");
   //printf("\n\n");
 
-  const char Barbar[1][30] = { {"    .@@@@@@@@@@@@@@@@@@.    ","    @                  @.   " } },
-             Barbar[2] [30] = {"    @                  @.   "},
-             Barbar[3] [30] = {"   @@                  @@.  "},
-             Barbar[4] [30] = {"  @@                    @@  "},
-             Barbar[5] [30] = {"  @@                    &@  "},
-             Barbar[6] [30] = {"  @ @@@@@@@    .@@@@@@@@ @. "},
-             Barbar[7] [30] = {"  @@   (o)      (O)     @@@ "},
-             Barbar[8] [30] = {" .@@        ((           @@ "},
-             Barbar[9] [30] = {" @@@  @@@@@@@@@@@@@@@    @@ "},
-             Barbar[10][30] = {"     @@ ########## @@@      "},
-             Barbar[11][30] = {"    @@@            @@@      "},
-             Barbar[12][30] = {"    @@ ##________## @@@     "},
-             Barbar[13][30] = {"    @@@ '########'  @@@     "},
-             Barbar[14][30] = {"    @@@             @@@     "},
-             Barbar[15][30] = {"                            "};
-  
-  const char* tBarbar[30];
-
-  for (int i = 0; i < 14; i++)
-  {
-
-    printf("%s\n", Barbar[i][30]);
-  }
-
-
-  printf("01234567890123456789012345678\n");
-  printf("1    .@@@@@@@@@@@@@@@@@@.    \n");
-  printf("2    @                  @.   \n");
-  printf("3   @@                  @@.  \n");
-  printf("4  @@                    @@  \n");
-  printf("5  @@                    &@  \n");
-  printf("6  @ @@@@@@@    .@@@@@@@@ @. \n");
-  printf("7  @@   (o)      (O)     @@@ \n");
-  printf("8 .@@        ((           @@ \n");
-  printf("9 @@@  @@@@@@@@@@@@@@@    @@ \n");
-  printf("0     @@ ########## @@@      \n");
-  printf("1    @@@            @@@      \n");
-  printf("2    @@ ##________## @@@     \n");
-  printf("3    @@@ '########'  @@@     \n");
-  printf("4    @@@             @@@     \n");
-  printf("5                            \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1         @@@@@@@@@@         \n");
-  printf("2       @@@@@@@@@@@@@@       \n");
-  printf("3    ,@@@@@@@@       @@      \n");
-  printf("4   @  @@@@'           @     \n");
-  printf("5 ,@                    @ ,@.\n");
-  printf("6 @@ @@@@    /@@@@@.    @@  @\n");
-  printf("7 @@  (O)      (O)     .@@  @\n");
-  printf("8 @        /           @@@(.)\n");
-  printf("9 @       (@.          @@@   \n");
-  printf("0.@@@@@@@@@@@@@@@@@@   @@,   \n");
-  printf("1@@@@ ########## @@@@ .@@*   \n");
-  printf("2'@@@              @@@@@@*   \n");
-  printf("3 @@@@ #########,@@@@@@@     \n");
-  printf("4  @@@@@@@@@@@@@@@@@@@       \n");
-  printf("5    @@@@@@@@@@@@@@@@        \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1        @@@@@@@@@@@         \n");
-  printf("2     @@@@@@@@@@@@@@@@@      \n");
-  printf("3   @@@@@@         @@@@@@    \n");
-  printf("4  @@@@@@ (O)   (O) @@@@@@   \n");
-  printf("5  @@@@@@     @     @@@@@@   \n");
-  printf("6  @@@@@@@  , , ,  @@@@@@@   \n");
-  printf("7   @@@@@@@ @ @ @ @@@@@@@    \n");
-  printf("8    @@@@@@U@U@U@U@@@@@@     \n");
-  printf("9       @@@@@@@@@@@@@        \n");
-  printf("0        |  |   |  |         \n");
-  printf("1        |  |   |  |  `      \n");
-  printf("2       (###########)    `   \n");
-  printf("3        @@@@@@@@@@@  ` `    \n");
-  printf("4         @@@@@@@@@  `  #  ` \n");
-  printf("5                      `  `  \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1    @                 @     \n");
-  printf("2  @@                   @@   \n");
-  printf("3 @                       @  \n");
-  printf("4@@@@@@@@@@@@   @@@@@@@@@@@@ \n");
-  printf("5@@@@@@@@@@@@@ @@@@@@@@@@@@@@\n");
-  printf("6@        @@@   @@@        @ \n");
-  printf("7   ( o )     .     ( o )  @@\n");
-  printf("8@@          ,@            @@\n");
-  printf("9@@@       ,@@  @.        @@@\n");
-  printf("0@@@)        @@@         (@@@\n");
-  printf("1@@@@                    @@@@\n");
-  printf("2 @@@@@   ###########  @@@@@@\n");
-  printf("3 @@@@@@              @@@@@@ \n");
-  printf("4   @@@@@@          @@@@@@   \n");
-  printf("5     @@@@@@.     .@@@@@     \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1                            \n");
-  printf("2@                         @ \n");
-  printf("3@@                       @@ \n");
-  printf("4@@@@  ,-------------,  @@@@ \n");
-  printf("5 @@@@@@'           '@@@@@@  \n");
-  printf("6 @@@@                 @@@@  \n");
-  printf("7  @@  @(O)@)   (@(O)@  @@   \n");
-  printf("8   |  @@@'   M   '@@@  |    \n");
-  printf("9   |  '     MMM     '  |    \n");
-  printf("0   |        MMM        |    \n");
-  printf("1   |        MMM        |    \n");
-  printf("2 /MMMMMMMMMM/ \MMMMMMMMMM\  \n");
-  printf("3/'         /   \         '\ \n");
-  printf("4          /     \           \n");
-  printf("5                            \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1                            \n");
-  printf("2@                         @ \n");
-  printf("3@@                       @@ \n");
-  printf("4@@@@  ,-------------,  @@@@ \n");
-  printf("5 @@@@@@'           '@@@@@@  \n");
-  printf("6 @@@@                 @@@@  \n");
-  printf("7  @@  @(O)@)   (@(O)@  @@   \n");
-  printf("8   |  @@@'   M   '@@@  |    \n");
-  printf("9   |  '     MMM     '  |    \n");
-  printf("0   |        MMM        |    \n");
-  printf("1   |        MMM        |    \n");
-  printf("2 /MMMMMMMMMM/ \x5CMMMMMMMMMM\x5C  \n");
-  printf("3/'         /   \x5C         '\x5C \n");
-  printf("4          /     \x5C           \n");
-  printf("5                            \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1    ,@@@@@@@@@@@@@@@@@@,    \n");
-  printf("2  @@@@@@@@@@@@@@@@@@@@@@@@  \n");
-  printf("3 @@@@@@@@@@@@@@@@@@@@@@@@@@ \n");
-  printf("4@@@@                    @@@@\n");
-  printf("5@@@ Xx                xX @@@\n");
-  printf("6@@|  'XXXx,      ,xXXX'  |@@\n");
-  printf("7@ |   (O)    ,     (O)   | @\n");
-  printf("8@ |         ,@           | @\n");
-  printf("9@ |        ,@  @.        | @\n");
-  printf("0@@|    @@@@@@@@@@@@@@    |@@\n");
-  printf("1 @,\   @@ ######## @@   /,@ \n");
-  printf("2  @@ \ '@          @' / @@  \n");
-  printf("3   @@  \@@@@@@@@@@@@/  @@   \n");
-  printf("4    @    '@@@@@@@@'    @    \n");
-  printf("5   @@       '@@'       @@   \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1    ,@@@@@@@@@@@@@@@@@@,    \n");
-  printf("2  @@@@@@@@@@@@@@@@@@@@@@@@  \n");
-  printf("3 @@@@@@@@@@@@@@@@@@@@@@@@@@ \n");
-  printf("4@@@@                    @@@@\n");
-  printf("5@@@ Xx                xX @@@\n");
-  printf("6@@|  'XXXx,      ,xXXX'  |@@\n");
-  printf("7@ |   (O)    ,     (O)   | @\n");
-  printf("8@ |         ,@           | @\n");
-  printf("9@ |        ,@  @.        | @\n");
-  printf("0@@|    @@@@@@@@@@@@@@    |@@\n");
-  printf("1 @,\x5C   @@ ######## @@   /,@ \n");
-  printf("2  @@ \x5C '@          @' / @@  \n");
-  printf("3   @@  \x5C@@@@@@@@@@@@/  @@   \n");
-  printf("4    @    '@@@@@@@@'    @    \n");
-  printf("5   @@       '@@'       @@   \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1   ,@@@@@@@@@@@@@@@@@@@@,   \n");
-  printf("2 @@@@@@@@@@@@@@@@@@@@@@@@@@ \n");
-  printf("3 @@@@@@@@@@@@@@@@@@@@@@@@@@ \n");
-  printf("4@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-  printf("5@@  '@@@@@@@@@@@@@@@@@@'  @@\n");
-  printf("6@@,     @@@@@@@@@@@@     ,@@\n");
-  printf("7@@@        @@@@@@        @@@\n");
-  printf("8 @@    (O)  @@@@  (O)    @@ \n");
-  printf("9 @@          @@          @@ \n");
-  printf("0  @@        ,' .        @@  \n");
-  printf("1  @@                    @@  \n");
-  printf("2 @@.\     ########     /.@@ \n");
-  printf("3@@...\     '####'     /...@@\n");
-  printf("4@@@....\            /....@@@\n");
-  printf("5 @@@......\_______/......@@@\n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1   ,@@@@@@@@@@@@@@@@@@@@,   \n");
-  printf("2 @@@@@@@@@@@@@@@@@@@@@@@@@@ \n");
-  printf("3 @@@@@@@@@@@@@@@@@@@@@@@@@@ \n");
-  printf("4@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-  printf("5@@  '@@@@@@@@@@@@@@@@@@'  @@\n");
-  printf("6@@,     @@@@@@@@@@@@     ,@@\n");
-  printf("7@@@        @@@@@@        @@@\n");
-  printf("8 @@    (O)  @@@@  (O)    @@ \n");
-  printf("9 @@          @@          @@ \n");
-  printf("0  @@        ,' .        @@  \n");
-  printf("1  @@                    @@  \n");
-  printf("2 @@.\x5C     ########     /.@@ \n");
-  printf("3@@...\x5C     '####'     /...@@\n");
-  printf("4@@@....\x5C            /....@@@\n");
-  printf("5 @@@......\x5C_______/......@@@\n");
-  printf("01234567890123456789012345678\n");
-
-  printf("1.x...,@@@@@@@@@@@@@@@@@,....\n");
-  printf("2..X @@'               '@@...\n");
-  printf("3...@@                   @@..\n");
-  printf("4..@' ___             ___ '@.\n");
-  printf("5..@  '@@@@@@XxxxX@@@@@@'  @@\n");
-  printf("6.@'   @@.O`@     @,O`@@  `@@\n");
-  printf("7,@@   `@@@@+     +@@@@:   @@\n");
-  printf("8@@@,                    ,@@@\n");
-  printf("9@@  @@@@@@@,        ,@@@@@'@\n");
-  printf("0'@  .@/   '@@@@@@@@@@     ,@\n");
-  printf("1.@@  @        @@'   @`    @@\n");
-  printf("2..@.          `@          @@\n");
-  printf("3xX `@@`              ,@@@/..\n");
-  printf("4.....+@@@@@@@@@@@@@@@@@'x...\n");
-  printf("5.....X...................X..\n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1    ,..xx@@@@@@@@@@xx..,    \n");
-  printf("2  @'                   ,'@, \n");
-  printf("3 @@@'`  `' ` `'  `'@@@'  `@,\n");
-  printf("4@@'                   @@  `@\n");
-  printf("5@   @@@@        @@@@  '@@  @\n");
-  printf("6@  @@@@@@      @@@@@@   @  @\n");
-  printf("7@   @@@@        @@@@    @, @\n");
-  printf("8@           ,           @  @\n");
-  printf("9@          .@@,        @ @  \n");
-  printf("0 @@       ,@@@@.       @@'` \n");
-  printf("1   @@@@            @@@@     \n");
-  printf("2      @,###########,@       \n");
-  printf("3        ###########         \n");
-  printf("4             @   @  @@@@@@  \n");
-  printf("5      @@@@@@  @   @         \n");
-
-  printf("01234567890123456789012345678\n");
-  printf("1       )                    \n");
-  printf("2      (_)                   \n");
-  printf("3      |`|MMMMMMMMM          \n");
-  printf("4    MM| |MMMMMMMMMMMMM      \n");
-  printf("5   MMMMMMMMMMMMMMMMMMMM     \n");
-  printf("6  MMMMMMMMMMMMMMMMMMMMMM    \n");
-  printf("7MMMMMMMMMMMMMMMMMMMMMMMMMMM \n");
-  printf("8 @@@ @@@@@     @@@@@  @@@   \n");
-  printf("9  @@  (O)       (O)   @@    \n");
-  printf("0   @        )         @     \n");
-  printf("1   @       (@@       @      \n");
-  printf("2    @  ##,     ,###  @      \n");
-  printf("3    @  `'#######'`  @       \n");
-  printf("4     @@,.       .,@@        \n");
-  printf("5        `'@@@@@'`           \n");
-
-  printf("\n |       )                       ");
-  printf("\n |      (_)                      ");
-  printf("\n |      |`|MMMMMMMMM             ");
-  printf("\n |    MM| |MMMMMMMMMMMMM         ");
-  printf("\n |   MMMMMMMMMMMMMMMMMMMM        ");
-  printf("\n |  MMMMMMMMMMMMMMMMMMMMMM       ");
-  printf("\n |MMMMMMMMMMMMMMMMMMMMMMMMMMM    ");
-  printf("\n | @@@ @@@@@     @@@@@  @@@      ");
-  printf("\n |  @@  (O)       (O)   @@       ");
-  printf("\n |   @        )         @        ");
-  printf("\n |   @       (@@       @         ");
-  printf("\n |    @  ##,     ,###  @         ");
-  printf("\n |    @  `'#######'`  @          ");
-  printf("\n |     @@,.       .,@@           ");
-  printf("\n |        `'@@@@@'`              ");
 
 
 
 }
-
-
 
 int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
@@ -786,12 +714,12 @@ int rundestart() {
 
   // Einfüllen der Startliste mit Karten
   pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
-  pStart = createlist(pStart, karte(2, "Bogensch\x81tzin", 48, 24, 25.7));
-  pStart = createlist(pStart, karte(3, "Drache", 3100, 16, 240.1));
+  pStart = createlist(pStart, karte(2, "Magier", 48, 24, 25.7));
+  pStart = createlist(pStart, karte(3, "Golem", 3100, 16, 240.1));
   pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
   pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
   pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
-  pStart = createlist(pStart, karte(7, "Lakai", 58, 32, 38.2));
+  pStart = createlist(pStart, karte(7, "Skelett", 58, 32, 38.2));
   pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
   pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
   pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
@@ -860,7 +788,6 @@ int rundestart() {
     system("pause");
   }
   
-
   ausgabe(pListePlayer, pListeCPU);
   return 0;
 }
@@ -877,10 +804,10 @@ int listcount(struKarten* pListe)
 
 int main()
 {
-  karten_bild(NULL, NULL);
+  ausgabe_karte(NULL, NULL);
 
   srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=100 lines=50");   // Setzt die Grösse der CMD
+  system("mode con cols=150 lines=55");   // Setzt die Grösse der CMD
 
   menü();                                 // Menü wird Aufgerufen
   end();                                  // Spiel wird beendet
@@ -1095,25 +1022,24 @@ int einstellungen()
     {
       system("cls");
       logo();
-      printf("\n\n");
-      printf("      .@@@@@@@@@@@@@@@@@@.                                                             \n");
-      printf("      @                  @.                                       @@@@@@@@@@           \n");
-      printf("     @@                  @@.                                    @@@@@@@@@@@@@@         \n");
-      printf("    @@                    @@                                 ,@@@@@@@@       @@        \n");
-      printf("    @@                    &@                                @  @@@@'           @       \n");
-      printf("    @ @@@@@@@    .@@@@@@@@ @.                             ,@                    @ ,@.  \n");
-      printf("    @@   (o)      (O)     @@@                             @@ @@@@    /@@@@@.    @@  @  \n");
-      printf("   .@@        ((           @@         Version 1.1         @@  (O)      (O)     .@@  @  \n");
-      printf("   @@@  @@@@@@@@@@@@@@@    @@          x64-Debug          @        /           @@@.(.) \n");
-      printf("       @@ ########## @@@                                  @       (@.          @@@     \n");
-      printf("      @@@            @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
-      printf("      @@ ##________## @@@                                @@@@ ########## @@@@ .@@*     \n");
-      printf("      @@@ '########'  @@@                                '@@@              @@@@@@*     \n");
-      printf("      @@@             @@@           Clash Of Clans        @@@@ #########,@@@@@@@       \n");
-      printf("                                       Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
-      printf("                                                             @@@@@@@@@@@@@@@@          \n");
+      printf("\n\n\n");
+      printf("      .@@@@@@@@@@@@@@@@@@.               Team:                    @@@@@@@@@@           \n");
+      printf("      @                  @.          Mazen & Yannic             @@@@@@@@@@@@@@         \n");
+      printf("     @@                  @@.                                 ,@@@@@@@@       @@        \n");
+      printf("    @@                    @@                                @  @@@@'           @       \n");
+      printf("    @@                    &@                              ,@                    @ ,@.  \n");
+      printf("    @ @@@@@@@    .@@@@@@@@ @.                             @@ @@@@    /@@@@@.    @@  @  \n");
+      printf("    @@   (o)      (O)     @@@         Version 1.2         @@  (O)      (O)     .@@  @  \n");
+      printf("   .@@        ((           @@          x64-Debug          @        /           @@@.(.) \n");
+      printf("   @@@  @@@@@@@@@@@@@@@    @@                             @       (@.          @@@     \n");
+      printf("       @@ ########## @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
+      printf("      @@@            @@@                                 @@@@ ########## @@@@ .@@*     \n");
+      printf("      @@ ##________## @@@                                '@@@              @@@@@@*     \n");
+      printf("      @@@ '########'  @@@           Clash Of Clans        @@@@ #########,@@@@@@@       \n");
+      printf("      @@@             @@@              Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
+      printf("       @               @                                     @@@@@@@@@@@@@@@@          \n");
       
-      system("timeout 3 >null");
+      system("timeout 5 >null");
       printf("\n\n");
     }
     else if (eingabe == '3') {
@@ -1139,7 +1065,6 @@ int einstellungen()
 void farbmatrix(char hintergrundfarbe, char textfarbe)
 {
   char SysPrint[20];
-
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
   system(SysPrint);
 }
@@ -1207,14 +1132,14 @@ void end()
 {
   system("cls");
 
-  printf("\n      ______          __   ");
+  printf("\n\n      ______          __   ");
   printf("\n     / ____/___  ____/ /__ ");
   printf("\n    / __/ / __ \x5C/ __  / _ \x5C");
   printf("\n   / /___/ / / / /_/ /  __/");
   printf("\n  /_____/_/ /_/\x5C__,_/\x5C___/ ");
-  printf("\n\n                           ");
+  printf("\n\n\n                           ");
 
-  Sleep(700);
+  Sleep(800);
 }
 
 //Letzte Zeile
