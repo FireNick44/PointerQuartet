@@ -297,7 +297,7 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   return pListe;
 }
 
-void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
+void ausgabe_karte(struKarten* pListePlayer) {
 
   // Kopie der mitgegebenen Werte
   struKarten* pPlayer = pListePlayer;
