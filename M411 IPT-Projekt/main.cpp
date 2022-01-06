@@ -57,9 +57,6 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
   struKarten* pPlayer = pListePlayer;
   struKarten* pCPU = pListeCPU;
 
-  char aktiv_player[15][30];
-  char aktiv_cpu[15][30];
-
   char barbar[15][30]
   {
     "    .@@@@@@@@@@@@@@@@@@.    \0",
@@ -96,7 +93,7 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
     "  @@@@@@@@@@@@@@@@@@@       \0",
     "    @@@@@@@@@@@@@@@@        \0",
   };
-  char balloon[15][30]
+  char ballon[15][30]
   {
     "        @@@@@@@@@@@         \0",
     "     @@@@@@@@@@@@@@@@@      \0",
@@ -204,7 +201,7 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
     ".....+@@@@@@@@@@@@@@@@@'x...\0",
     ".....X...................X..\0",
   };
-  char skelet[15][30]
+  char skelett[15][30]
   {
     "    ,..xx@@@@@@@@@@xx..,    \0",
     "  @'                   ,'@, \0",
@@ -242,42 +239,88 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
   };
 
 
-  for (int i = 0; i < 15; i++)
-  {
-    printf("%s\n",hexe[i]);
-  }
+  int id = pPlayer->Nr;
 
-  //printf("\n\n");
-  //printf("\n  ==================================");
-  //printf("\n\n  --------------KARTE---------------");
-  //if (admin) printf("\n         ENTWICKLERMODUS EIN");
-  //printf("\n\n    ______________________________ ");
-  //printf("\n   /                              \x5C");
-  //printf("\n  /  CoC Quartett | Karte Nr.  %-2i  \x5C", pListePlayer->Nr);
-  //printf("\n  |                                |");
-  //printf("\n  |      --------------------      |");
-  //printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
-  //printf("\n  |      --------------------      |");
-  //printf("\n  |                                |");
-  //printf("\n  |                                |");
-  //printf("\n  |                                |");
-  //printf("\n  |                                |");
-  //printf("\n  |                                |");
-  //printf("\n  |                                |");
-  //printf("\n  |                                |");
-  //printf("\n  |    -----------------------     |");
-  //printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
-  //printf("\n  |   |                |      |    |");
-  //printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
-  //printf("\n  |   |                |      |    |");
-  //printf("\n  |   |Schaden         | %5.1lf|    |", pListePlayer->Schaden);
-  //printf("\n  |    -----------------------     |");
-  //printf("\n  \x5C                                /");
-  //printf("\n   \x5C______________________________/");
-  //printf("\n\n");
-
-
-
+  if (id == 1) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", barbar[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 2) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", magier[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 3) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", golem[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 4) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", pekka[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 5) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", hexe[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 6) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", schweinereiter[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 7) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", skelett[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 8) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", tunnelgräber[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 9) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", riese[i]);
+        printf("  |\n");
+      }
+    }
+  else if (id == 10) {
+      for (int i = 0; i < 15; i++)
+      {
+        printf("  |  ");
+        printf("%s", ballon[i]);
+        printf("  |\n");
+      }
+    }
 
 }
 
@@ -308,26 +351,18 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       if (admin) printf("\n         ENTWICKLERMODUS EIN");
       printf("\n\n    ______________________________ ");
       printf("\n   /                              \x5C");
-      printf("\n  /  CoC Quartett | Karte Nr.  %-2i  \x5C", pListePlayer->Nr);
+      printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |", pListePlayer->Nr);
       printf("\n  |                                |");
-      printf("\n  |      --------------------      |");
       printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
-      printf("\n  |      --------------------      |");
       printf("\n  |                                |");
-      printf("\n  |                                |");
-      printf("\n  |                                |");
-      printf("\n  |                                |");
-      printf("\n  |                                |");
-      printf("\n  |                                |");
-      printf("\n  |                                |");
-      printf("\n  |    -----------------------     |");
+      printf("\n");
+      ausgabe_karte(pListePlayer, pListeCPU);
+      printf("  |                                |");
       printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
       printf("\n  |   |                |      |    |");
       printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
       printf("\n  |   |                |      |    |");
       printf("\n  |   |Schaden         | %5.1lf|    |", pListePlayer->Schaden);
-      printf("\n  |    -----------------------     |");
-      printf("\n  \x5C                                /");
       printf("\n   \x5C______________________________/");
       printf("\n\n");
 
@@ -804,8 +839,6 @@ int listcount(struKarten* pListe)
 
 int main()
 {
-  ausgabe_karte(NULL, NULL);
-
   srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
   system("mode con cols=150 lines=55");   // Setzt die Grösse der CMD
 
