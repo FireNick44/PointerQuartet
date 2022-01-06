@@ -51,6 +51,252 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
 
+int main()
+{
+  srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
+  system("mode con cols=90 lines=57");    // Setzt die Grösse des CMD-Fensters
+
+  menü();                                 // Menü wird Aufgerufen
+  end();                                  // Spiel wird beendet
+
+  return 0;
+}
+
+int menü()
+{
+  // Yannic
+  // Diese Funktion beinhaltet das Menü, in dem man navigieren kann.
+
+  bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
+
+  while (hauptmenü)
+  {
+    char eingabe; // Variable für Eingabe
+
+    system("cls"); // Leeren des Bildschirms
+    logo(); // Ausgabe des Logos
+    printf("\n  ==================================");
+    printf("\n  ------------Hauptmen\x81-------------");
+    printf("\n");
+    printf("\n  Spiel starten     (1)");
+    printf("\n  Einstellungen     (2)");
+    printf("\n  Beenden           (3)");
+    printf("\n  ==================================");
+    printf("\n");
+    printf("\n  (1/2/3): ");
+
+    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.) Es verarbeitet die Eingabe für das Navigieren.
+
+    //1 Spieler (PC vs Spieler)
+    if (eingabe == '1')
+    {
+      rundestart();
+    }
+
+    //Einstellungen
+    else if (eingabe == '2')
+    {
+      einstellungen();
+    }
+
+    //Ende
+    else if (eingabe == '3')
+    {
+      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
+      printf("\n  (J/N) ");
+
+      eingabe = _getch();
+
+      if (eingabe == 'J' || eingabe == 'j') hauptmenü = false;
+    }
+
+    //falsche Eingabe
+    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
+    {
+      falsche_eingabe();
+    }
+  }
+  return 0;
+}
+
+int rundestart() {
+  // Mazen
+  // In dieser Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
+
+  system("cls");
+
+  for (int i = 0; i < 2; i++) {
+    system("cls");
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und neu gemischt .");
+    printf("\n\n  Bitte Warten");
+    Sleep(500);
+    system("cls");
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und neu gemischt ..");
+    printf("\n\n  Bitte Warten");
+    Sleep(500);
+    system("cls");
+    printf("\n\n");
+    printf("\n  ==================================");
+    printf("\n\n  Karten werden erstellt und neu gemischt ...");
+    printf("\n\n  Bitte Warten");
+    Sleep(500);
+  }
+
+  system("cls");
+
+  printf("\n\n\n  ==================================");
+
+  struKarten* pStart = NULL;        // Erstellt Startliste mit der beim Verteilen gearbeitet wird
+  struKarten* pListePlayer = NULL;  // Erstellt Liste von Player
+  struKarten* pListeCPU = NULL;     // Erstellt Liste von CPU
+
+  // Einfüllen der Startliste mit Karten
+  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
+  pStart = createlist(pStart, karte(2, "Magier", 48, 24, 25.7));
+  pStart = createlist(pStart, karte(3, "Golem", 3100, 16, 240.1));
+  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
+  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
+  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
+  pStart = createlist(pStart, karte(7, "Skelett", 58, 32, 38.2));
+  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
+  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
+  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
+
+  int runde;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU.
+
+  for (runde = 1; runde <= 5; runde++)
+  {
+    int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
+
+    srand(time(NULL));
+    int r = rand() % anz;
+
+    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
+
+    for (int c = 1; c <= r; c++) pKarte = pKarte->pNext;
+
+    if (admin) {
+      //Ausgabe zum Testen
+
+
+      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
+      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
+      printf("\n  Diese wird jetzt aus der Startliste entfernt und der Spielerliste hinzugef\x81gt.");
+      printf("\n\n");
+      system("pause");
+    }
+
+    pStart = removelist(pStart, pKarte);              // Parameter: Die Liste, aus der entfernt wird und welche Karte.
+    pListePlayer = createlist(pListePlayer, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
+  }
+
+  for (runde = 5; runde < 10; runde++)
+  {
+    int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt. 5 wurden schon entfernt.
+    //int pEnd = 1;
+
+
+    srand(time(NULL));
+    int r = rand() % anz;
+
+    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
+
+    for (int c = 1; c <= r; c++) pKarte = pKarte->pNext;
+
+    if (admin) {
+      //Ausgabe zum Testen
+      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
+      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
+      printf("\n  Diese wird jetzt aus der Startliste entfernt und der CPU-Liste hinzugef\x81gt.");
+      printf("\n\n");
+      system("pause");
+    }
+
+
+
+    pStart = removelist(pStart, pKarte);        // Parameter: Die Liste, aus der entfernt wird und welche Karte.
+    pListeCPU = createlist(pListeCPU, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
+  }
+
+  if (admin) {
+    system("cls");
+
+    printf("\n  Jetzt wird das Spiel anfangen.");
+    printf("\n\n  ==================================");
+    system("pause");
+  }
+
+  ausgabe(pListePlayer, pListeCPU);
+  return 0;
+}
+
+int listcount(struKarten* pListe) {
+  // Yannic
+  // Diese Funktion zählt alle Elemente einer Liste.
+
+  int anz = 0;
+  struKarten* pTmp = pListe;
+  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) anz++;  // Es werden alle Elemente in der Liste gezählt und zurück gegeben.
+  return anz;
+}
+
+struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
+  // Mazen
+  // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Strukturvariable zurück.
+
+  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
+
+  pTmp->Nr = pTruppe;
+  strcpy_s(pTmp->Bez, pBez);
+  pTmp->Trefferpunkte = Hp;
+  pTmp->Geschw = Spd;
+  pTmp->Schaden = Dmg;
+  pTmp->pNext = NULL;
+
+  return pTmp;
+}
+
+struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
+  // Mazen
+  // Diese Funktion
+
+  if (pListe == NULL) {   // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
+    pListe = pKarte;      // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
+    pKarte->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
+  }
+  else {
+    struKarten* pLast = pListe; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    while (pLast->pNext != NULL) pLast = pLast->pNext;
+    pLast->pNext = pKarte;
+
+    // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,
+    // ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
+    // Jeder neue Inhalt, der sich in pNew befindet (Beispiel: Bogenschützin) ist die nächste Karte der temporär "letzten" Karte (Beispiel: Barbar).
+  }
+  return pListe;          // Die Liste wird samt allen neuen Elementen zurückgegeben.
+}
+
+struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
+  // Yannic
+  // Diese Funktion dient zum entfernen von Karten aus einer Liste, in dem die Referenzen neu gesetzt werden.
+
+  if (pListe == pKarte) { // Falls die Karte das erste Element der Liste ist, wird diese als pListe verarbeitet.
+    pListe = pListe->pNext; // Die zweite Karte ist die neue erste Karte.
+    pKarte->pNext = NULL; // Die Karte, die entfernt worden ist, hat einen leeren pNext, da es sich nicht mehr in der Liste befinden sollte.
+  }
+  else {                        // Ansonsten, also wenn die Karte sich irgendwo in der Liste befindet.
+    struKarten* pTmp = pListe;  // Es wird ein temporärer Pointer auf die erste gesetzt, damit man nicht die Liste selbst überschreibt.
+    while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;
+    pTmp->pNext = pKarte->pNext;
+    pKarte->pNext = NULL;
+  }
+  return pListe;
+}
+
 void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
 
   //Kopie der mitgegebenen Werte
@@ -586,6 +832,30 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   return 0;
 }
 
+int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
+{
+  // Diese Funktion vergleicht zwei Listen und gibt
+
+  int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
+
+  if (Typ == 1) {
+    if (pListePlayer->Trefferpunkte > pListeCPU->Trefferpunkte)      kartenänderung = 1;
+    else if (pListePlayer->Trefferpunkte < pListeCPU->Trefferpunkte) kartenänderung = 2;
+    else if (pListePlayer->Trefferpunkte = pListeCPU->Trefferpunkte) kartenänderung = 3;
+  }
+  else if (Typ == 2) {
+    if (pListePlayer->Geschw > pListeCPU->Geschw)      kartenänderung = 1;
+    else if (pListePlayer->Geschw < pListeCPU->Geschw) kartenänderung = 2;
+    else if (pListePlayer->Geschw = pListeCPU->Geschw) kartenänderung = 3;
+  }
+  else if (Typ == 3) {
+    if (pListePlayer->Schaden > pListeCPU->Schaden)      kartenänderung = 1;
+    else if (pListePlayer->Schaden < pListeCPU->Schaden) kartenänderung = 2;
+    else if (pListePlayer->Schaden = pListeCPU->Schaden) kartenänderung = 3;
+  }
+  return kartenänderung;
+}
+
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
   // Diese Funktion
 
@@ -640,275 +910,9 @@ struKarten* firstlast_unent(struKarten* pListe) {
   return pListe;
 }
 
-int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) 
-{
-  // Diese Funktion vergleicht zwei Listen und gibt
-
-  int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
-
-  if (Typ == 1) {
-    if (pListePlayer->Trefferpunkte > pListeCPU->Trefferpunkte)      kartenänderung = 1;
-    else if (pListePlayer->Trefferpunkte < pListeCPU->Trefferpunkte) kartenänderung = 2;
-    else if (pListePlayer->Trefferpunkte = pListeCPU->Trefferpunkte) kartenänderung = 3;
-  }
-  else if (Typ == 2) {
-    if (pListePlayer->Geschw > pListeCPU->Geschw)      kartenänderung = 1;
-    else if (pListePlayer->Geschw < pListeCPU->Geschw) kartenänderung = 2;
-    else if (pListePlayer->Geschw = pListeCPU->Geschw) kartenänderung = 3;
-  }
-  else if (Typ == 3) {
-    if (pListePlayer->Schaden > pListeCPU->Schaden)      kartenänderung = 1;
-    else if (pListePlayer->Schaden < pListeCPU->Schaden) kartenänderung = 2;
-    else if (pListePlayer->Schaden = pListeCPU->Schaden) kartenänderung = 3;
-  }
-  return kartenänderung;
-}
-
-struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
-  // Mazen
-  // Diese Funktion
-
-  if (pListe == NULL) {   // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
-    pListe = pKarte;      // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
-    pKarte->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
-  }
-  else {
-    struKarten* pLast = pListe; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
-    while (pLast->pNext != NULL) pLast = pLast->pNext;
-    pLast->pNext = pKarte;
-
-    // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,
-    // ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
-    // Jeder neue Inhalt, der sich in pNew befindet (Beispiel: Bogenschützin) ist die nächste Karte der temporär "letzten" Karte (Beispiel: Barbar).
-  }
-  return pListe;          // Die Liste wird samt allen neuen Elementen zurückgegeben.
-}
-
-struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
-  // Yannic
-  // Diese Funktion dient zum entfernen von Karten aus einer Liste, in dem die Referenzen neu gesetzt werden.
-
-  if (pListe == pKarte) { // Falls die Karte das erste Element der Liste ist, wird diese als pListe verarbeitet.
-    pListe = pListe->pNext; // Die zweite Karte ist die neue erste Karte.
-    pKarte->pNext = NULL; // Die Karte, die entfernt worden ist, hat einen leeren pNext, da es sich nicht mehr in der Liste befinden sollte.
-  }
-  else {                        // Ansonsten, also wenn die Karte sich irgendwo in der Liste befindet.
-    struKarten* pTmp = pListe;  // Es wird ein temporärer Pointer auf die erste gesetzt, damit man nicht die Liste selbst überschreibt.
-    while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;
-    pTmp->pNext = pKarte->pNext;
-    pKarte->pNext = NULL;
-  }
-  return pListe;
-}
-
-struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
-  // Mazen
-  // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Strukturvariable zurück.
-
-  struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
-
-  pTmp->Nr = pTruppe;
-  strcpy_s(pTmp->Bez, pBez);
-  pTmp->Trefferpunkte = Hp;
-  pTmp->Geschw = Spd;
-  pTmp->Schaden = Dmg;
-  pTmp->pNext = NULL;
-
-  return pTmp;
-}
-
-int rundestart() {
-  // Mazen
-  // In dieser Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
-
-  system("cls");
-  
-  for (int i = 0; i < 2; i++) {
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden erstellt und neu gemischt .");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden erstellt und neu gemischt ..");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-    system("cls");
-    printf("\n\n");
-    printf("\n  ==================================");
-    printf("\n\n  Karten werden erstellt und neu gemischt ...");
-    printf("\n\n  Bitte Warten");
-    Sleep(500);
-  }
-
-  system("cls");
-
-  printf("\n\n\n  ==================================");
-
-  struKarten* pStart = NULL;        // Erstellt Startliste mit der beim Verteilen gearbeitet wird
-  struKarten* pListePlayer = NULL;  // Erstellt Liste von Player
-  struKarten* pListeCPU = NULL;     // Erstellt Liste von CPU
-
-  // Einfüllen der Startliste mit Karten
-  pStart = createlist(pStart, karte(1, "Barbar", 160, 16, 30.3));
-  pStart = createlist(pStart, karte(2, "Magier", 48, 24, 25.7));
-  pStart = createlist(pStart, karte(3, "Golem", 3100, 16, 240.1));
-  pStart = createlist(pStart, karte(4, "P.E.K.K.A", 5300, 16, 470.3));
-  pStart = createlist(pStart, karte(5, "Hexe", 300, 12, 100.2));
-  pStart = createlist(pStart, karte(6, "Schweinereiter", 270, 24, 60.0));
-  pStart = createlist(pStart, karte(7, "Skelett", 58, 32, 38.2));
-  pStart = createlist(pStart, karte(8, "Tunnelgr\x84""ber", 610, 32, 88.7));
-  pStart = createlist(pStart, karte(9, "Riese", 800, 12, 31.5));
-  pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
-
-  int runde;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU.
-
-  for (runde = 1; runde <= 5; runde++)
-  {
-    int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt.
-    
-    srand(time(NULL));
-    int r = rand() % anz;
-
-    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
-
-    for (int c = 1; c <= r; c++) pKarte = pKarte->pNext;
-
-    if (admin) {
-      //Ausgabe zum Testen
 
 
-      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
-      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt und der Spielerliste hinzugef\x81gt.");
-      printf("\n\n");
-      system("pause");
-    }
 
-    pStart = removelist(pStart, pKarte);              // Parameter: Die Liste, aus der entfernt wird und welche Karte.
-    pListePlayer = createlist(pListePlayer, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
-  }
-
-  for (runde = 5; runde < 10; runde++)
-  {
-    int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt. 5 wurden schon entfernt.
-    //int pEnd = 1;
-
-
-    srand(time(NULL));
-    int r = rand() % anz;
-
-    struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
-
-    for (int c = 1; c <= r; c++) pKarte = pKarte->pNext;
-
-    if (admin) {
-      //Ausgabe zum Testen
-      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
-      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt und der CPU-Liste hinzugef\x81gt.");
-      printf("\n\n");
-      system("pause");
-    }
-
-    
-
-    pStart = removelist(pStart, pKarte);        // Parameter: Die Liste, aus der entfernt wird und welche Karte.
-    pListeCPU = createlist(pListeCPU, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
-  }
-
-  if (admin){
-    system("cls");
-
-    printf("\n  Jetzt wird das Spiel anfangen.");
-    printf("\n\n  ==================================");
-    system("pause");
-  }
-  
-  ausgabe(pListePlayer, pListeCPU);
-  return 0;
-}
-
-int listcount(struKarten* pListe) {
-  // Yannic
-  // Diese Funktion zählt alle Elemente einer Liste.
-
-  int anz = 0;
-  struKarten* pTmp = pListe;
-  for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) anz++;  // Es werden alle Elemente in der Liste gezählt und zurück gegeben.
-  return anz;
-}
-
-int main()
-{
-  srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=90 lines=57");    // Setzt die Grösse des CMD-Fensters
-
-  menü();                                 // Menü wird Aufgerufen
-  end();                                  // Spiel wird beendet
-
-  return 0;
-}
-
-int menü()
-{
-  // Yannic
-  // Diese Funktion beinhaltet das Menü, in dem man navigieren kann.
-
-  bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
-
-  while(hauptmenü)
-  {
-    char eingabe; // Variable für Eingabe
-
-    system("cls"); // Leeren des Bildschirms
-    logo(); // Ausgabe des Logos
-    printf("\n  ==================================");
-    printf("\n  ------------Hauptmen\x81-------------");
-    printf("\n");
-    printf("\n  Spiel starten     (1)");
-    printf("\n  Einstellungen     (2)");
-    printf("\n  Beenden           (3)");
-    printf("\n  ==================================");
-    printf("\n");
-    printf("\n  (1/2/3): ");
-
-    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.) Es verarbeitet die Eingabe für das Navigieren.
-
-    //1 Spieler (PC vs Spieler)
-    if (eingabe == '1')
-    {
-      rundestart();
-    }
-    
-    //Einstellungen
-    else if (eingabe == '2')
-    {
-      einstellungen();
-    }
-    
-    //Ende
-    else if (eingabe == '3')
-    {
-      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
-      printf("\n  (J/N) ");
-
-      eingabe = _getch();
-
-      if (eingabe == 'J' || eingabe == 'j') hauptmenü = false;
-    }
-    
-    //falsche Eingabe
-    else if (eingabe != '1' && eingabe != '2' && eingabe != '3')
-    {
-      falsche_eingabe();
-    }
-  }
-  return 0;
-}
 
 int einstellungen() {
   // Yannic
