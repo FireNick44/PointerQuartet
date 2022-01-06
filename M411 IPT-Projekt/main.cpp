@@ -367,9 +367,9 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n");
 
       if (pListePlayer->pNext != NULL)      printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
-      else if (pListePlayer->pNext == NULL) printf("\n  Sie haben nur noch eine Karte: %-14s ", pListePlayer->Bez);
+      else if (pListePlayer->pNext == NULL) printf("\n");
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
-
+      
       if (admin) {
         printf("\n\n  Karten des CPU-Spielers:");
         for (struKarten* pTemp = pListeCPU; pTemp != NULL; pTemp = pTemp->pNext) {
