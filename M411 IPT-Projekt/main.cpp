@@ -29,7 +29,7 @@ struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für 
 struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
-void ausgabe_karte(struKarten*, struKarten*);
+void ausgabe_karte(struKarten*, struKarten*);                   // Funktion für die Ausgabe von Kartenbilder
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
@@ -46,7 +46,7 @@ void unentschieden();                                           // Ausgabe wenn 
 
 
 // Globale Variablen
-bool admin = false;                                             // Wird für den Entwicklermodus benötigt.
+bool admin = false;                                             // Wird für den Entwicklermodus benötigt. Es gibt Funktionen, die noch zusätzliche Entwicklermodus-Funktionen beinhalten.
 bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
@@ -325,6 +325,7 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
 }
 
 int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
+  // Mazen
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
 
   // Variablen
@@ -613,7 +614,8 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
 }
 
 struKarten* firstlast_verl(struKarten* pListeVerl) {
-  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt die Karte danach auf die zweite.
+  // Yannic
+  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt fest, dass in dieser Liste die zweite Karte die erste sein soll.
 
   struKarten* pTemp = pListeVerl;
   pListeVerl = pListeVerl->pNext;
@@ -622,9 +624,8 @@ struKarten* firstlast_verl(struKarten* pListeVerl) {
   return pListeVerl;
 }
 
-struKarten* firstlast_unent(struKarten* pListe)
-{
-  // Diese Funktion
+struKarten* firstlast_unent(struKarten* pListe) {
+  // Diese Funktion versetzt die erste Karte ganz hinten wenn ein unentschieden geschieht.
 
   struKarten* pTemp = pListe;
   pListe = pListe->pNext;
@@ -662,8 +663,8 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
   return kartenänderung;
 }
 
-struKarten* createlist(struKarten* pListe, struKarten* pKarte)
-{
+struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
+  // Mazen
   // Diese Funktion
 
   if (pListe == NULL) {   // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
@@ -682,16 +683,16 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte)
   return pListe;          // Die Liste wird samt allen neuen Elementen zurückgegeben.
 }
 
-struKarten* removelist(struKarten* pListe, struKarten* pKarte)
-{
-  // Diese Funktion
+struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
+  // Yannic
+  // Diese Funktion dient zum entfernen von Karten aus einer Liste, in dem die Referenzen neu gesetzt werden.
 
-  if (pListe == pKarte) {
-    pListe = pListe->pNext;
-    pKarte->pNext = NULL;
+  if (pListe == pKarte) { // Falls die Karte das erste Element der Liste ist, wird diese als pListe verarbeitet.
+    pListe = pListe->pNext; // Die zweite Karte ist die neue erste Karte.
+    pKarte->pNext = NULL; // Die Karte, die entfernt worden ist, hat einen leeren pNext, da es sich nicht mehr in der Liste befinden sollte.
   }
-  else {
-    struKarten* pTmp = pListe;
+  else {                        // Ansonsten, also wenn die Karte sich irgendwo in der Liste befindet.
+    struKarten* pTmp = pListe;  // Es wird ein temporärer Pointer auf die erste gesetzt, damit man nicht die Liste selbst überschreibt.
     while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;
     pTmp->pNext = pKarte->pNext;
     pKarte->pNext = NULL;
@@ -699,8 +700,8 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte)
   return pListe;
 }
 
-struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
-{
+struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
+  // Mazen
   // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Strukturvariable zurück.
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
@@ -716,7 +717,8 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg)
 }
 
 int rundestart() {
-  // In diese Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
+  // Mazen
+  // In dieser Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
 
   system("cls");
   
@@ -829,9 +831,9 @@ int rundestart() {
   return 0;
 }
 
-int listcount(struKarten* pListe) 
-{
-  // Diese Funktion
+int listcount(struKarten* pListe) {
+  // Yannic
+  // Diese Funktion zählt alle Elemente einer Liste.
 
   int anz = 0;
   struKarten* pTmp = pListe;
@@ -842,7 +844,7 @@ int listcount(struKarten* pListe)
 int main()
 {
   srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=90 lines=57");   // Setzt die Grösse der CMD
+  system("mode con cols=90 lines=57");    // Setzt die Grösse des CMD-Fensters
 
   menü();                                 // Menü wird Aufgerufen
   end();                                  // Spiel wird beendet
@@ -852,7 +854,8 @@ int main()
 
 int menü()
 {
-  // Diese Funktion
+  // Yannic
+  // Diese Funktion beinhaltet das Menü, in dem man navigieren kann.
 
   bool hauptmenü = true; // Überprüft ob das Menü geschlossen werden soll.
 
@@ -861,7 +864,7 @@ int menü()
     char eingabe; // Variable für Eingabe
 
     system("cls"); // Leeren des Bildschirms
-    logo();
+    logo(); // Ausgabe des Logos
     printf("\n  ==================================");
     printf("\n  ------------Hauptmen\x81-------------");
     printf("\n");
@@ -872,7 +875,7 @@ int menü()
     printf("\n");
     printf("\n  (1/2/3): ");
 
-    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
+    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.) Es verarbeitet die Eingabe für das Navigieren.
 
     //1 Spieler (PC vs Spieler)
     if (eingabe == '1')
@@ -906,9 +909,9 @@ int menü()
   return 0;
 }
 
-int einstellungen()
-{
-  // Diese Funktion
+int einstellungen() {
+  // Yannic
+  // Diese Funktion beinhaltet optionale Einstellungen wie Farbe, Entwicklermodus und Version.
 
   //Variablen
   bool settings = true;
@@ -1097,8 +1100,10 @@ int einstellungen()
   return 0;
 }
 
-void farbmatrix(char hintergrundfarbe, char textfarbe)
-{
+void farbmatrix(char hintergrundfarbe, char textfarbe) {
+  // Yannic
+  // Diese Funktion verarbeitet die Einstellungen für die Farben des Debugging-Fensters.
+
   char SysPrint[20];
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
   system(SysPrint);
