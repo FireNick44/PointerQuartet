@@ -46,7 +46,7 @@ void unentschieden();                                           // Ausgabe wenn 
 
 
 // Globale Variablen
-bool admin = false;                                             // Wird für die Einstellungen/Entwicklermodus benötigt.
+bool admin = false;                                             // Wird für den Entwicklermodus benötigt.
 bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
