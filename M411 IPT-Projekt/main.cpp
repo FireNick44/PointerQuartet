@@ -29,7 +29,7 @@ struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für 
 struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
-void ausgabe_karte(struKarten*, struKarten*);                   // Funktion für die Ausgabe von Kartenbilder
+void ausgabe_karte(struKarten*);                   // Funktion für die Ausgabe von Kartenbilder
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
@@ -51,11 +51,12 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
 
-void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
+void ausgabe_karte(struKarten* pListePlayer) {
+  // Yannic
+  // Diese Funktion gibt die 
 
-  //Kopie der mitgegebenen Werte
+  // Kopie der mitgegebenen Werte
   struKarten* pPlayer = pListePlayer;
-  struKarten* pCPU = pListeCPU;
 
   char barbar[15][30]
   {
@@ -333,10 +334,10 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein). Ist nur im Entwicklermodus verfügbar.
   bool menü = false;          // Wird für das Rückkehren zum Hauptmenü benötigt.
   bool nextkarte = false;     // Wird benötigt, um aus der Ausgabe-Schleife raus zu kommen und, falls zur nächsten Karte gewechselt werden sollte.
-  int kartenänderung;         // Wird benötigt, um zu identifizieren, welche änderung an den beiden Listen vorgenommen werden sollte.
-                              // Kartenänderung: 0 = leer (keine Änderung), 1 = gewonnen, 2 = verloren, 3 = unentscheiden (siehe unter der Kartenausgabe-Schleife)
+  int kartenänderung;         // Kartenänderung: 0 = leer (keine Änderung), 1 = gewonnen, 2 = verloren, 3 = unentscheiden (siehe unter der Kartenausgabe-Schleife)
+  
   while (!menü) {
-    nextkarte = false;
+    nextkarte = false;                          // Zu beginn ist per Normalfall !nextkarte damit die Kartenausgabe geschieht. Erst in der Ausgabe selbst 
     kartenänderung = 0;                         // Fängt immer mit dem leeren Zustand an. Es geschieht nichts mit den Listen, bis eine gültige Eingabe gemacht wird.
 
     int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
@@ -345,6 +346,8 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     // Kartenausgabe-Schleife
     while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
       system("cls");
+
+      printf("\n\n\n  =================================");
 
       printf("\n\n  --------------KARTE---------------");
       if (admin) printf("\n         ENTWICKLERMODUS EIN");
@@ -356,7 +359,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
       printf("\n  |                                |");
       printf("\n");
-      ausgabe_karte(pListePlayer, pListeCPU);
+      ausgabe_karte(pListePlayer);
       printf("  |                                |");
       printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
       printf("\n  |   |                |      |    |");
@@ -367,7 +370,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n   \x5C______________________________/");
       printf("\n\n");
 
-      if (pListePlayer->pNext != NULL && admin)      printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
+      if (pListePlayer->pNext != NULL && admin) printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
       else printf("\n");
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
       printf("\n  Der CPU besitzt insgesamt noch %i Karten.", AnzCPU);
