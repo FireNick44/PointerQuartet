@@ -63,8 +63,7 @@ int main()
   return 0;
 }
 
-int menü()
-{
+int menü() {
   // Yannic
   // Diese Funktion beinhaltet das Menü, in dem man navigieren kann.
 
@@ -255,7 +254,7 @@ int listcount(struKarten* pListe) {
 
 struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
   // Mazen
-  // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Strukturvariable zurück.
+  // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Pointer zurück.
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
@@ -271,44 +270,45 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
 
 struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
   // Mazen
-  // Diese Funktion
+  // Diese Funktion fügt die pKarte zur mitgegebenen pListe hinzu.
 
-  if (pListe == NULL) {   // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
-    pListe = pKarte;      // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
-    pKarte->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
+  if (pListe == NULL) {                                 // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
+    pListe = pKarte;                                    // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
+    pKarte->pNext = NULL;                               // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
   }
   else {
-    struKarten* pLast = pListe; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    struKarten* pLast = pListe;                         // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
     while (pLast->pNext != NULL) pLast = pLast->pNext;
     pLast->pNext = pKarte;
 
-    // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,
-    // ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
-    // Jeder neue Inhalt, der sich in pNew befindet (Beispiel: Bogenschützin) ist die nächste Karte der temporär "letzten" Karte (Beispiel: Barbar).
+                                                        // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die 
+                                                        // nächste Karte jeder Karte nicht leer ist, ist diese die letzte Karte.
   }
-  return pListe;          // Die Liste wird samt allen neuen Elementen zurückgegeben.
+  return pListe;                                        // Die Liste wird verändert zurückgegeben.
 }
 
 struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   // Yannic
   // Diese Funktion dient zum entfernen von Karten aus einer Liste, in dem die Referenzen neu gesetzt werden.
 
-  if (pListe == pKarte) { // Falls die Karte das erste Element der Liste ist, wird diese als pListe verarbeitet.
-    pListe = pListe->pNext; // Die zweite Karte ist die neue erste Karte.
-    pKarte->pNext = NULL; // Die Karte, die entfernt worden ist, hat einen leeren pNext, da es sich nicht mehr in der Liste befinden sollte.
+  if (pListe == pKarte) {                                 // Falls die Karte das erste Element der Liste ist, wird diese als pListe verarbeitet.
+    pListe = pListe->pNext;                               // Die zweite Karte ist die neue erste Karte.
+    pKarte->pNext = NULL;                                 // Die Karte, die entfernt worden ist, hat einen leeren pNext, da es sich nicht mehr in der Liste befinden sollte.
   }
-  else {                        // Ansonsten, also wenn die Karte sich irgendwo in der Liste befindet.
-    struKarten* pTmp = pListe;  // Es wird ein temporärer Pointer auf die erste gesetzt, damit man nicht die Liste selbst überschreibt.
-    while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;
-    pTmp->pNext = pKarte->pNext;
+  else {                                                  // Ansonsten, also wenn die Karte sich irgendwo in der Liste befindet.
+    struKarten* pTmp = pListe;                            // Es wird ein temporärer Pointer auf die erste gesetzt, damit man nicht die Liste selbst überschreibt.
+    while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;     // Mit diesem Pointer wird bis zur Karte gewechselt vor der zu entfernenden.
+    pTmp->pNext = pKarte->pNext;                          // Bei der Karte vorher soll die Referenz auf die Karte nach der zu entfernenden überschrieben werden.
     pKarte->pNext = NULL;
   }
-  return pListe;
+  return pListe;                                          // Die Liste wird verändert zurückgegeben.
 }
 
 void ausgabe_kartenbild(struKarten* pListePlayer) {
+  // Yannic
+  // Diese Funktion beinhaltet die Bilder der Karten und deren Ausgabe.
 
-  // Kopie der mitgegebenen Werte
+  // Pointer der mitgegebenen Werte
   struKarten* pPlayer = pListePlayer;
 
   char barbar[15][30]
@@ -496,85 +496,85 @@ void ausgabe_kartenbild(struKarten* pListePlayer) {
   int id = pPlayer->Nr;
 
   if (id == 1) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", barbar[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", barbar[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 2) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", magier[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", magier[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 3) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", golem[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", golem[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 4) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", pekka[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", pekka[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 5) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", hexe[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", hexe[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 6) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", schweinereiter[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", schweinereiter[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 7) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", skelett[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", skelett[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 8) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", tunnelgräber[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", tunnelgräber[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 9) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", riese[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", riese[i]);
+      printf("  |\n");
     }
+  }
   else if (id == 10) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", ballon[i]);
-        printf("  |\n");
-      }
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", ballon[i]);
+      printf("  |\n");
     }
+  }
 
 }
 
@@ -809,7 +809,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
-      printf("\n  Falls nicht, kehren Sie zum Hauptmenü zurück.");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x84 zur\x84""ck.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
@@ -832,7 +832,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
-      printf("\n  Falls nicht, kehren Sie zum Hauptmenü zurück.");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x84 zur\x84""ck.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
@@ -848,8 +848,8 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   return 0;
 }
 
-int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
-{
+int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
+  // Mazen
   // Diese Funktion vergleicht zwei Listen und gibt
 
   int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
@@ -874,7 +874,8 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
 
 int vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Mazen
-  // Diese Funktion gibt beide aktuellen Karten nebeneinander aber ohne Kartenbilder aus.
+  // Diese Funktion gibt beide aktuellen Karten nebeneinander, 
+  // allerdings ohne Kartenbilder aus, da die Bilder in einer Funktion ausgegeben werden.
 
   system("cls");
 
@@ -939,8 +940,8 @@ int vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
-  // 
-  // Diese Funktion verschiebt
+  // Mazen & Yannic
+  // Diese Funktion verschiebt die erste Karte des Gewinners und des Verlierers and die 
 
   struKarten* pLast;
   struKarten* pTemp;
@@ -968,7 +969,7 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
 }
 
 struKarten* firstlast_verl(struKarten* pListeVerl) {
-  // Yannic
+  // Mazen & Yannic
   // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt fest, dass in dieser Liste die zweite Karte die erste sein soll.
 
   struKarten* pTemp = pListeVerl;
@@ -979,6 +980,7 @@ struKarten* firstlast_verl(struKarten* pListeVerl) {
 }
 
 struKarten* firstlast_unent(struKarten* pListe) {
+  // Mazen & Yannic
   // Diese Funktion versetzt die erste Karte ganz hinten wenn ein unentschieden geschieht.
 
   struKarten* pTemp = pListe;
@@ -1214,7 +1216,6 @@ void verloren()
   printf("\n\n\n");
   printf("  Zum Fortfahren eine Taste dr\x81""cken.");
   system("pause >nul");
-  //Sleep(3000);
 }
 
 void gewonnen()
@@ -1227,7 +1228,6 @@ void gewonnen()
   printf("\n\n\n");
   printf("  Zum Fortfahren eine Taste dr\x81""cken.");
   system("pause >nul");
-  //Sleep(3000);
 }
 
 void unentschieden()
@@ -1240,7 +1240,6 @@ void unentschieden()
   printf("\n\n\n");
   printf("  Zum Fortfahren eine Taste dr\x81""cken.");
   system("pause >nul");
-  //Sleep(3000);
 }
 
 void logo()
