@@ -1200,8 +1200,10 @@ void farbmatrix(char hintergrundfarbe, char textfarbe) {
   system(SysPrint);
 }
 
-void falsche_eingabe()
-{
+void falsche_eingabe() {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
+
   printf("\n  Falsche Eingabe ");
   system("timeout 1 >null");
   system("cls");
@@ -1209,6 +1211,9 @@ void falsche_eingabe()
 
 void verloren()
 {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
+
   printf("\n\n\n\n  =================================");
   printf("\n\n  ------------VERLOREN------------");
   printf("\n\n  Sie verlieren diese Karte leider.");
@@ -1221,6 +1226,9 @@ void verloren()
 
 void gewonnen()
 {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
+
   printf("\n\n\n\n  =================================");
   printf("\n\n  ------------GEWONNEN------------");
   printf("\n\n  Sie gewinnen die Karte des Gegners.");
@@ -1233,6 +1241,9 @@ void gewonnen()
 
 void unentschieden()
 {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
+
   printf("\n\n\n\n  =================================");
   printf("\n\n  ---------UNENTSCHIEDEN----------");
   printf("\n\n  Niemand gewinnt dieses Mal.");
@@ -1245,6 +1256,8 @@ void unentschieden()
 
 void logo()
 {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
 
    printf("\n\n     ________           __             ____   ________                ");
    printf("\n    / ____/ /___ ______/ /_     ____  / __/  / ____/ /___ _____  _____");
@@ -1261,6 +1274,9 @@ void logo()
 
 void end()
 {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
+
   system("cls");
 
   printf("\n\n      ______          __   ");
