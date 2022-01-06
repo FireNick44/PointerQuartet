@@ -29,7 +29,8 @@ struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für 
 struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
-void ausgabe_karte(struKarten*);                   // Funktion für die Ausgabe von Kartenbilder
+int vergleiche_karten(struKarten*, struKarten*);                // Funktion für die Ausgabe von Karten nebeneinander für das visuelle Vergleichen
+void ausgabe_kartenbild(struKarten*);                                // Funktion für die Ausgabe von Kartenbilder 
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 int menü();                                                     // Hauptmenü
@@ -54,7 +55,7 @@ char textfarbe = 'F';                                           // Textfarbe der
 int main()
 {
   srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=90 lines=60");    // Setzt die Grösse des CMD-Fensters
+  system("mode con cols=120 lines=60");    // Setzt die Grösse des CMD-Fensters
 
   menü();                                 // Menü wird Aufgerufen
   end();                                  // Spiel wird beendet
@@ -148,7 +149,7 @@ int rundestart() {
 
   system("cls");
 
-  printf("\n\n\n  ==================================");
+  printf("\n\n  ==================================\n");
 
   struKarten* pStart = NULL;        // Erstellt Startliste mit der beim Verteilen gearbeitet wird
   struKarten* pListePlayer = NULL;  // Erstellt Liste von Player
@@ -182,17 +183,20 @@ int rundestart() {
     if (admin) {
       //Ausgabe zum Testen
 
+      printf("\n  Die zuf\x84llige Karte heisst: %14s", pKarte->Bez);
 
-      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
-      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt und der Spielerliste hinzugef\x81gt.");
-      printf("\n\n");
-      system("pause");
     }
 
     pStart = removelist(pStart, pKarte);              // Parameter: Die Liste, aus der entfernt wird und welche Karte.
     pListePlayer = createlist(pListePlayer, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
   }
+
+  if (admin) {
+    printf("\n\n  Diese Karten werden jetzt der Spielerliste hinzugef\x81gt.");
+    printf("\n\n");
+    system("pause");
+  }
+
 
   for (runde = 5; runde < 10; runde++)
   {
@@ -209,12 +213,10 @@ int rundestart() {
 
     if (admin) {
       //Ausgabe zum Testen
-      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
-      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt und der CPU-Liste hinzugef\x81gt.");
-      printf("\n\n");
-      system("pause");
+      printf("\n  Die zuf\x84llige Karte heisst: %14s", pKarte->Bez);
+
     }
+
 
 
 
@@ -223,10 +225,17 @@ int rundestart() {
   }
 
   if (admin) {
+    printf("\n\n  Diese Karten werden jetzt der CPU-Liste hinzugef\x81gt.");
+    printf("\n\n");
+    system("pause");
+  }
+
+
+  if (admin) {
     system("cls");
 
     printf("\n  Jetzt wird das Spiel anfangen.");
-    printf("\n\n  ==================================");
+    printf("\n\n  ==================================\n");
     system("pause");
   }
 
@@ -297,7 +306,7 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   return pListe;
 }
 
-void ausgabe_karte(struKarten* pListePlayer) {
+void ausgabe_kartenbild(struKarten* pListePlayer) {
 
   // Kopie der mitgegebenen Werte
   struKarten* pPlayer = pListePlayer;
@@ -594,8 +603,8 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n\n  =================================");
 
       printf("\n\n  --------------KARTE---------------");
-      if (admin) printf("\n         ENTWICKLERMODUS EIN");
-      printf("\n\n    ______________________________ ");
+      if (admin) printf("\n\n         Entwicklermodus EIN");
+      printf("\n    ______________________________ ");
       printf("\n   /                              \x5C");
       printf("\n  /                                \x5C");
       printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |", pListePlayer->Nr);
@@ -603,7 +612,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
       printf("\n  |                                |");
       printf("\n");
-      ausgabe_karte(pListePlayer);
+      ausgabe_kartenbild(pListePlayer);
       printf("  |                                |");
       printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
       printf("\n  |   |                |      |    |");
@@ -617,17 +626,16 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       if (pListePlayer->pNext != NULL && admin) printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
       else printf("\n");
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
-      printf("\n  Der CPU besitzt insgesamt noch %i Karten.", AnzCPU);
+      printf("\n\n  Der CPU besitzt insgesamt noch %i Karten.", AnzCPU);
       
       if (admin) {
-        printf("\n\n  Karten des CPU-Spielers:");
+        printf("\n  Karten des CPU-Spielers:");
         for (struKarten* pTemp = pListeCPU; pTemp != NULL; pTemp = pTemp->pNext) {
           if (pTemp->pNext == NULL) {
             printf(" %s", pTemp->Bez);
           }
           else printf(" %s->", pTemp->Bez);
         }
-        printf("\n\n  Der CPU besitzt somit %i Karten.", AnzCPU);
       }
       
 
@@ -769,18 +777,21 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     // Es wird durch den Rückgabewert von "vergleiche" ermittelt, wie sich die beiden Listen und Karten verändern sollen.
     if (kartenänderung == 1) // Bei Gewinn einer Karte sollen diese Änderungen vorgenommen werden.
     {
+      vergleiche_karten(pListePlayer, pListeCPU);
       pListePlayer = firstlast_gew(pListePlayer, pListeCPU);
       pListeCPU = firstlast_verl(pListeCPU);
       gewonnen();
     }
     else if (kartenänderung == 2) // Bei Verlust einer Karte sollen diese Änderungen vorgenommen werden.
     {
+      vergleiche_karten(pListePlayer, pListeCPU);
       pListeCPU = firstlast_gew(pListeCPU, pListePlayer);
       pListePlayer = firstlast_verl(pListePlayer);
       verloren();
     }
     else if (kartenänderung == 3) // Bei Unentschieden sollen diese Änderungen vorgenommen werden.
     {
+      vergleiche_karten(pListePlayer, pListeCPU);
       pListePlayer = firstlast_unent(pListePlayer);
       pListeCPU = firstlast_unent(pListeCPU);
       unentschieden();
@@ -788,7 +799,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
 
     // Spielende: Verloren-Schleife
-    while (AnzPlayer <= 0 && AnzCPU >= 10 && !menü) // Spielende: Wenn man das Spiel verliert.
+    while (AnzPlayer <= 0 && AnzCPU >= 10 && !menü)
     {
       system("cls");
 
@@ -797,19 +808,21 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n  Sie besitzen keine Karten mehr.");
       printf("\n  Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
-      printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
+      printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmenü zurück.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
-      if (c == 'j') menü = true;
-      else {
-        printf("\n\n  Leider haben Sie keine Wahl.  :)");
-        Sleep(2000);
+
+      if (c == 'j') {
+        rundestart();
+        menü = true;
       }
+      else if (c == 'n') menü = true;
     }
 
     // Spielende: Gewonnen-Schleife
-    while (AnzPlayer >= 10 && AnzCPU <= 0 && !menü) // Spielende: Wenn man das Spiel gewinnt.
+    while (AnzPlayer >= 10 && AnzCPU <= 0 && !menü)
     {
       system("cls");
 
@@ -818,16 +831,17 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n  Der CPU-Spieler besitzt keine Karten mehr.");
       printf("\n  Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
-      printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
+      printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmenü zurück.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
-      if (c == 'j') menü = true;
 
-      else {
-        printf("\n\n  Leider haben Sie keine Wahl.  :)");
-        Sleep(2000);
+      if (c == 'j') {
+        rundestart();
+        menü = true;
       }
+      else if (c == 'n') menü = true;
     }
   }
 
@@ -856,6 +870,72 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
     else if (pListePlayer->Schaden = pListeCPU->Schaden) kartenänderung = 3;
   }
   return kartenänderung;
+}
+
+int vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
+  // Mazen
+  // Diese Funktion gibt beide aktuellen Karten nebeneinander aber ohne Kartenbilder aus.
+
+  system("cls");
+
+  printf("\n\n\n  =================================");
+
+  printf("\n\n  --------------KARTEN---------------");
+  printf("\n\n             Ihre Karte                         Karte des CPUs");
+  printf("\n    ______________________________");
+  printf("       ______________________________ ");
+  printf("\n   /                              \x5C");
+  printf("     /                              \x5C");
+  printf("\n  /                                \x5C");
+  printf("   /                                \x5C");
+  printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |", pListePlayer->Nr);
+  printf("   |  CoC Quartett | Karte Nr.  %-2i  |", pListeCPU->Nr);
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
+  printf("   |      ---%-14s---      |", pListeCPU->Bez);
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
+  printf("   |   |Trefferpunkte   | %4i |    |", pListeCPU->Trefferpunkte);
+  printf("\n  |   |                |      |    |");
+  printf("   |   |                |      |    |");
+  printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
+  printf("   |   |Geschwindigkeit | %4i |    |", pListeCPU->Geschw);
+  printf("\n  |   |                |      |    |");
+  printf("   |   |                |      |    |");
+  printf("\n  |   |Schaden         | %5.1lf|    |", pListePlayer->Schaden);
+  printf("   |   |Schaden         | %5.1lf|    |", pListeCPU->Schaden);
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  |                                |");
+  printf("   |                                |");
+  printf("\n  \x5C                                /");
+  printf("   \x5C                                /");
+  printf("\n   \x5C______________________________/");
+  printf("     \x5C______________________________/");
+  printf("\n\n");
+
+
+  return 0;
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
@@ -1126,38 +1206,41 @@ void falsche_eingabe()
 
 void verloren()
 {
-  system("cls");
-
-  printf("\n\n\n  ==================================");
+  printf("\n\n\n\n  =================================");
   printf("\n\n  ------------VERLOREN------------");
   printf("\n\n  Sie verlieren diese Karte leider.");
   printf("\n  Der Gegner gewinnt Ihre aktuelle Karte.");
   printf("\n\n  ==================================");
-  Sleep(2000);
+  printf("\n\n\n");
+  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  system("pause >nul");
+  //Sleep(3000);
 }
 
 void gewonnen()
 {
-  system("cls");
-
-  printf("\n\n\n  ==================================");
+  printf("\n\n\n\n  =================================");
   printf("\n\n  ------------GEWONNEN------------");
   printf("\n\n  Sie gewinnen die Karte des Gegners.");
   printf("\n  Der Gegner verliert sie.");
   printf("\n\n  ==================================");
-  Sleep(2000);
+  printf("\n\n\n");
+  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  system("pause >nul");
+  //Sleep(3000);
 }
 
 void unentschieden()
 {
-  system("cls");
-
-  printf("\n\n\n  ==================================");
+  printf("\n\n\n\n  =================================");
   printf("\n\n  ---------UNENTSCHIEDEN----------");
   printf("\n\n  Niemand gewinnt dieses Mal.");
   printf("\n  Die obersten Karten werden nach hinten versetzt.");
   printf("\n\n  ==================================");
-  Sleep(2000);
+  printf("\n\n\n");
+  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  system("pause >nul");
+  //Sleep(3000);
 }
 
 void logo()
