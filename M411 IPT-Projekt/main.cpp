@@ -981,13 +981,24 @@ struKarten* firstlast_unent(struKarten* pListe) {
   // Diese Funktion versetzt die erste Karte ganz hinten wenn ein Unentschieden geschieht.
 
   struKarten* pTemp = pListe;
-  pListe = pListe->pNext;
-  pTemp->pNext = NULL;
+  struKarten* pLast;
 
-  struKarten* pLast = pListe;
+  if (listcount(pListe) == 1)
+  {
+    pListe = pTemp;
+  }
 
-  while (pLast->pNext != NULL) pLast = pLast->pNext;
-  pLast->pNext = pTemp;
+  else {
+    struKarten* pLast = pListe;
+
+    while (pLast->pNext != NULL) pLast = pLast->pNext;
+
+    pLast->pNext = pTemp;
+    pListe = pListe->pNext;
+    pTemp->pNext = NULL;
+  }
+
+
 
   return pListe;                                      // Die Liste wird verändert zurückgegeben.
 }
