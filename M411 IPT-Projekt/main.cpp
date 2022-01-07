@@ -941,7 +941,7 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
   struKarten* pLast;
   struKarten* pTemp;
 
-  if (listcount(pListeGew) == 1) {                       // Wenn beim Gewinner nur noch 1 Karte vorhanden ist, wird die gewonnene hinter dieser verschoben.
+  if (listcount(pListeGew) == 1) {                      // Wenn beim Gewinner nur noch 1 Karte vorhanden ist, wird die gewonnene hinter dieser verschoben.
     pLast = pListeGew;
     struKarten* pKarte = pListeVerl;
     pLast->pNext = pKarte;
