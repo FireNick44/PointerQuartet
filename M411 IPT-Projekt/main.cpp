@@ -20,8 +20,8 @@ typedef struct Karten
 
 
 // Prototypen der Methoden
-int rundestart();                                               // Start einer Runde
-int ausgabe(struKarten*, struKarten*);                          // Funktion für Ausgabe der Karten
+void rundestart();                                              // Start einer Runde
+void ausgabe(struKarten*, struKarten*);                         // Funktion für Ausgabe der Karten
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
 struKarten* karte(int, const char*, int, int, double);          // Funktion für das Erstellen und Abfüllen der Karten mit Werten
@@ -29,11 +29,11 @@ struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für 
 struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
-int vergleiche_karten(struKarten*, struKarten*);                // Funktion für die Ausgabe von Karten nebeneinander für das visuelle Vergleichen
+void vergleiche_karten(struKarten*, struKarten*);               // Funktion für die Ausgabe von Karten nebeneinander für das visuelle Vergleichen
 void ausgabe_kartenbild(struKarten*);                           // Funktion für die Ausgabe von Kartenbilder 
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
-int menü();                                                     // Hauptmenü
+void menü();                                                    // Hauptmenü
 int einstellungen();                                            // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben auf der CMD
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
@@ -63,7 +63,7 @@ int main()
   return 0;
 }
 
-int menü() {
+void menü() {
   // Yannic
   // Diese Funktion beinhaltet das Menü, in dem man navigieren kann.
 
@@ -116,10 +116,9 @@ int menü() {
       falsche_eingabe();
     }
   }
-  return 0;
 }
 
-int rundestart() {
+void rundestart() {
   // Mazen
   // In dieser Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
 
@@ -239,7 +238,6 @@ int rundestart() {
   }
 
   ausgabe(pListePlayer, pListeCPU);
-  return 0;
 }
 
 int listcount(struKarten* pListe) {
@@ -578,7 +576,7 @@ void ausgabe_kartenbild(struKarten* pListePlayer) {
 
 }
 
-int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
+void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Mazen
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
 
@@ -626,7 +624,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       if (pListePlayer->pNext != NULL && admin) printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
       else printf("\n");
       printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
-      printf("\n\n  Der CPU besitzt insgesamt noch %i Karten.", AnzCPU);
+      printf("\n\n  Der CPU-Spieler besitzt insgesamt noch %i Karten.", AnzCPU);
       
       if (admin) {
         printf("\n  Karten des CPU-Spielers:");
@@ -782,6 +780,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       pListeCPU = firstlast_verl(pListeCPU);
       gewonnen();
     }
+
     else if (kartenänderung == 2) // Bei Verlust einer Karte sollen diese Änderungen vorgenommen werden.
     {
       vergleiche_karten(pListePlayer, pListeCPU);
@@ -789,6 +788,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       pListePlayer = firstlast_verl(pListePlayer);
       verloren();
     }
+
     else if (kartenänderung == 3) // Bei Unentschieden sollen diese Änderungen vorgenommen werden.
     {
       vergleiche_karten(pListePlayer, pListeCPU);
@@ -844,8 +844,6 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       else if (c == 'n') menü = true;
     }
   }
-
-  return 0;
 }
 
 int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
@@ -872,7 +870,7 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
   return kartenänderung;
 }
 
-int vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
+void vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Mazen
   // Diese Funktion gibt beide aktuellen Karten nebeneinander, 
   // allerdings ohne Kartenbilder aus, da die Bilder in einer Funktion ausgegeben werden.
@@ -935,8 +933,6 @@ int vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
   printf("     \x5C______________________________/");
   printf("\n\n");
 
-
-  return 0;
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
