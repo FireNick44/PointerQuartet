@@ -45,7 +45,6 @@ void unentschieden();                                           // Ausgabe wenn 
 
 // Weitere Beschreibungen findet man in den einzelnen Funktionen.
 
-
 // Globale Variablen
 bool admin = false;                                             // Wird für den Entwicklermodus benötigt. Es gibt Funktionen, die noch zusätzliche Entwicklermodus-Funktionen beinhalten.
 bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
