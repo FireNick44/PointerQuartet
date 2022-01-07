@@ -808,7 +808,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
-      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x84""ck.");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
@@ -831,7 +831,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
-      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x84""ck.");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
