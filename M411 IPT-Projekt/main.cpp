@@ -102,7 +102,7 @@ void menü() {
     else if (eingabe == '3')
     {
       printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
-      printf("\n  (J/N) ");
+      printf("\n  (J/N): ");
 
       eingabe = _getch();
 
