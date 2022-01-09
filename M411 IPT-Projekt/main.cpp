@@ -670,8 +670,6 @@ void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
  }
 }
 
-
-
 void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Mazen  (+ Yannic, ganz wenig )
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
