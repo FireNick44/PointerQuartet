@@ -29,7 +29,6 @@ struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für 
 struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
-void vergleiche_karten(struKarten*, struKarten*);               // Funktion für die Ausgabe von Karten nebeneinander für das visuelle Vergleichen
 void ausgabe_kartenbild(struKarten*);                           // Funktion für die Ausgabe von Kartenbilder 
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
@@ -51,7 +50,31 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
 
-void main()
+#define MaxAnzBildRow 15
+#define MaxAnzBildCol 30
+
+
+void GotoXY(const int x, const int y)
+{
+  COORD Pos = { x, y };
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+void OutputBild(const int x, const int y, char* pBild)
+{
+  int Row = 0;
+  int Col = 0;
+
+  for (int Row = 0; Row < MaxAnzBildRow; Row++) {
+    GotoXY(x, y + Row);
+    int iPos = Row * MaxAnzBildCol;
+    printf(pBild + iPos);
+  }
+}
+
+
+
+
+int main()
 {
   srand(time(NULL));
   system("mode con cols=120 lines=60");    // Setzt die Grösse des CMD-Fensters
@@ -307,123 +330,124 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   return pListe;                                          // Die Liste wird verändert zurückgegeben.
 }
 
-void ausgabe_kartenbild(struKarten* pListe) {
+void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Yannic
   // Diese Funktion beinhaltet die Bilder der Karten und deren Ausgabe.
   // Der Parameter enthaltet die Liste bzw. Karte, in der ausgegeben werden soll.
 
   // Pointer der mitgegebenen Werte
-  struKarten* pPlayer = pListe;
+  struKarten* pPlayer = pListePlayer;
+  struKarten* pCPU = pListeCPU;
 
-  char barbar[15][30]
+  char barbar[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "    .@@@@@@@@@@@@@@@@@@.    \0",
-    "    @                  @.   \0",
-    "   @@                  @@.  \0",
-    "  @@                    @@  \0",
-    "  @@                    &@  \0",
-    "  @ @@@@@@@    .@@@@@@@@ @. \0",
-    "  @@   (o)      (O)     @@@ \0",
-    " .@@        ((           @@ \0",
-    " @@@  @@@@@@@@@@@@@@@    @@ \0",
-    "     @@ ########## @@@      \0",
-    "    @@@            @@@      \0",
-    "    @@ ##________## @@@     \0",
-    "    @@@ '########'  @@@     \0",
-    "    @@@             @@@     \0",
-    "                            \0",
+    "    .@@@@@@@@@@@@@@@@@@.    ",
+    "    @                  @.   ",
+    "   @@                  @@.  ",
+    "  @@                    @@  ",
+    "  @@                    &@  ",
+    "  @ @@@@@@@    .@@@@@@@@ @. ",
+    "  @@   (o)      (O)     @@@ ",
+    " .@@        ((           @@ ",
+    " @@@  @@@@@@@@@@@@@@@    @@ ",
+    "     @@ ########## @@@      ",
+    "    @@@            @@@      ",
+    "    @@ ##________## @@@     ",
+    "    @@@ '########'  @@@     ",
+    "    @@@             @@@     ",
+    "                            ",
   };
-  char schweinereiter[15][30]
+  char schweinereiter[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "         @@@@@@@@@@         \0",
-    "       @@@@@@@@@@@@@@       \0",
-    "    ,@@@@@@@@       @@      \0",
-    "   @  @@@@'           @     \0",
-    " ,@                    @ ,@.\0",
-    " @@ @@@@    /@@@@@.    @@  @\0",
-    " @@  (O)      (O)     .@@  @\0",
-    " @        /           @@@(.)\0",
-    " @       (@.          @@@   \0",
-    ".@@@@@@@@@@@@@@@@@@   @@,   \0",
-    "@@@@ ########## @@@@ .@@*   \0",
-    "'@@@              @@@@@@*   \0",
-    " @@@@ #########,@@@@@@@     \0",
-    "  @@@@@@@@@@@@@@@@@@@       \0",
-    "    @@@@@@@@@@@@@@@@        \0",
+    "         @@@@@@@@@@         ",
+    "       @@@@@@@@@@@@@@       ",
+    "    ,@@@@@@@@       @@      ",
+    "   @  @@@@'           @     ",
+    " ,@                    @ ,@.",
+    " @@ @@@@    /@@@@@.    @@  @",
+    " @@  (O)      (O)     .@@  @",
+    " @        /           @@@(.)",
+    " @       (@.          @@@   ",
+    ".@@@@@@@@@@@@@@@@@@   @@,   ",
+    "@@@@ ########## @@@@ .@@*   ",
+    "'@@@              @@@@@@*   ",
+    " @@@@ #########,@@@@@@@     ",
+    "  @@@@@@@@@@@@@@@@@@@       ",
+    "    @@@@@@@@@@@@@@@@        ",
   };
-  char ballon[15][30]
+  char ballon[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "        @@@@@@@@@@@         \0",
-    "     @@@@@@@@@@@@@@@@@      \0",
-    "   @@@@@@         @@@@@@    \0",
-    "  @@@@@@ (O)   (O) @@@@@@   \0",
-    "  @@@@@@     @     @@@@@@   \0",
-    "  @@@@@@@  , , ,  @@@@@@@   \0",
-    "   @@@@@@@ @ @ @ @@@@@@@    \0",
-    "    @@@@@@U@U@U@U@@@@@@     \0",
-    "       @@@@@@@@@@@@@        \0",
-    "        |  |   |  |         \0",
-    "        |  |   |  |  `      \0",
-    "       (###########)    `   \0",
-    "        @@@@@@@@@@@  ` `    \0",
-    "         @@@@@@@@@  `  #  ` \0",
-    "                      `  `  \0",
+    "        @@@@@@@@@@@         ",
+    "     @@@@@@@@@@@@@@@@@      ",
+    "   @@@@@@         @@@@@@    ",
+    "  @@@@@@ (O)   (O) @@@@@@   ",
+    "  @@@@@@     @     @@@@@@   ",
+    "  @@@@@@@  , , ,  @@@@@@@   ",
+    "   @@@@@@@ @ @ @ @@@@@@@    ",
+    "    @@@@@@U@U@U@U@@@@@@     ",
+    "       @@@@@@@@@@@@@        ",
+    "        |  |   |  |         ",
+    "        |  |   |  |  `      ",
+    "       (###########)    `   ",
+    "        @@@@@@@@@@@  ` `    ",
+    "         @@@@@@@@@  `  #  ` ",
+    "                      `  `  ",
   };
-  char riese[15][30]
+  char riese[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "    @                 @     \0",
-    "  @@                   @@   \0",
-    " @                       @  \0",
-    "@@@@@@@@@@@@   @@@@@@@@@@@@ \0",
-    "@@@@@@@@@@@@@ @@@@@@@@@@@@@@\0",
-    "@        @@@   @@@        @ \0",
-    "   ( o )     .     ( o )  @@\0",
-    "@@          ,@            @@\0",
-    "@@@       ,@@  @.        @@@\0",
-    "@@@)        @@@         (@@@\0",
-    "@@@@                    @@@@\0",
-    " @@@@@   ###########  @@@@@@\0",
-    " @@@@@@              @@@@@@ \0",
-    "   @@@@@@          @@@@@@   \0",
-    "     @@@@@@.     .@@@@@     \0",
+    "    @                 @     ",
+    "  @@                   @@   ",
+    " @                       @  ",
+    "@@@@@@@@@@@@   @@@@@@@@@@@@ ",
+    "@@@@@@@@@@@@@ @@@@@@@@@@@@@@",
+    "@        @@@   @@@        @ ",
+    "   ( o )     .     ( o )  @@",
+    "@@          ,@            @@",
+    "@@@       ,@@  @.        @@@",
+    "@@@)        @@@         (@@@",
+    "@@@@                    @@@@",
+    " @@@@@   ###########  @@@@@@",
+    " @@@@@@              @@@@@@ ",
+    "   @@@@@@          @@@@@@   ",
+    "     @@@@@@.     .@@@@@     ",
   };
-  char pekka[15][30]
+  char pekka[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "                            \0",
-    "@                         @ \0",
-    "@@                       @@ \0",
-    "@@@@  ,-------------,  @@@@ \0",
-    " @@@@@@'           '@@@@@@  \0",
-    " @@@@                 @@@@  \0",
-    "  @@  @(O)@)   (@(O)@  @@   \0",
-    "   |  @@@'   M   '@@@  |    \0",
-    "   |  '     MMM     '  |    \0",
-    "   |        MMM        |    \0",
-    "   |        MMM        |    \0",
-    " /MMMMMMMMMM/ \x5CMMMMMMMMMM\x5C  \0",
-    "/'         /   \x5C         '\x5C \0",
-    "          /     \x5C           \0",
-    "                            \0",
+    "                            ",
+    "@                         @ ",
+    "@@                       @@ ",
+    "@@@@  ,-------------,  @@@@ ",
+    " @@@@@@'           '@@@@@@  ",
+    " @@@@                 @@@@  ",
+    "  @@  @(O)@)   (@(O)@  @@   ",
+    "   |  @@@'   M   '@@@  |    ",
+    "   |  '     MMM     '  |    ",
+    "   |        MMM        |    ",
+    "   |        MMM        |    ",
+    " /MMMMMMMMMM/ \x5CMMMMMMMMMM\x5C  ",
+    "/'         /   \x5C         '\x5C ",
+    "          /     \x5C           ",
+    "                            ",
   };
-  char magier[15][30]
+  char magier[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "    ,@@@@@@@@@@@@@@@@@@,    \0",
-    "  @@@@@@@@@@@@@@@@@@@@@@@@  \0",
-    " @@@@@@@@@@@@@@@@@@@@@@@@@@ \0",
-    "@@@@                    @@@@\0",
-    "@@@ Xx                xX @@@\0",
-    "@@|  'XXXx,      ,xXXX'  |@@\0",
-    "@ |   (O)    ,     (O)   | @\0",
-    "@ |         ,@           | @\0",
-    "@ |        ,@  @.        | @\0",
-    "@@|    @@@@@@@@@@@@@@    |@@\0",
-    " @,\x5C   @@ ######## @@   /,@ \0",
-    "  @@ \x5C '@          @' / @@  \0",
-    "   @@  \x5C@@@@@@@@@@@@/  @@   \0",
-    "    @    '@@@@@@@@'    @    \0",
-    "   @@       '@@'       @@   \0",
+    "    ,@@@@@@@@@@@@@@@@@@,    ",
+    "  @@@@@@@@@@@@@@@@@@@@@@@@  ",
+    " @@@@@@@@@@@@@@@@@@@@@@@@@@ ",
+    "@@@@                    @@@@",
+    "@@@ Xx                xX @@@",
+    "@@|  'XXXx,      ,xXXX'  |@@",
+    "@ |   (O)    ,     (O)   | @",
+    "@ |         ,@           | @",
+    "@ |        ,@  @.        | @",
+    "@@|    @@@@@@@@@@@@@@    |@@",
+    " @,\x5C   @@ ######## @@   /,@ ",
+    "  @@ \x5C '@          @' / @@  ",
+    "   @@  \x5C@@@@@@@@@@@@/  @@   ",
+    "    @    '@@@@@@@@'    @    ",
+    "   @@       '@@'       @@   ",
   };
-  char hexe[15][30]
+  char hexe[MaxAnzBildRow][MaxAnzBildCol]
   {
     "   ,@@@@@@@@@@@@@@@@@@@@,   \0",
     " @@@@@@@@@@@@@@@@@@@@@@@@@@ \0",
@@ -441,7 +465,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
     "@@@....\x5C            /....@@@\0",
     " @@@.....\x5C________/.....@@@ \0",
   };
-  char golem[15][30]
+  char golem[MaxAnzBildRow][MaxAnzBildCol]
   {
     ".x...,@@@@@@@@@@@@@@@@@,....\0",
     "..X @@'               '@@...\0",
@@ -459,7 +483,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
     ".....+@@@@@@@@@@@@@@@@@'x...\0",
     ".....X...................X..\0",
   };
-  char skelett[15][30]
+  char skelett[MaxAnzBildRow][MaxAnzBildCol]
   {
     "    ,..xx@@@@@@@@@@xx..,    \0",
     "  @'                   ,'@, \0",
@@ -477,7 +501,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
     "             @   @  @@@@@@  \0",
     "      @@@@@@  @   @         \0",
   };
-  char tunnelgräber[15][30]
+  char tunnelgräber[MaxAnzBildRow][MaxAnzBildCol]
   {
     "       )                    \0",
     "      (_)                   \0",
@@ -496,10 +520,10 @@ void ausgabe_kartenbild(struKarten* pListe) {
     "        `'@@@@@'`           \0",
   };
 
-
-  int id = pPlayer->Nr;
-
-  if (id == 1) {
+ if (pListeCPU == NULL) {
+   int id = pPlayer->Nr;
+  
+   if (id == 1) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -507,7 +531,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 2) {
+   else if (id == 2) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -515,7 +539,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 3) {
+   else if (id == 3) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -523,7 +547,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 4) {
+   else if (id == 4) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -531,7 +555,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 5) {
+   else if (id == 5) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -539,7 +563,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 6) {
+   else if (id == 6) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -547,7 +571,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 7) {
+   else if (id == 7) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -555,7 +579,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 8) {
+   else if (id == 8) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -563,7 +587,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 9) {
+   else if (id == 9) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -571,7 +595,7 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
-  else if (id == 10) {
+   else if (id == 10) {
     for (int i = 0; i < 15; i++)
     {
       printf("  |  ");
@@ -579,14 +603,79 @@ void ausgabe_kartenbild(struKarten* pListe) {
       printf("  |\n");
     }
   }
+ }
+ else if (pListeCPU != NULL)
+ {
+   int pid = pPlayer->Nr;
+   int cid = pCPU->Nr;
+   system("cls");
+   printf("\n\n\n  ============================================================================");
+   printf("\n\n             Ihre Karte                               Karte des CPUs");
+   if (admin) printf("\n\n         Entwicklermodus EIN");
+   printf("\n    ______________________________            ______________________________      ");
+   printf("\n   /                              \x5C          /                              \x5C     ");
+   printf("\n  /                                \x5C        /                                \x5C    ");
+   printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |        |  CoC Quartett | Karte Nr.  %-2i  |    ", pListePlayer->Nr, pListeCPU->Nr);
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |      ---%-14s---      |        |      ---%-14s---      |    ", pListePlayer->Bez, pListeCPU->Bez);
+   printf("\n  |                                |        |                                |    ");
 
+   //Bild:
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |   VS   |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |   |Trefferpunkte   | %4i |    |        |   |Trefferpunkte   | %4i |    |    ", pListePlayer->Trefferpunkte, pListeCPU->Trefferpunkte);
+   printf("\n  |   |                |      |    |        |   |                |      |    |    ");
+   printf("\n  |   |Geschwindigkeit | %4i |    |        |   |Geschwindigkeit | %4i |    |    ", pListePlayer->Geschw, pListeCPU->Geschw);
+   printf("\n  |   |                |      |    |        |   |                |      |    |    ");
+   printf("\n  |   |Schaden         | %5.1lf|    |        |   |Schaden         | %5.1lf|    |    ", pListePlayer->Schaden, pListeCPU->Schaden);
+   printf("\n  \x5C                                /        \x5C                                /    ");
+   printf("\n   \x5C______________________________/          \x5C______________________________/     ");
+
+   if (pid == 1) OutputBild(5, 13, &barbar[0][0]);
+   else if (pid == 2) OutputBild(5, 13, &magier[0][0]);
+   else if (pid == 3) OutputBild(5, 13, &golem[0][0]);
+   else if (pid == 4) OutputBild(5, 13, &pekka[0][0]);
+   else if (pid == 5) OutputBild(5, 13, &hexe[0][0]);
+   else if (pid == 6) OutputBild(5, 13, &schweinereiter[0][0]);
+   else if (pid == 7) OutputBild(5, 13, &skelett[0][0]);
+   else if (pid == 8) OutputBild(5, 13, &tunnelgräber[0][0]);
+   else if (pid == 9) OutputBild(5, 13, &riese[0][0]);
+   else if (pid == 10) OutputBild(5, 13, &ballon[0][0]);
+
+   if (cid == 1) OutputBild(47, 13, &barbar[0][0]);
+   else if (cid == 2) OutputBild(47, 13, &magier[0][0]);
+   else if (cid == 3) OutputBild(47, 13, &golem[0][0]);
+   else if (cid == 4) OutputBild(47, 13, &pekka[0][0]);
+   else if (cid == 5) OutputBild(47, 13, &hexe[0][0]);
+   else if (cid == 6) OutputBild(47, 13, &schweinereiter[0][0]);
+   else if (cid == 7) OutputBild(47, 13, &skelett[0][0]);
+   else if (cid == 8) OutputBild(47, 13, &tunnelgräber[0][0]);
+   else if (cid == 9) OutputBild(47, 13, &riese[0][0]);
+   else if (cid == 10) OutputBild(47, 13, &ballon[0][0]);
+
+   COORD Pos = { 80, 35 };
+   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+ }
 }
 
 void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
-  // Mazen
+  // Mazen  (+ Yannic, ganz ein wenig :q )
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
-  // Die Parameter sind die Liste des Players und des CPU-Spielers, weil beide darin verarbeitet werden.
-
   // übergeordnete Variablen
   char c;                     // Überprüfung der ersten Eingabe benötigt.
   char j;                     // Vergewisserung der ersten Eingabe (Sind Sie sicher? Ja/Nein). Nur im Entwicklermodus verfügbar.
@@ -619,7 +708,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
       printf("\n  |                                |");
       printf("\n");
-      ausgabe_kartenbild(pListePlayer);
+      ausgabe_kartenbild(pListePlayer, NULL);
       printf("  |                                |");
       printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
       printf("\n  |   |                |      |    |");
@@ -650,7 +739,6 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
         }
       }
       
-
       printf("\n\n\n  =================================");
       printf("\n  Trefferpunkte?         (1)");
       printf("\n  Geschwindigkeit?       (2)");
@@ -789,7 +877,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     // Es wird durch den Rückgabewert von "vergleiche" ermittelt, wie sich die beiden Listen und Karten verändern sollen.
     if (kartenänderung == 1) // Bei Gewinn einer Karte sollen diese Änderungen vorgenommen werden.
     {
-      vergleiche_karten(pListePlayer, pListeCPU);
+      ausgabe_kartenbild(pListePlayer, pListeCPU);
       pListePlayer = firstlast_gew(pListePlayer, pListeCPU);
       pListeCPU = firstlast_verl(pListeCPU);
       gewonnen();
@@ -797,7 +885,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
     else if (kartenänderung == 2) // Bei Verlust einer Karte sollen diese Änderungen vorgenommen werden.
     {
-      vergleiche_karten(pListePlayer, pListeCPU);
+      ausgabe_kartenbild(pListePlayer, pListeCPU);
       pListeCPU = firstlast_gew(pListeCPU, pListePlayer);
       pListePlayer = firstlast_verl(pListePlayer);
       verloren();
@@ -805,7 +893,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
     else if (kartenänderung == 3) // Bei Unentschieden sollen diese Änderungen vorgenommen werden.
     {
-      vergleiche_karten(pListePlayer, pListeCPU);
+      ausgabe_kartenbild(pListePlayer, pListeCPU);
       pListePlayer = firstlast_unent(pListePlayer);
       pListeCPU = firstlast_unent(pListeCPU);
       unentschieden();
@@ -887,72 +975,6 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
   return kartenänderung;
 }
 
-void vergleiche_karten(struKarten* pListePlayer, struKarten* pListeCPU) {
-  // Mazen
-  // Diese Funktion gibt beide aktuellen Karten nebeneinander, 
-  // allerdings ohne Kartenbilder aus, da die Bilder in einer Funktion ausgegeben werden.
-  // Die Parameter sind erneut die beiden Listen, da sie beide ausgegeben werden.
-
-  system("cls");
-
-  printf("\n\n\n  =================================");
-
-  printf("\n\n  --------------KARTEN---------------");
-  printf("\n\n             Ihre Karte                      Karte des CPU-Spielers");
-  printf("\n    ______________________________");
-  printf("       ______________________________ ");
-  printf("\n   /                              \x5C");
-  printf("     /                              \x5C");
-  printf("\n  /                                \x5C");
-  printf("   /                                \x5C");
-  printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |", pListePlayer->Nr);
-  printf("   |  CoC Quartett | Karte Nr.  %-2i  |", pListeCPU->Nr);
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
-  printf("   |      ---%-14s---      |", pListeCPU->Bez);
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
-  printf("   |   |Trefferpunkte   | %4i |    |", pListeCPU->Trefferpunkte);
-  printf("\n  |   |                |      |    |");
-  printf("   |   |                |      |    |");
-  printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
-  printf("   |   |Geschwindigkeit | %4i |    |", pListeCPU->Geschw);
-  printf("\n  |   |                |      |    |");
-  printf("   |   |                |      |    |");
-  printf("\n  |   |Schaden         | %5.1lf|    |", pListePlayer->Schaden);
-  printf("   |   |Schaden         | %5.1lf|    |", pListeCPU->Schaden);
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  |                                |");
-  printf("   |                                |");
-  printf("\n  \x5C                                /");
-  printf("   \x5C                                /");
-  printf("\n   \x5C______________________________/");
-  printf("     \x5C______________________________/");
-  printf("\n\n");
-
-}
-
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
   // Mazen & Yannic
   // Diese Funktion verschiebt die erste Karte des Gewinners und des Verlierers an die letzte Stelle der Gewinnerkarte.
@@ -1030,8 +1052,6 @@ struKarten* firstlast_unent(struKarten* pListe) {
 
   return pListe;                                      // Die Liste wird verändert zurückgegeben.
 }
-
-
 
 
 
@@ -1192,8 +1212,8 @@ void einstellungen() {
       printf("     @@                  @@.                                 ,@@@@@@@@       @@        \n");
       printf("    @@                    @@                                @  @@@@'           @       \n");
       printf("    @@                    &@                              ,@                    @ ,@.  \n");
-      printf("    @ @@@@@@@    .@@@@@@@@ @.                             @@ @@@@    /@@@@@.    @@  @  \n");
-      printf("    @@   (o)      (O)     @@@         Version 1.2         @@  (O)      (O)     .@@  @  \n");
+      printf("    @ @@@@@@@    .@@@@@@@@ @.            Final            @@ @@@@    /@@@@@.    @@  @  \n");
+      printf("    @@   (o)      (O)     @@@         Version 1.3         @@  (O)      (O)     .@@  @  \n");
       printf("   .@@        ((           @@          x64-Debug          @        /           @@@.(.) \n");
       printf("   @@@  @@@@@@@@@@@@@@@    @@                             @       (@.          @@@     \n");
       printf("       @@ ########## @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
@@ -1324,4 +1344,4 @@ void end()
   Sleep(800);
 }
 
-//Letzte Zeile
+//Letzte Zeile (Benutzen wir für die Kommunikation über GitHub.)
