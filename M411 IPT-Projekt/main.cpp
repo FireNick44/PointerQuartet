@@ -20,8 +20,8 @@ typedef struct Karten
 
 
 // Prototypen der Methoden
-int rundestart();                                               // Start einer Runde
-int ausgabe(struKarten*, struKarten*);                          // Funktion für Ausgabe der Karten
+void rundestart();                                              // Start einer Runde
+void ausgabe(struKarten*, struKarten*);                         // Funktion für Ausgabe der Karten
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
 struKarten* karte(int, const char*, int, int, double);          // Funktion für das Erstellen und Abfüllen der Karten mit Werten
@@ -32,8 +32,8 @@ int vergleiche(int, struKarten*, struKarten*);                  // Funktion für 
 void ausgabe_kartenbild(struKarten*);                           // Funktion für die Ausgabe von Kartenbilder 
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
-int menü();                                                     // Hauptmenü
-int einstellungen();                                            // Einstellungen
+void menü();                                                    // Hauptmenü
+void einstellungen();                                            // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben auf der CMD
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
@@ -43,7 +43,6 @@ void gewonnen();                                                // Ausgabe wenn 
 void unentschieden();                                           // Ausgabe wenn unentschieden
 
 // Weitere Beschreibungen findet man in den einzelnen Funktionen.
-
 
 // Globale Variablen
 bool admin = false;                                             // Wird für den Entwicklermodus benötigt. Es gibt Funktionen, die noch zusätzliche Entwicklermodus-Funktionen beinhalten.
@@ -77,16 +76,15 @@ void OutputBild(const int x, const int y, char* pBild)
 
 int main()
 {
-  srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
+  srand(time(NULL));
   system("mode con cols=120 lines=60");    // Setzt die Grösse des CMD-Fensters
 
-  menü();                                 // Menü wird Aufgerufen
-  end();                                  // Spiel wird beendet
+  menü();
+  end();
 
-  return 0;
 }
 
-int menü() {
+void menü() {
   // Yannic
   // Diese Funktion beinhaltet das Menü, in dem man navigieren kann.
 
@@ -126,7 +124,8 @@ int menü() {
     else if (eingabe == '3')
     {
       printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
-      printf("\n  (J/N) ");
+      printf("\n");
+      printf("\n  (J/N): ");
 
       eingabe = _getch();
 
@@ -139,10 +138,9 @@ int menü() {
       falsche_eingabe();
     }
   }
-  return 0;
 }
 
-int rundestart() {
+void rundestart() {
   // Mazen
   // In dieser Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
 
@@ -262,12 +260,12 @@ int rundestart() {
   }
 
   ausgabe(pListePlayer, pListeCPU);
-  return 0;
 }
 
 int listcount(struKarten* pListe) {
   // Yannic
   // Diese Funktion zählt alle Elemente einer Liste.
+  // Der Parameter ist die Liste, aus der gezählt werden soll.
 
   int anz = 0;
   struKarten* pTmp = pListe;
@@ -278,6 +276,7 @@ int listcount(struKarten* pListe) {
 struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
   // Mazen
   // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Pointer zurück.
+  // Die Parameter sind die einzelnen einzufüllenden Werte für eine Karte mit abgekürzten Namen.
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
@@ -288,24 +287,23 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
   pTmp->Schaden = Dmg;
   pTmp->pNext = NULL;
 
-  return pTmp;      // Die Karte wird samt 
+  return pTmp;      // Die Karte wird samt allen Werten zurückgegeben.
 }
 
 struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
   // Mazen
   // Diese Funktion fügt die pKarte zur mitgegebenen pListe hinzu.
+  // Die Parameter sind sowohl die Liste, als auch die Karte selbst, die hinzugefügt werden soll.
 
-  if (pListe == NULL) {                                 // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
-    pListe = pKarte;                                    // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
-    pKarte->pNext = NULL;                               // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
+  if (pListe == NULL) {
+    pListe = pKarte;
+    pKarte->pNext = NULL;
   }
   else {
-    struKarten* pLast = pListe;                         // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    struKarten* pLast = pListe;
     while (pLast->pNext != NULL) pLast = pLast->pNext;
     pLast->pNext = pKarte;
 
-                                                        // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die 
-                                                        // nächste Karte jeder Karte nicht leer ist, ist diese die letzte Karte.
   }
   return pListe;                                        // Die Liste wird verändert zurückgegeben.
 }
@@ -313,23 +311,29 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
 struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   // Yannic
   // Diese Funktion dient zum entfernen von Karten aus einer Liste, in dem die Referenzen neu gesetzt werden.
+  // Die Parameter sind sowohl die Liste, als auch die Karte selbst, die entfernt werden soll.
 
-  if (pListe == pKarte) {                                 // Falls die Karte das erste Element der Liste ist, wird diese als pListe verarbeitet.
-    pListe = pListe->pNext;                               // Die zweite Karte ist die neue erste Karte.
-    pKarte->pNext = NULL;                                 // Die Karte, die entfernt worden ist, hat einen leeren pNext, da es sich nicht mehr in der Liste befinden sollte.
+  if (pListe == pKarte) {     
+    pListe = pListe->pNext;   
+    pKarte->pNext = NULL;     
   }
-  else {                                                  // Ansonsten, also wenn die Karte sich irgendwo in der Liste befindet.
-    struKarten* pTmp = pListe;                            // Es wird ein temporärer Pointer auf die erste gesetzt, damit man nicht die Liste selbst überschreibt.
-    while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;     // Mit diesem Pointer wird bis zur Karte gewechselt vor der zu entfernenden.
-    pTmp->pNext = pKarte->pNext;                          // Bei der Karte vorher soll die Referenz auf die Karte nach der zu entfernenden überschrieben werden.
+  
+  else {
+    struKarten* pTmp = pListe;
+
+    while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;
+
+    pTmp->pNext = pKarte->pNext;
     pKarte->pNext = NULL;
   }
+
   return pListe;                                          // Die Liste wird verändert zurückgegeben.
 }
 
 void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Yannic
   // Diese Funktion beinhaltet die Bilder der Karten und deren Ausgabe.
+  // Der Parameter enthaltet die Liste bzw. Karte, in der ausgegeben werden soll.
 
   // Pointer der mitgegebenen Werte
   struKarten* pPlayer = pListePlayer;
@@ -672,19 +676,19 @@ void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
 int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Mazen  (+ Yannic, ganz ein wenig :q )
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
-  // Variablen
-  char c;                     // Wird zur Überprüfung der ersten Eingabe benötigt.
-  char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein). Ist nur im Entwicklermodus verfügbar.
-  bool menü = false;          // Wird für das Rückkehren zum Hauptmenü benötigt.
-  bool nextkarte = false;     // Wird benötigt, um aus der Ausgabe-Schleife raus zu kommen und, falls zur nächsten Karte gewechselt werden sollte.
+  // übergeordnete Variablen
+  char c;                     // Überprüfung der ersten Eingabe benötigt.
+  char j;                     // Vergewisserung der ersten Eingabe (Sind Sie sicher? Ja/Nein). Nur im Entwicklermodus verfügbar.
+  bool menü = false;          // Das Rückkehren zum Hauptmenü
+  bool nextkarte = false;     // Aus der Ausgabe-Schleife raus zu kommen & falls zur nächsten Karte gewechselt werden sollte.
   int kartenänderung;         // Kartenänderung: 0 = leer (keine Änderung), 1 = gewonnen, 2 = verloren, 3 = unentscheiden (siehe unter der Kartenausgabe-Schleife)
   
   while (!menü) {
-    nextkarte = false;                          // Zu beginn ist per Normalfall !nextkarte damit die Kartenausgabe geschieht. Erst in der Ausgabe selbst 
-    kartenänderung = 0;                         // Fängt immer mit dem leeren Zustand an. Es geschieht nichts mit den Listen, bis eine gültige Eingabe gemacht wird.
+    nextkarte = false;
+    kartenänderung = 0;
 
-    int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
-    int AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
+    int AnzPlayer = listcount(pListePlayer);
+    int AnzCPU = listcount(pListeCPU);
 
     // Kartenausgabe-Schleife
     while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
@@ -715,8 +719,13 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       if (pListePlayer->pNext != NULL && admin) printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
       else printf("\n");
-      printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
-      printf("\n\n  Der CPU besitzt insgesamt noch %i Karten.", AnzCPU);
+
+
+      if (listcount(pListePlayer) == 1) printf("\n  Sie besitzen nur noch %i Karte.", AnzPlayer);
+      else printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
+
+      if (listcount(pListeCPU) == 1) printf("\n\n  Der CPU-Spieler besitzt nur noch %i Karte.", AnzCPU);
+      else printf("\n\n  Der CPU-Spieler besitzt insgesamt noch %i Karten.", AnzCPU);
       
       if (admin) {
         printf("\n  Karten des CPU-Spielers:");
@@ -803,7 +812,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         else if (c == '5') {
           printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n  (J/N): ");
+          printf("\n\n  (J/N): ");
 
           j = _getch();
           if (j == 'j') menü = true;
@@ -849,7 +858,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         else if (c == '5') {
           printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n  (J/N): ");
+          printf("\n\n  (J/N): ");
 
           j = _getch();
           if (j == 'j') menü = true;
@@ -871,6 +880,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       pListeCPU = firstlast_verl(pListeCPU);
       gewonnen();
     }
+
     else if (kartenänderung == 2) // Bei Verlust einer Karte sollen diese Änderungen vorgenommen werden.
     {
       ausgabe_kartenbild(pListePlayer, pListeCPU);
@@ -878,6 +888,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       pListePlayer = firstlast_verl(pListePlayer);
       verloren();
     }
+
     else if (kartenänderung == 3) // Bei Unentschieden sollen diese Änderungen vorgenommen werden.
     {
       ausgabe_kartenbild(pListePlayer, pListeCPU);
@@ -898,7 +909,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
       printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
-      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x84 zur\x84""ck.");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
@@ -908,6 +919,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
         menü = true;
       }
       else if (c == 'n') menü = true;
+      else falsche_eingabe();
     }
 
     // Spielende: Gewonnen-Schleife
@@ -931,15 +943,15 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
         menü = true;
       }
       else if (c == 'n') menü = true;
+      else falsche_eingabe();
     }
   }
-
-  return 0;
 }
 
 int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
   // Mazen
   // Diese Funktion vergleicht zwei Listen und gibt
+  // Der Parameter ist der Typ des Vergleichs und die beiden Listen, die verglichen werden.
 
   int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
 
@@ -964,11 +976,12 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
   // Mazen & Yannic
   // Diese Funktion verschiebt die erste Karte des Gewinners und des Verlierers an die letzte Stelle der Gewinnerkarte.
+  // Die Parameter sind 1. Die Liste des Gewinners und 2. Die Liste des Verlierers.
 
   struKarten* pLast;
   struKarten* pTemp;
 
-  if (listcount(pListeGew) == 1) {                       // Wenn beim Gewinner nur noch 1 Karte vorhanden ist, wird die gewonnene hinter dieser verschoben.
+  if (listcount(pListeGew) == 1) {                      // Wenn beim Gewinner nur noch 1 Karte vorhanden ist, wird die gewonnene hinter dieser verschoben.
     pLast = pListeGew;
     struKarten* pKarte = pListeVerl;
     pLast->pNext = pKarte;
@@ -992,12 +1005,20 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
 
 struKarten* firstlast_verl(struKarten* pListeVerl) {
   // Mazen & Yannic
-  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt fest, 
-  // dass in dieser Liste die zweite Karte die erste sein soll.
+  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste.
+  // Der Parameter ist nur die Liste des Verlierers.
 
-  struKarten* pTemp = pListeVerl;
-  pListeVerl = pListeVerl->pNext;
-  pTemp->pNext = NULL;
+  if (listcount(pListeVerl) == 1) {
+    pListeVerl = NULL;
+  }
+
+  else {
+    struKarten* pTemp = pListeVerl;
+    pListeVerl = pListeVerl->pNext;
+    pTemp->pNext = NULL;
+  }
+
+
 
   return pListeVerl;                                  // Die Liste wird verändert zurückgegeben.
 }
@@ -1005,15 +1026,27 @@ struKarten* firstlast_verl(struKarten* pListeVerl) {
 struKarten* firstlast_unent(struKarten* pListe) {
   // Mazen & Yannic
   // Diese Funktion versetzt die erste Karte ganz hinten wenn ein Unentschieden geschieht.
+  // Der Parameter ist irgendeine Liste, da diese Funktion neutral ist.
 
   struKarten* pTemp = pListe;
-  pListe = pListe->pNext;
-  pTemp->pNext = NULL;
+  struKarten* pLast;
 
-  struKarten* pLast = pListe;
+  if (listcount(pListe) == 1)
+  {
+    pListe = pTemp;
+  }
 
-  while (pLast->pNext != NULL) pLast = pLast->pNext;
-  pLast->pNext = pTemp;
+  else {
+    struKarten* pLast = pListe;
+
+    while (pLast->pNext != NULL) pLast = pLast->pNext;
+
+    pLast->pNext = pTemp;
+    pListe = pListe->pNext;
+    pTemp->pNext = NULL;
+  }
+
+
 
   return pListe;                                      // Die Liste wird verändert zurückgegeben.
 }
@@ -1208,12 +1241,12 @@ int einstellungen() {
     else if (eingabe == '4') settings = false;
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4') falsche_eingabe();
   }
-  return 0;
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe) {
   // Yannic
   // Diese Funktion verarbeitet die Einstellungen für die Farben des Debugging-Fensters.
+  // Die Parameter sind die Hintergrundfarbe und die Textfarbe.
 
   char SysPrint[20];
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
