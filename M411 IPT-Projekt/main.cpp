@@ -673,7 +673,7 @@ void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
  }
 }
 
-int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
+void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Mazen  (+ Yannic, ganz ein wenig :q )
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
   // übergeordnete Variablen
@@ -1053,7 +1053,7 @@ struKarten* firstlast_unent(struKarten* pListe) {
 
 
 
-int einstellungen() {
+void einstellungen() {
   // Yannic
   // Diese Funktion beinhaltet optionale Einstellungen wie Farbe, Entwicklermodus und Version.
 
