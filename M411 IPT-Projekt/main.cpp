@@ -602,7 +602,9 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     int AnzCPU = listcount(pListeCPU);
 
     // Kartenausgabe-Schleife
-    while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
+    while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  
+      // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
+
       system("cls");
 
       printf("\n\n\n  =================================");
