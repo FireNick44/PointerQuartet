@@ -33,7 +33,7 @@ void ausgabe_kartenbild(struKarten*);                           // Funktion für 
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
 void menü();                                                    // Hauptmenü
-void einstellungen();                                            // Einstellungen
+void einstellungen();                                           // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben auf der CMD
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
@@ -45,7 +45,7 @@ void unentschieden();                                           // Ausgabe wenn 
 // Weitere Beschreibungen findet man in den einzelnen Funktionen.
 
 // Globale Variablen
-bool admin = false;                                             // Wird für den Entwicklermodus benötigt. Es gibt Funktionen, die noch zusätzliche Entwicklermodus-Funktionen beinhalten.
+bool admin = false;                                             // Wird für den optionalen Entwicklermodus benötigt. Es gibt Unterprogramme, die Entwicklermodus-Funktionen beinhalten.
 bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
@@ -54,34 +54,13 @@ char textfarbe = 'F';                                           // Textfarbe der
 #define MaxAnzBildCol 30
 
 
-void GotoXY(const int x, const int y)
-{
-  COORD Pos = { x, y };
-  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
-}
-void OutputBild(const int x, const int y, char* pBild)
-{
-  int Row = 0;
-  int Col = 0;
-
-  for (int Row = 0; Row < MaxAnzBildRow; Row++) {
-    GotoXY(x, y + Row);
-    int iPos = Row * MaxAnzBildCol;
-    printf(pBild + iPos);
-  }
-}
-
-
-
-
-int main()
+void main()
 {
   srand(time(NULL));
   system("mode con cols=120 lines=60");    // Setzt die Grösse des CMD-Fensters
 
   menü();
   end();
-
 }
 
 void menü() {
@@ -328,6 +307,24 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   }
 
   return pListe;                                          // Die Liste wird verändert zurückgegeben.
+}
+
+void GotoXY(const int x, const int y)
+{
+  COORD Pos = { x, y };
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
+
+void OutputBild(const int x, const int y, char* pBild)
+{
+  int Row = 0;
+  int Col = 0;
+
+  for (int Row = 0; Row < MaxAnzBildRow; Row++) {
+    GotoXY(x, y + Row);
+    int iPos = Row * MaxAnzBildCol;
+    printf(pBild + iPos);
+  }
 }
 
 void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
@@ -673,8 +670,10 @@ void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
  }
 }
 
+
+
 void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
-  // Mazen  (+ Yannic, ganz ein wenig :q )
+  // Mazen  (+ Yannic, ganz wenig )
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
   // übergeordnete Variablen
   char c;                     // Überprüfung der ersten Eingabe benötigt.
