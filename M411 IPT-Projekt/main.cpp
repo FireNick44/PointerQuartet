@@ -51,15 +51,14 @@ bool first = true;                                              // Wird für die 
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
 
-int main()
+void main()
 {
-  srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
+  srand(time(NULL));
   system("mode con cols=120 lines=60");    // Setzt die Grösse des CMD-Fensters
 
-  menü();                                 // Menü wird Aufgerufen
-  end();                                  // Spiel wird beendet
+  menü();
+  end();
 
-  return 0;
 }
 
 void menü() {
@@ -102,6 +101,7 @@ void menü() {
     else if (eingabe == '3')
     {
       printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
+      printf("\n");
       printf("\n  (J/N): ");
 
       eingabe = _getch();
@@ -264,7 +264,7 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
   pTmp->Schaden = Dmg;
   pTmp->pNext = NULL;
 
-  return pTmp;      // Die Karte wird samt allen Werden zurückgegeben.
+  return pTmp;      // Die Karte wird samt allen Werten zurückgegeben.
 }
 
 struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
@@ -307,13 +307,13 @@ struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   return pListe;                                          // Die Liste wird verändert zurückgegeben.
 }
 
-void ausgabe_kartenbild(struKarten* pListePlayer) {
+void ausgabe_kartenbild(struKarten* pListe) {
   // Yannic
   // Diese Funktion beinhaltet die Bilder der Karten und deren Ausgabe.
   // Der Parameter enthaltet die Liste bzw. Karte, in der ausgegeben werden soll.
 
   // Pointer der mitgegebenen Werte
-  struKarten* pPlayer = pListePlayer;
+  struKarten* pPlayer = pListe;
 
   char barbar[15][30]
   {
@@ -587,19 +587,19 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
   // Die Parameter sind die Liste des Players und des CPU-Spielers, weil beide darin verarbeitet werden.
 
-  // Variablen
-  char c;                     // Wird zur Überprüfung der ersten Eingabe benötigt.
-  char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein). Ist nur im Entwicklermodus verfügbar.
-  bool menü = false;          // Wird für das Rückkehren zum Hauptmenü benötigt.
-  bool nextkarte = false;     // Wird benötigt, um aus der Ausgabe-Schleife raus zu kommen und, falls zur nächsten Karte gewechselt werden sollte.
+  // übergeordnete Variablen
+  char c;                     // Überprüfung der ersten Eingabe benötigt.
+  char j;                     // Vergewisserung der ersten Eingabe (Sind Sie sicher? Ja/Nein). Nur im Entwicklermodus verfügbar.
+  bool menü = false;          // Das Rückkehren zum Hauptmenü
+  bool nextkarte = false;     // Aus der Ausgabe-Schleife raus zu kommen & falls zur nächsten Karte gewechselt werden sollte.
   int kartenänderung;         // Kartenänderung: 0 = leer (keine Änderung), 1 = gewonnen, 2 = verloren, 3 = unentscheiden (siehe unter der Kartenausgabe-Schleife)
   
   while (!menü) {
     nextkarte = false;
     kartenänderung = 0;
 
-    int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
-    int AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
+    int AnzPlayer = listcount(pListePlayer);
+    int AnzCPU = listcount(pListeCPU);
 
     // Kartenausgabe-Schleife
     while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
@@ -724,7 +724,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         else if (c == '5') {
           printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n  (J/N): ");
+          printf("\n\n  (J/N): ");
 
           j = _getch();
           if (j == 'j') menü = true;
@@ -770,7 +770,7 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         else if (c == '5') {
           printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n  (J/N): ");
+          printf("\n\n  (J/N): ");
 
           j = _getch();
           if (j == 'j') menü = true;
@@ -986,9 +986,17 @@ struKarten* firstlast_verl(struKarten* pListeVerl) {
   // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste.
   // Der Parameter ist nur die Liste des Verlierers.
 
-  struKarten* pTemp = pListeVerl;
-  pListeVerl = pListeVerl->pNext;
-  pTemp->pNext = NULL;
+  if (listcount(pListeVerl) == 1) {
+    pListeVerl = NULL;
+  }
+
+  else {
+    struKarten* pTemp = pListeVerl;
+    pListeVerl = pListeVerl->pNext;
+    pTemp->pNext = NULL;
+  }
+
+
 
   return pListeVerl;                                  // Die Liste wird verändert zurückgegeben.
 }
