@@ -20,8 +20,8 @@ typedef struct Karten
 
 
 // Prototypen der Methoden
-int rundestart();                                               // Start einer Runde
-int ausgabe(struKarten*, struKarten*);                          // Funktion für Ausgabe der Karten
+void rundestart();                                              // Start einer Runde
+void ausgabe(struKarten*, struKarten*);                         // Funktion für Ausgabe der Karten
 struKarten* createlist(struKarten*, struKarten*);               // Funktion für das Kreieren von Listen und Hinzufügen von Karten mit Hilfe der Methode "karte"
 struKarten* removelist(struKarten*, struKarten*);               // Funktion für das Entfernen von einer Karte/n aus einer Liste
 struKarten* karte(int, const char*, int, int, double);          // Funktion für das Erstellen und Abfüllen der Karten mit Werten
@@ -29,11 +29,11 @@ struKarten* firstlast_gew(struKarten*, struKarten*);            // Funktion für 
 struKarten* firstlast_verl(struKarten*);                        // Funktion für den Verlierer einer Karte
 struKarten* firstlast_unent(struKarten*);                       // Funktion für Unentschieden
 int vergleiche(int, struKarten*, struKarten*);                  // Funktion für das Vergleichen von Karten aus zwei Listen
-void ausgabe_karte(struKarten*);                   // Funktion für die Ausgabe von Kartenbilder
+void ausgabe_kartenbild(struKarten*);                           // Funktion für die Ausgabe von Kartenbilder 
 
 int listcount(struKarten*);                                     // Einfache Funktion fürs Zählen von Elementen in einer Liste
-int menü();                                                     // Hauptmenü
-int einstellungen();                                            // Einstellungen
+void menü();                                                    // Hauptmenü
+void einstellungen();                                           // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben auf der CMD
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
@@ -44,26 +44,26 @@ void unentschieden();                                           // Ausgabe wenn 
 
 // Weitere Beschreibungen findet man in den einzelnen Funktionen.
 
-
 // Globale Variablen
-bool admin = false;                                             // Wird für den Entwicklermodus benötigt. Es gibt Funktionen, die noch zusätzliche Entwicklermodus-Funktionen beinhalten.
+bool admin = false;                                             // Wird für den optionalen Entwicklermodus benötigt. Es gibt Unterprogramme, die Entwicklermodus-Funktionen beinhalten.
 bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
 char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
 char textfarbe = 'F';                                           // Textfarbe der CMD.
 
-int main()
+#define MaxAnzBildRow 15
+#define MaxAnzBildCol 30
+
+
+void main()
 {
-  srand(time(NULL));                      // Rand Initialisierung für die Methode "random".
-  system("mode con cols=90 lines=57");    // Setzt die Grösse des CMD-Fensters
+  srand(time(NULL));
+  system("mode con cols=120 lines=60");    // Setzt die Grösse des CMD-Fensters
 
-  menü();                                 // Menü wird Aufgerufen
-  end();                                  // Spiel wird beendet
-
-  return 0;
+  menü();
+  end();
 }
 
-int menü()
-{
+void menü() {
   // Yannic
   // Diese Funktion beinhaltet das Menü, in dem man navigieren kann.
 
@@ -103,7 +103,8 @@ int menü()
     else if (eingabe == '3')
     {
       printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?");
-      printf("\n  (J/N) ");
+      printf("\n");
+      printf("\n  (J/N): ");
 
       eingabe = _getch();
 
@@ -116,10 +117,9 @@ int menü()
       falsche_eingabe();
     }
   }
-  return 0;
 }
 
-int rundestart() {
+void rundestart() {
   // Mazen
   // In dieser Funktion startet das Erstellen beider Kartenstapel und die Karten werden verteilt.
 
@@ -148,7 +148,7 @@ int rundestart() {
 
   system("cls");
 
-  printf("\n\n\n  ==================================");
+  printf("\n\n  ==================================\n");
 
   struKarten* pStart = NULL;        // Erstellt Startliste mit der beim Verteilen gearbeitet wird
   struKarten* pListePlayer = NULL;  // Erstellt Liste von Player
@@ -182,17 +182,20 @@ int rundestart() {
     if (admin) {
       //Ausgabe zum Testen
 
+      printf("\n  Die zuf\x84llige Karte heisst: %14s", pKarte->Bez);
 
-      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
-      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt und der Spielerliste hinzugef\x81gt.");
-      printf("\n\n");
-      system("pause");
     }
 
     pStart = removelist(pStart, pKarte);              // Parameter: Die Liste, aus der entfernt wird und welche Karte.
     pListePlayer = createlist(pListePlayer, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
   }
+
+  if (admin) {
+    printf("\n\n  Diese Karten werden jetzt der Spielerliste hinzugef\x81gt.");
+    printf("\n\n");
+    system("pause");
+  }
+
 
   for (runde = 5; runde < 10; runde++)
   {
@@ -209,12 +212,10 @@ int rundestart() {
 
     if (admin) {
       //Ausgabe zum Testen
-      printf("\n  Die zuf\x84llige Karte ist Karte Nr: %i ", pKarte->Nr);
-      printf("\n  Diese Karte heisst %s.", pKarte->Bez);
-      printf("\n  Diese wird jetzt aus der Startliste entfernt und der CPU-Liste hinzugef\x81gt.");
-      printf("\n\n");
-      system("pause");
+      printf("\n  Die zuf\x84llige Karte heisst: %14s", pKarte->Bez);
+
     }
+
 
 
 
@@ -223,20 +224,27 @@ int rundestart() {
   }
 
   if (admin) {
+    printf("\n\n  Diese Karten werden jetzt der CPU-Liste hinzugef\x81gt.");
+    printf("\n\n");
+    system("pause");
+  }
+
+
+  if (admin) {
     system("cls");
 
     printf("\n  Jetzt wird das Spiel anfangen.");
-    printf("\n\n  ==================================");
+    printf("\n\n  ==================================\n");
     system("pause");
   }
 
   ausgabe(pListePlayer, pListeCPU);
-  return 0;
 }
 
 int listcount(struKarten* pListe) {
   // Yannic
   // Diese Funktion zählt alle Elemente einer Liste.
+  // Der Parameter ist die Liste, aus der gezählt werden soll.
 
   int anz = 0;
   struKarten* pTmp = pListe;
@@ -246,7 +254,8 @@ int listcount(struKarten* pListe) {
 
 struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
   // Mazen
-  // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Strukturvariable zurück.
+  // Diese Funktion verarbeitet die Parameterwerte in eine Karte und gibt die ganze Karte als Pointer zurück.
+  // Die Parameter sind die einzelnen einzufüllenden Werte für eine Karte mit abgekürzten Namen.
 
   struKarten* pTmp = (struKarten*)malloc(sizeof(struKarten));
 
@@ -257,160 +266,185 @@ struKarten* karte(int pTruppe, const char* pBez, int Hp, int Spd, double Dmg) {
   pTmp->Schaden = Dmg;
   pTmp->pNext = NULL;
 
-  return pTmp;
+  return pTmp;      // Die Karte wird samt allen Werten zurückgegeben.
 }
 
 struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
   // Mazen
-  // Diese Funktion
+  // Diese Funktion fügt die pKarte zur mitgegebenen pListe hinzu.
+  // Die Parameter sind sowohl die Liste, als auch die Karte selbst, die hinzugefügt werden soll.
 
-  if (pListe == NULL) {   // Als erstes die Referenz zur ersten Karte "pStart", bzw. der Liste, die anfängt mit pStart.
-    pListe = pKarte;      // Wenn diese Liste leer ist, dann referenziert pNew mit dem ganzen Inhalt auf die erste Karte "pStart".
-    pKarte->pNext = NULL; // Die nächste Karte existiert dann noch nicht. Die Referenz dazu ist vorerst leer.
+  if (pListe == NULL) {
+    pListe = pKarte;
+    pKarte->pNext = NULL;
   }
   else {
-    struKarten* pLast = pListe; // Beispiel: "Barbar" wird von pLast referenziert, weil zu Beginn die erste Karte auch die letzte ist.
+    struKarten* pLast = pListe;
     while (pLast->pNext != NULL) pLast = pLast->pNext;
     pLast->pNext = pKarte;
 
-    // Schleife: Zum finden der letzten Karte. Solange die Referenz auf die nächste Karte jeder Karte nicht NULL, also nicht leer ist,
-    // ist diese die letzte Karte. Wird beim ersten mal gar nicht ausgeführt weil Barbar schon die letzte Karte ist und keinen pNext hat.
-    // Jeder neue Inhalt, der sich in pNew befindet (Beispiel: Bogenschützin) ist die nächste Karte der temporär "letzten" Karte (Beispiel: Barbar).
   }
-  return pListe;          // Die Liste wird samt allen neuen Elementen zurückgegeben.
+  return pListe;                                        // Die Liste wird verändert zurückgegeben.
 }
 
 struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   // Yannic
   // Diese Funktion dient zum entfernen von Karten aus einer Liste, in dem die Referenzen neu gesetzt werden.
+  // Die Parameter sind sowohl die Liste, als auch die Karte selbst, die entfernt werden soll.
 
-  if (pListe == pKarte) { // Falls die Karte das erste Element der Liste ist, wird diese als pListe verarbeitet.
-    pListe = pListe->pNext; // Die zweite Karte ist die neue erste Karte.
-    pKarte->pNext = NULL; // Die Karte, die entfernt worden ist, hat einen leeren pNext, da es sich nicht mehr in der Liste befinden sollte.
+  if (pListe == pKarte) {     
+    pListe = pListe->pNext;   
+    pKarte->pNext = NULL;     
   }
-  else {                        // Ansonsten, also wenn die Karte sich irgendwo in der Liste befindet.
-    struKarten* pTmp = pListe;  // Es wird ein temporärer Pointer auf die erste gesetzt, damit man nicht die Liste selbst überschreibt.
+  
+  else {
+    struKarten* pTmp = pListe;
+
     while (pTmp->pNext != pKarte) pTmp = pTmp->pNext;
+
     pTmp->pNext = pKarte->pNext;
     pKarte->pNext = NULL;
   }
-  return pListe;
+
+  return pListe;                                          // Die Liste wird verändert zurückgegeben.
 }
 
-void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
+void GotoXY(const int x, const int y)
+{
+  COORD Pos = { x, y };
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+}
 
-  // Kopie der mitgegebenen Werte
+void OutputBild(const int x, const int y, char* pBild)
+{
+  int Row = 0;
+  int Col = 0;
+
+  for (int Row = 0; Row < MaxAnzBildRow; Row++) {
+    GotoXY(x, y + Row);
+    int iPos = Row * MaxAnzBildCol;
+    printf(pBild + iPos);
+  }
+}
+
+void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
+  // Yannic
+  // Diese Funktion beinhaltet die Bilder der Karten und deren Ausgabe.
+  // Der Parameter enthaltet die Liste bzw. Karte, in der ausgegeben werden soll.
+
+  // Pointer der mitgegebenen Werte
   struKarten* pPlayer = pListePlayer;
+  struKarten* pCPU = pListeCPU;
 
-  char barbar[15][30]
+  char barbar[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "    .@@@@@@@@@@@@@@@@@@.    \0",
-    "    @                  @.   \0",
-    "   @@                  @@.  \0",
-    "  @@                    @@  \0",
-    "  @@                    &@  \0",
-    "  @ @@@@@@@    .@@@@@@@@ @. \0",
-    "  @@   (o)      (O)     @@@ \0",
-    " .@@        ((           @@ \0",
-    " @@@  @@@@@@@@@@@@@@@    @@ \0",
-    "     @@ ########## @@@      \0",
-    "    @@@            @@@      \0",
-    "    @@ ##________## @@@     \0",
-    "    @@@ '########'  @@@     \0",
-    "    @@@             @@@     \0",
-    "                            \0",
+    "    .@@@@@@@@@@@@@@@@@@.    ",
+    "    @                  @.   ",
+    "   @@                  @@.  ",
+    "  @@                    @@  ",
+    "  @@                    &@  ",
+    "  @ @@@@@@@    .@@@@@@@@ @. ",
+    "  @@   (o)      (O)     @@@ ",
+    " .@@        ((           @@ ",
+    " @@@  @@@@@@@@@@@@@@@    @@ ",
+    "     @@ ########## @@@      ",
+    "    @@@            @@@      ",
+    "    @@ ##________## @@@     ",
+    "    @@@ '########'  @@@     ",
+    "    @@@             @@@     ",
+    "                            ",
   };
-  char schweinereiter[15][30]
+  char schweinereiter[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "         @@@@@@@@@@         \0",
-    "       @@@@@@@@@@@@@@       \0",
-    "    ,@@@@@@@@       @@      \0",
-    "   @  @@@@'           @     \0",
-    " ,@                    @ ,@.\0",
-    " @@ @@@@    /@@@@@.    @@  @\0",
-    " @@  (O)      (O)     .@@  @\0",
-    " @        /           @@@(.)\0",
-    " @       (@.          @@@   \0",
-    ".@@@@@@@@@@@@@@@@@@   @@,   \0",
-    "@@@@ ########## @@@@ .@@*   \0",
-    "'@@@              @@@@@@*   \0",
-    " @@@@ #########,@@@@@@@     \0",
-    "  @@@@@@@@@@@@@@@@@@@       \0",
-    "    @@@@@@@@@@@@@@@@        \0",
+    "         @@@@@@@@@@         ",
+    "       @@@@@@@@@@@@@@       ",
+    "    ,@@@@@@@@       @@      ",
+    "   @  @@@@'           @     ",
+    " ,@                    @ ,@.",
+    " @@ @@@@    /@@@@@.    @@  @",
+    " @@  (O)      (O)     .@@  @",
+    " @        /           @@@(.)",
+    " @       (@.          @@@   ",
+    ".@@@@@@@@@@@@@@@@@@   @@,   ",
+    "@@@@ ########## @@@@ .@@*   ",
+    "'@@@              @@@@@@*   ",
+    " @@@@ #########,@@@@@@@     ",
+    "  @@@@@@@@@@@@@@@@@@@       ",
+    "    @@@@@@@@@@@@@@@@        ",
   };
-  char ballon[15][30]
+  char ballon[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "        @@@@@@@@@@@         \0",
-    "     @@@@@@@@@@@@@@@@@      \0",
-    "   @@@@@@         @@@@@@    \0",
-    "  @@@@@@ (O)   (O) @@@@@@   \0",
-    "  @@@@@@     @     @@@@@@   \0",
-    "  @@@@@@@  , , ,  @@@@@@@   \0",
-    "   @@@@@@@ @ @ @ @@@@@@@    \0",
-    "    @@@@@@U@U@U@U@@@@@@     \0",
-    "       @@@@@@@@@@@@@        \0",
-    "        |  |   |  |         \0",
-    "        |  |   |  |  `      \0",
-    "       (###########)    `   \0",
-    "        @@@@@@@@@@@  ` `    \0",
-    "         @@@@@@@@@  `  #  ` \0",
-    "                      `  `  \0",
+    "        @@@@@@@@@@@         ",
+    "     @@@@@@@@@@@@@@@@@      ",
+    "   @@@@@@         @@@@@@    ",
+    "  @@@@@@ (O)   (O) @@@@@@   ",
+    "  @@@@@@     @     @@@@@@   ",
+    "  @@@@@@@  , , ,  @@@@@@@   ",
+    "   @@@@@@@ @ @ @ @@@@@@@    ",
+    "    @@@@@@U@U@U@U@@@@@@     ",
+    "       @@@@@@@@@@@@@        ",
+    "        |  |   |  |         ",
+    "        |  |   |  |  `      ",
+    "       (###########)    `   ",
+    "        @@@@@@@@@@@  ` `    ",
+    "         @@@@@@@@@  `  #  ` ",
+    "                      `  `  ",
   };
-  char riese[15][30]
+  char riese[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "    @                 @     \0",
-    "  @@                   @@   \0",
-    " @                       @  \0",
-    "@@@@@@@@@@@@   @@@@@@@@@@@@ \0",
-    "@@@@@@@@@@@@@ @@@@@@@@@@@@@@\0",
-    "@        @@@   @@@        @ \0",
-    "   ( o )     .     ( o )  @@\0",
-    "@@          ,@            @@\0",
-    "@@@       ,@@  @.        @@@\0",
-    "@@@)        @@@         (@@@\0",
-    "@@@@                    @@@@\0",
-    " @@@@@   ###########  @@@@@@\0",
-    " @@@@@@              @@@@@@ \0",
-    "   @@@@@@          @@@@@@   \0",
-    "     @@@@@@.     .@@@@@     \0",
+    "    @                 @     ",
+    "  @@                   @@   ",
+    " @                       @  ",
+    "@@@@@@@@@@@@   @@@@@@@@@@@@ ",
+    "@@@@@@@@@@@@@ @@@@@@@@@@@@@@",
+    "@        @@@   @@@        @ ",
+    "   ( o )     .     ( o )  @@",
+    "@@          ,@            @@",
+    "@@@       ,@@  @.        @@@",
+    "@@@)        @@@         (@@@",
+    "@@@@                    @@@@",
+    " @@@@@   ###########  @@@@@@",
+    " @@@@@@              @@@@@@ ",
+    "   @@@@@@          @@@@@@   ",
+    "     @@@@@@.     .@@@@@     ",
   };
-  char pekka[15][30]
+  char pekka[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "                            \0",
-    "@                         @ \0",
-    "@@                       @@ \0",
-    "@@@@  ,-------------,  @@@@ \0",
-    " @@@@@@'           '@@@@@@  \0",
-    " @@@@                 @@@@  \0",
-    "  @@  @(O)@)   (@(O)@  @@   \0",
-    "   |  @@@'   M   '@@@  |    \0",
-    "   |  '     MMM     '  |    \0",
-    "   |        MMM        |    \0",
-    "   |        MMM        |    \0",
-    " /MMMMMMMMMM/ \x5CMMMMMMMMMM\x5C  \0",
-    "/'         /   \x5C         '\x5C \0",
-    "          /     \x5C           \0",
-    "                            \0",
+    "                            ",
+    "@                         @ ",
+    "@@                       @@ ",
+    "@@@@  ,-------------,  @@@@ ",
+    " @@@@@@'           '@@@@@@  ",
+    " @@@@                 @@@@  ",
+    "  @@  @(O)@)   (@(O)@  @@   ",
+    "   |  @@@'   M   '@@@  |    ",
+    "   |  '     MMM     '  |    ",
+    "   |        MMM        |    ",
+    "   |        MMM        |    ",
+    " /MMMMMMMMMM/ \x5CMMMMMMMMMM\x5C  ",
+    "/'         /   \x5C         '\x5C ",
+    "          /     \x5C           ",
+    "                            ",
   };
-  char magier[15][30]
+  char magier[MaxAnzBildRow][MaxAnzBildCol]
   {
-    "    ,@@@@@@@@@@@@@@@@@@,    \0",
-    "  @@@@@@@@@@@@@@@@@@@@@@@@  \0",
-    " @@@@@@@@@@@@@@@@@@@@@@@@@@ \0",
-    "@@@@                    @@@@\0",
-    "@@@ Xx                xX @@@\0",
-    "@@|  'XXXx,      ,xXXX'  |@@\0",
-    "@ |   (O)    ,     (O)   | @\0",
-    "@ |         ,@           | @\0",
-    "@ |        ,@  @.        | @\0",
-    "@@|    @@@@@@@@@@@@@@    |@@\0",
-    " @,\x5C   @@ ######## @@   /,@ \0",
-    "  @@ \x5C '@          @' / @@  \0",
-    "   @@  \x5C@@@@@@@@@@@@/  @@   \0",
-    "    @    '@@@@@@@@'    @    \0",
-    "   @@       '@@'       @@   \0",
+    "    ,@@@@@@@@@@@@@@@@@@,    ",
+    "  @@@@@@@@@@@@@@@@@@@@@@@@  ",
+    " @@@@@@@@@@@@@@@@@@@@@@@@@@ ",
+    "@@@@                    @@@@",
+    "@@@ Xx                xX @@@",
+    "@@|  'XXXx,      ,xXXX'  |@@",
+    "@ |   (O)    ,     (O)   | @",
+    "@ |         ,@           | @",
+    "@ |        ,@  @.        | @",
+    "@@|    @@@@@@@@@@@@@@    |@@",
+    " @,\x5C   @@ ######## @@   /,@ ",
+    "  @@ \x5C '@          @' / @@  ",
+    "   @@  \x5C@@@@@@@@@@@@/  @@   ",
+    "    @    '@@@@@@@@'    @    ",
+    "   @@       '@@'       @@   ",
   };
-  char hexe[15][30]
+  char hexe[MaxAnzBildRow][MaxAnzBildCol]
   {
     "   ,@@@@@@@@@@@@@@@@@@@@,   \0",
     " @@@@@@@@@@@@@@@@@@@@@@@@@@ \0",
@@ -428,7 +462,7 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
     "@@@....\x5C            /....@@@\0",
     " @@@.....\x5C________/.....@@@ \0",
   };
-  char golem[15][30]
+  char golem[MaxAnzBildRow][MaxAnzBildCol]
   {
     ".x...,@@@@@@@@@@@@@@@@@,....\0",
     "..X @@'               '@@...\0",
@@ -446,7 +480,7 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
     ".....+@@@@@@@@@@@@@@@@@'x...\0",
     ".....X...................X..\0",
   };
-  char skelett[15][30]
+  char skelett[MaxAnzBildRow][MaxAnzBildCol]
   {
     "    ,..xx@@@@@@@@@@xx..,    \0",
     "  @'                   ,'@, \0",
@@ -464,7 +498,7 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
     "             @   @  @@@@@@  \0",
     "      @@@@@@  @   @         \0",
   };
-  char tunnelgräber[15][30]
+  char tunnelgräber[MaxAnzBildRow][MaxAnzBildCol]
   {
     "       )                    \0",
     "      (_)                   \0",
@@ -483,119 +517,187 @@ void ausgabe_karte(struKarten* pListePlayer, struKarten* pListeCPU) {
     "        `'@@@@@'`           \0",
   };
 
+ if (pListeCPU == NULL) {
+   int id = pPlayer->Nr;
+  
+   if (id == 1) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", barbar[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 2) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", magier[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 3) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", golem[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 4) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", pekka[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 5) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", hexe[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 6) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", schweinereiter[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 7) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", skelett[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 8) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", tunnelgräber[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 9) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", riese[i]);
+      printf("  |\n");
+    }
+  }
+   else if (id == 10) {
+    for (int i = 0; i < 15; i++)
+    {
+      printf("  |  ");
+      printf("%s", ballon[i]);
+      printf("  |\n");
+    }
+  }
+ }
+ else if (pListeCPU != NULL)
+ {
+   int pid = pPlayer->Nr;
+   int cid = pCPU->Nr;
+   system("cls");
+   printf("\n\n\n  ============================================================================");
+   printf("\n\n             Ihre Karte                               Karte des CPUs");
+   if (admin) printf("\n\n         Entwicklermodus EIN");
+   printf("\n    ______________________________            ______________________________      ");
+   printf("\n   /                              \x5C          /                              \x5C     ");
+   printf("\n  /                                \x5C        /                                \x5C    ");
+   printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |        |  CoC Quartett | Karte Nr.  %-2i  |    ", pListePlayer->Nr, pListeCPU->Nr);
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |      ---%-14s---      |        |      ---%-14s---      |    ", pListePlayer->Bez, pListeCPU->Bez);
+   printf("\n  |                                |        |                                |    ");
 
-  int id = pPlayer->Nr;
+   //Bild:
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |   VS   |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |                                |        |                                |    ");
 
-  if (id == 1) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", barbar[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 2) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", magier[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 3) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", golem[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 4) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", pekka[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 5) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", hexe[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 6) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", schweinereiter[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 7) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", skelett[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 8) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", tunnelgräber[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 9) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", riese[i]);
-        printf("  |\n");
-      }
-    }
-  else if (id == 10) {
-      for (int i = 0; i < 15; i++)
-      {
-        printf("  |  ");
-        printf("%s", ballon[i]);
-        printf("  |\n");
-      }
-    }
+   printf("\n  |                                |        |                                |    ");
+   printf("\n  |   |Trefferpunkte   | %4i |    |        |   |Trefferpunkte   | %4i |    |    ", pListePlayer->Trefferpunkte, pListeCPU->Trefferpunkte);
+   printf("\n  |   |                |      |    |        |   |                |      |    |    ");
+   printf("\n  |   |Geschwindigkeit | %4i |    |        |   |Geschwindigkeit | %4i |    |    ", pListePlayer->Geschw, pListeCPU->Geschw);
+   printf("\n  |   |                |      |    |        |   |                |      |    |    ");
+   printf("\n  |   |Schaden         | %5.1lf|    |        |   |Schaden         | %5.1lf|    |    ", pListePlayer->Schaden, pListeCPU->Schaden);
+   printf("\n  \x5C                                /        \x5C                                /    ");
+   printf("\n   \x5C______________________________/          \x5C______________________________/     ");
 
+   if (pid == 1) OutputBild(5, 13, &barbar[0][0]);
+   else if (pid == 2) OutputBild(5, 13, &magier[0][0]);
+   else if (pid == 3) OutputBild(5, 13, &golem[0][0]);
+   else if (pid == 4) OutputBild(5, 13, &pekka[0][0]);
+   else if (pid == 5) OutputBild(5, 13, &hexe[0][0]);
+   else if (pid == 6) OutputBild(5, 13, &schweinereiter[0][0]);
+   else if (pid == 7) OutputBild(5, 13, &skelett[0][0]);
+   else if (pid == 8) OutputBild(5, 13, &tunnelgräber[0][0]);
+   else if (pid == 9) OutputBild(5, 13, &riese[0][0]);
+   else if (pid == 10) OutputBild(5, 13, &ballon[0][0]);
+
+   if (cid == 1) OutputBild(47, 13, &barbar[0][0]);
+   else if (cid == 2) OutputBild(47, 13, &magier[0][0]);
+   else if (cid == 3) OutputBild(47, 13, &golem[0][0]);
+   else if (cid == 4) OutputBild(47, 13, &pekka[0][0]);
+   else if (cid == 5) OutputBild(47, 13, &hexe[0][0]);
+   else if (cid == 6) OutputBild(47, 13, &schweinereiter[0][0]);
+   else if (cid == 7) OutputBild(47, 13, &skelett[0][0]);
+   else if (cid == 8) OutputBild(47, 13, &tunnelgräber[0][0]);
+   else if (cid == 9) OutputBild(47, 13, &riese[0][0]);
+   else if (cid == 10) OutputBild(47, 13, &ballon[0][0]);
+
+   COORD Pos = { 80, 35 };
+   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
+ }
 }
 
-int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
-  // Mazen
+void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
+  // Mazen  (+ Yannic, ganz wenig )
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
-
-  // Variablen
-  char c;                     // Wird zur Überprüfung der ersten Eingabe benötigt.
-  char j;                     // Wird zur Vergewisserung der ersten Eingabe benötigt (Sind Sie sicher? Ja/Nein). Ist nur im Entwicklermodus verfügbar.
-  bool menü = false;          // Wird für das Rückkehren zum Hauptmenü benötigt.
-  bool nextkarte = false;     // Wird benötigt, um aus der Ausgabe-Schleife raus zu kommen und, falls zur nächsten Karte gewechselt werden sollte.
+  // übergeordnete Variablen
+  char c;                     // Überprüfung der ersten Eingabe benötigt.
+  char j;                     // Vergewisserung der ersten Eingabe (Sind Sie sicher? Ja/Nein). Nur im Entwicklermodus verfügbar.
+  bool menü = false;          // Das Rückkehren zum Hauptmenü
+  bool nextkarte = false;     // Aus der Ausgabe-Schleife raus zu kommen & falls zur nächsten Karte gewechselt werden sollte.
   int kartenänderung;         // Kartenänderung: 0 = leer (keine Änderung), 1 = gewonnen, 2 = verloren, 3 = unentscheiden (siehe unter der Kartenausgabe-Schleife)
   
   while (!menü) {
-    nextkarte = false;                          // Zu beginn ist per Normalfall !nextkarte damit die Kartenausgabe geschieht. Erst in der Ausgabe selbst 
-    kartenänderung = 0;                         // Fängt immer mit dem leeren Zustand an. Es geschieht nichts mit den Listen, bis eine gültige Eingabe gemacht wird.
+    nextkarte = false;
+    kartenänderung = 0;
 
-    int AnzPlayer = listcount(pListePlayer);    // Zählt Anzahl Karten im eigenen Stapel.
-    int AnzCPU = listcount(pListeCPU);          // Zählt Anzahl Karten im CPU-Stapel.
+    int AnzPlayer = listcount(pListePlayer);
+    int AnzCPU = listcount(pListeCPU);
 
     // Kartenausgabe-Schleife
-    while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
+    while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  
+      // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
+
       system("cls");
 
       printf("\n\n\n  =================================");
 
       printf("\n\n  --------------KARTE---------------");
-      if (admin) printf("\n         ENTWICKLERMODUS EIN");
-      printf("\n\n    ______________________________ ");
+      if (admin) printf("\n\n         Entwicklermodus EIN");
+      printf("\n    ______________________________ ");
       printf("\n   /                              \x5C");
       printf("\n  /                                \x5C");
       printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |", pListePlayer->Nr);
@@ -603,7 +705,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
       printf("\n  |                                |");
       printf("\n");
-      ausgabe_karte(pListePlayer);
+      ausgabe_kartenbild(pListePlayer, NULL);
       printf("  |                                |");
       printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
       printf("\n  |   |                |      |    |");
@@ -616,21 +718,24 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
       if (pListePlayer->pNext != NULL && admin) printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
       else printf("\n");
-      printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
-      printf("\n  Der CPU besitzt insgesamt noch %i Karten.", AnzCPU);
+
+
+      if (listcount(pListePlayer) == 1) printf("\n  Sie besitzen nur noch %i Karte.", AnzPlayer);
+      else printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
+
+      if (listcount(pListeCPU) == 1) printf("\n\n  Der CPU-Spieler besitzt nur noch %i Karte.", AnzCPU);
+      else printf("\n\n  Der CPU-Spieler besitzt insgesamt noch %i Karten.", AnzCPU);
       
       if (admin) {
-        printf("\n\n  Karten des CPU-Spielers:");
+        printf("\n  Karten des CPU-Spielers:");
         for (struKarten* pTemp = pListeCPU; pTemp != NULL; pTemp = pTemp->pNext) {
           if (pTemp->pNext == NULL) {
             printf(" %s", pTemp->Bez);
           }
           else printf(" %s->", pTemp->Bez);
         }
-        printf("\n\n  Der CPU besitzt somit %i Karten.", AnzCPU);
       }
       
-
       printf("\n\n\n  =================================");
       printf("\n  Trefferpunkte?         (1)");
       printf("\n  Geschwindigkeit?       (2)");
@@ -706,7 +811,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         else if (c == '5') {
           printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n  (J/N): ");
+          printf("\n\n  (J/N): ");
 
           j = _getch();
           if (j == 'j') menü = true;
@@ -752,7 +857,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
         else if (c == '5') {
           printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n  (J/N): ");
+          printf("\n\n  (J/N): ");
 
           j = _getch();
           if (j == 'j') menü = true;
@@ -769,18 +874,23 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     // Es wird durch den Rückgabewert von "vergleiche" ermittelt, wie sich die beiden Listen und Karten verändern sollen.
     if (kartenänderung == 1) // Bei Gewinn einer Karte sollen diese Änderungen vorgenommen werden.
     {
+      ausgabe_kartenbild(pListePlayer, pListeCPU);
       pListePlayer = firstlast_gew(pListePlayer, pListeCPU);
       pListeCPU = firstlast_verl(pListeCPU);
       gewonnen();
     }
+
     else if (kartenänderung == 2) // Bei Verlust einer Karte sollen diese Änderungen vorgenommen werden.
     {
+      ausgabe_kartenbild(pListePlayer, pListeCPU);
       pListeCPU = firstlast_gew(pListeCPU, pListePlayer);
       pListePlayer = firstlast_verl(pListePlayer);
       verloren();
     }
+
     else if (kartenänderung == 3) // Bei Unentschieden sollen diese Änderungen vorgenommen werden.
     {
+      ausgabe_kartenbild(pListePlayer, pListeCPU);
       pListePlayer = firstlast_unent(pListePlayer);
       pListeCPU = firstlast_unent(pListeCPU);
       unentschieden();
@@ -788,7 +898,7 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
 
 
     // Spielende: Verloren-Schleife
-    while (AnzPlayer <= 0 && AnzCPU >= 10 && !menü) // Spielende: Wenn man das Spiel verliert.
+    while (AnzPlayer <= 0 && AnzCPU >= 10 && !menü)
     {
       system("cls");
 
@@ -797,19 +907,22 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n  Sie besitzen keine Karten mehr.");
       printf("\n  Sie haben das Spiel verloren.");
       printf("\n\n  ==================================");
-      printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
+      printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
-      if (c == 'j') menü = true;
-      else {
-        printf("\n\n  Leider haben Sie keine Wahl.  :)");
-        Sleep(2000);
+
+      if (c == 'j') {
+        rundestart();
+        menü = true;
       }
+      else if (c == 'n') menü = true;
+      else falsche_eingabe();
     }
 
     // Spielende: Gewonnen-Schleife
-    while (AnzPlayer >= 10 && AnzCPU <= 0 && !menü) // Spielende: Wenn man das Spiel gewinnt.
+    while (AnzPlayer >= 10 && AnzCPU <= 0 && !menü)
     {
       system("cls");
 
@@ -818,25 +931,26 @@ int ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       printf("\n\n  Der CPU-Spieler besitzt keine Karten mehr.");
       printf("\n  Sie haben das Spiel gewonnen.");
       printf("\n\n  ==================================");
-      printf("\n\n\n\n  M\x94""chten Sie zum Hauptmen\x81 zur\x81""ck?");
+      printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
+      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.");
       printf("\n\n  (J/N): ");
 
       c = _getch();
-      if (c == 'j') menü = true;
 
-      else {
-        printf("\n\n  Leider haben Sie keine Wahl.  :)");
-        Sleep(2000);
+      if (c == 'j') {
+        rundestart();
+        menü = true;
       }
+      else if (c == 'n') menü = true;
+      else falsche_eingabe();
     }
   }
-
-  return 0;
 }
 
-int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
-{
+int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
+  // Mazen
   // Diese Funktion vergleicht zwei Listen und gibt
+  // Der Parameter ist der Typ des Vergleichs und die beiden Listen, die verglichen werden.
 
   int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
 
@@ -859,20 +973,21 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU)
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
-  // 
-  // Diese Funktion verschiebt
+  // Mazen & Yannic
+  // Diese Funktion verschiebt die erste Karte des Gewinners und des Verlierers an die letzte Stelle der Gewinnerkarte.
+  // Die Parameter sind 1. Die Liste des Gewinners und 2. Die Liste des Verlierers.
 
   struKarten* pLast;
   struKarten* pTemp;
 
-  if (listcount(pListeGew) == 1) {
+  if (listcount(pListeGew) == 1) {                      // Wenn beim Gewinner nur noch 1 Karte vorhanden ist, wird die gewonnene hinter dieser verschoben.
     pLast = pListeGew;
     struKarten* pKarte = pListeVerl;
     pLast->pNext = pKarte;
   }
 
-  else if (listcount(pListeGew) != 1) {
-    pTemp = pListeGew;
+  else if (listcount(pListeGew) > 1) {                  // Wenn der Gewinner mehr als 1 Karte besitzt, wird zur letzten gewechselt, also pLast, 
+    pTemp = pListeGew;                                  // und deren nächste Karte ist die gewonnene Karte. Ebenfalls wird die eigene erste Karte an den letzten Platz versetzt.
     pListeGew = pListeGew->pNext;
     pTemp->pNext = NULL;
     pLast = pListeGew;
@@ -884,40 +999,60 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
     pTemp->pNext = pKarte;
   }
 
-  return pListeGew;
+  return pListeGew;                                   // Die Liste wird verändert zurückgegeben.
 }
 
 struKarten* firstlast_verl(struKarten* pListeVerl) {
-  // Yannic
-  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste und setzt fest, dass in dieser Liste die zweite Karte die erste sein soll.
+  // Mazen & Yannic
+  // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste.
+  // Der Parameter ist nur die Liste des Verlierers.
 
-  struKarten* pTemp = pListeVerl;
-  pListeVerl = pListeVerl->pNext;
-  pTemp->pNext = NULL;
+  if (listcount(pListeVerl) == 1) {
+    pListeVerl = NULL;
+  }
 
-  return pListeVerl;
+  else {
+    struKarten* pTemp = pListeVerl;
+    pListeVerl = pListeVerl->pNext;
+    pTemp->pNext = NULL;
+  }
+
+
+
+  return pListeVerl;                                  // Die Liste wird verändert zurückgegeben.
 }
 
 struKarten* firstlast_unent(struKarten* pListe) {
-  // Diese Funktion versetzt die erste Karte ganz hinten wenn ein unentschieden geschieht.
+  // Mazen & Yannic
+  // Diese Funktion versetzt die erste Karte ganz hinten wenn ein Unentschieden geschieht.
+  // Der Parameter ist irgendeine Liste, da diese Funktion neutral ist.
 
   struKarten* pTemp = pListe;
-  pListe = pListe->pNext;
-  pTemp->pNext = NULL;
+  struKarten* pLast;
 
-  struKarten* pLast = pListe;
+  if (listcount(pListe) == 1)
+  {
+    pListe = pTemp;
+  }
 
-  while (pLast->pNext != NULL) pLast = pLast->pNext;
-  pLast->pNext = pTemp;
+  else {
+    struKarten* pLast = pListe;
 
-  return pListe;
+    while (pLast->pNext != NULL) pLast = pLast->pNext;
+
+    pLast->pNext = pTemp;
+    pListe = pListe->pNext;
+    pTemp->pNext = NULL;
+  }
+
+
+
+  return pListe;                                      // Die Liste wird verändert zurückgegeben.
 }
 
 
 
-
-
-int einstellungen() {
+void einstellungen() {
   // Yannic
   // Diese Funktion beinhaltet optionale Einstellungen wie Farbe, Entwicklermodus und Version.
 
@@ -1074,8 +1209,8 @@ int einstellungen() {
       printf("     @@                  @@.                                 ,@@@@@@@@       @@        \n");
       printf("    @@                    @@                                @  @@@@'           @       \n");
       printf("    @@                    &@                              ,@                    @ ,@.  \n");
-      printf("    @ @@@@@@@    .@@@@@@@@ @.                             @@ @@@@    /@@@@@.    @@  @  \n");
-      printf("    @@   (o)      (O)     @@@         Version 1.2         @@  (O)      (O)     .@@  @  \n");
+      printf("    @ @@@@@@@    .@@@@@@@@ @.            Final            @@ @@@@    /@@@@@.    @@  @  \n");
+      printf("    @@   (o)      (O)     @@@         Version 1.3         @@  (O)      (O)     .@@  @  \n");
       printf("   .@@        ((           @@          x64-Debug          @        /           @@@.(.) \n");
       printf("   @@@  @@@@@@@@@@@@@@@    @@                             @       (@.          @@@     \n");
       printf("       @@ ########## @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
@@ -1105,20 +1240,22 @@ int einstellungen() {
     else if (eingabe == '4') settings = false;
     else if (eingabe != '1' && eingabe != '2' && eingabe != '3' && eingabe != '4') falsche_eingabe();
   }
-  return 0;
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe) {
   // Yannic
   // Diese Funktion verarbeitet die Einstellungen für die Farben des Debugging-Fensters.
+  // Die Parameter sind die Hintergrundfarbe und die Textfarbe.
 
   char SysPrint[20];
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
   system(SysPrint);
 }
 
-void falsche_eingabe()
-{
+void falsche_eingabe() {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
+
   printf("\n  Falsche Eingabe ");
   system("timeout 1 >null");
   system("cls");
@@ -1126,42 +1263,53 @@ void falsche_eingabe()
 
 void verloren()
 {
-  system("cls");
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
 
-  printf("\n\n\n  ==================================");
+  printf("\n\n\n\n  =================================");
   printf("\n\n  ------------VERLOREN------------");
   printf("\n\n  Sie verlieren diese Karte leider.");
   printf("\n  Der Gegner gewinnt Ihre aktuelle Karte.");
   printf("\n\n  ==================================");
-  Sleep(2000);
+  printf("\n\n\n");
+  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  system("pause >nul");
 }
 
 void gewonnen()
 {
-  system("cls");
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
 
-  printf("\n\n\n  ==================================");
+  printf("\n\n\n\n  =================================");
   printf("\n\n  ------------GEWONNEN------------");
   printf("\n\n  Sie gewinnen die Karte des Gegners.");
   printf("\n  Der Gegner verliert sie.");
   printf("\n\n  ==================================");
-  Sleep(2000);
+  printf("\n\n\n");
+  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  system("pause >nul");
 }
 
 void unentschieden()
 {
-  system("cls");
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
 
-  printf("\n\n\n  ==================================");
+  printf("\n\n\n\n  =================================");
   printf("\n\n  ---------UNENTSCHIEDEN----------");
   printf("\n\n  Niemand gewinnt dieses Mal.");
   printf("\n  Die obersten Karten werden nach hinten versetzt.");
   printf("\n\n  ==================================");
-  Sleep(2000);
+  printf("\n\n\n");
+  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  system("pause >nul");
 }
 
 void logo()
 {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
 
    printf("\n\n     ________           __             ____   ________                ");
    printf("\n    / ____/ /___ ______/ /_     ____  / __/  / ____/ /___ _____  _____");
@@ -1178,6 +1326,9 @@ void logo()
 
 void end()
 {
+  // Mazen & Yannic
+  // Diese Funktion beinhaltet eine einfache Ausgabe.
+
   system("cls");
 
   printf("\n\n      ______          __   ");
@@ -1190,4 +1341,4 @@ void end()
   Sleep(800);
 }
 
-//Letzte Zeile
+//Letzte Zeile (Benutzen wir für die Kommunikation über GitHub.)
