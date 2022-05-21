@@ -33,9 +33,11 @@ int listcount(struKarten*);                                     // Einfache Funk
 void menü();                                                    // Hauptmenü
 void einstellungen();                                           // Einstellungen
 void farbmatrix(char, char);                                    // Farbmatrix fürs Einstellen der Farben auf der CMD
+int admin_wiederholung();
 void falsche_eingabe();                                         // Einfache Ausgabe bei falscher Eingabe
 void end();                                                     // Ausgabe für Spielende wenn man das Spiel verlässt
 void logo();                                                    // Ausgabe für Logo des Spiels
+void line();
 void verloren();                                                // Ausgabe wenn man eine Karte verliert
 void gewonnen();                                                // Ausgabe wenn man eine Karte gewinnt
 void unentschieden();                                           // Ausgabe wenn unentschieden
@@ -43,17 +45,16 @@ void unentschieden();                                           // Ausgabe wenn 
 // Globale Variablen
 bool admin = false;                                             // Wird für den optionalen Entwicklermodus benötigt. Es gibt Unterprogramme, die Entwicklermodus-Funktionen beinhalten.
 bool first = true;                                              // Wird für die Einstellungen/Farben benötigt.
-char hintergrundfarbe = '0';                                    // Hintergrundfarbe der CMD.
-char textfarbe = 'F';                                           // Textfarbe der CMD.
+char hintergrundfarbe = '0';
+char textfarbe = 'F';
 
 #define MaxAnzBildRow 15
 #define MaxAnzBildCol 30
 
-
 void main()
 {
   srand(time(NULL));
-  system("mode con cols=120 lines=60");
+  system("mode con cols=85 lines=45");
 
   menü();
   end();
@@ -67,23 +68,23 @@ void menü() {
 
     system("cls");
     logo();
-    printf("\n  ==================================");
-    printf("\n  ------------Hauptmen\x81-------------");
+    line();
+    printf("\n   Hauptmen\x81");
+    line();
     printf("\n");
-    printf("\n  Spiel starten     (1)");
-    printf("\n  Einstellungen     (2)");
-    printf("\n  Beenden           (3)");
-    printf("\n  ==================================");
-    printf("\n");
-    printf("\n  (1/2/3): ");
+    printf("\n   Spiel starten     (1)");
+    printf("\n   Einstellungen     (2)");
+    printf("\n   Beenden           (3)\n\n");
+    line();
+    printf("\n   (1/2/3): ");
     eingabe = _getch();
 
     if (eingabe == '1') rundestart();
     else if (eingabe == '2') einstellungen();
     else if (eingabe == '3')
     {
-      printf("\n\n  M\x94""chten Sie das Spiel wirklich beenden?\n");
-      printf("\n  (J/N): ");
+      printf("M\x94""chten Sie das Spiel wirklich beenden?");
+      printf("\n   (J/N): ");
       eingabe = _getch();
 
       if (eingabe == 'J' || eingabe == 'j') hauptmenü = false;
@@ -94,20 +95,13 @@ void menü() {
 
 void rundestart() {
   system("cls");
-
-  for (int i = 0; i < 2; i++) {
-    system("cls");
-    printf("\n\n\n  ==================================");
-    printf("\n\n  Karten werden erstellt und neu gemischt ");
-    for (int i = 0; i < 3; i++) {
-      Sleep(500);
-      printf(".")
-    }
+  logo();
+  line();
+  printf("\n\n                     Karten werden erstellt und neu gemischt ");
+  for (int i = 0; i < 3; i++) {
+    Sleep(400);
+    printf(".");
   }
-
-  system("cls");
-
-  printf("\n\n  ==================================\n");
 
   struKarten* pStart = NULL; // base list
   struKarten* pListePlayer = NULL; //player list
@@ -125,7 +119,12 @@ void rundestart() {
   pStart = createlist(pStart, karte(10, "Ballon", 390, 10, 108.0));
 
   int runde;    // Verteilen: Runde 1 bis 5 werden dem Player Karten zugeteilt, Runde 5 bis 10 dem CPU.
-
+  
+  if (admin) {
+    printf("\n");
+    line();
+    printf("\n\n   Die zuf\x84llige Karten sind:\n   ");
+  }
   for (runde = 1; runde <= 5; runde++) {
     int anz = listcount(pStart);
     srand(time(NULL));
@@ -134,18 +133,12 @@ void rundestart() {
     struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
 
     for (int c = 1; c <= r; c++) pKarte = pKarte->pNext;
-    if (admin) printf("\n  Die zuf\x84llige Karte heisst: %14s", pKarte->Bez);
+    if (admin) printf("%s ", pKarte->Bez);
 
     pStart = removelist(pStart, pKarte);              // Parameter: Die Liste, aus der entfernt wird und welche Karte.
     pListePlayer = createlist(pListePlayer, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
   }
-
-  if (admin) {
-    printf("\n\n  Diese Karten werden jetzt der Spielerliste hinzugef\x81gt.\n\n");
-    system("pause");
-  }
-
-
+  if (admin) printf("\n   Diese Karten werden jetzt der Spielerliste hinzugef\x81gt.\n\n   Die zuf\x84llige Karten sind:\n   ");
   for (runde = 5; runde < 10; runde++) {
     int anz = listcount(pStart);            // Es werden alle Elemente der Liste pStart gezählt. 5 wurden schon entfernt.
     srand(time(NULL));
@@ -154,27 +147,25 @@ void rundestart() {
     struKarten* pKarte = pStart;  // pKarte ist eine Variable, in der man eine zufällige Karte aus einer Liste (pStart) hineinspeichert.
 
     for (int c = 1; c <= r; c++) pKarte = pKarte->pNext;
-    if (admin) printf("\n  Die zuf\x84llige Karte heisst: %14s", pKarte->Bez);
+    if (admin) printf("%s ", pKarte->Bez);
 
     pStart = removelist(pStart, pKarte);        // Parameter: Die Liste, aus der entfernt wird und welche Karte.
     pListeCPU = createlist(pListeCPU, pKarte);  // Parameter: Die Liste, zu der hinzugefügt wird und welche Karte.
   }
-
   if (admin) {
-    printf("\n\n  Diese Karten werden jetzt der CPU-Liste hinzugef\x81gt.\n\n");
+    printf("\n   Diese Karten werden jetzt der CPU-Liste hinzugef\x81gt.\n");
+    line();
+    printf("     ");
     system("pause");
     system("cls");
-    printf("\n  Jetzt wird das Spiel anfangen.");
-    printf("\n\n  ==================================\n");
-    system("pause");
   }
-
   ausgabe(pListePlayer, pListeCPU);
 }
 
 int listcount(struKarten* pListe) {
   int anz = 0;
   struKarten* pTmp = pListe;
+  
   for (pTmp; pTmp != NULL; pTmp = pTmp->pNext) anz++;
   return anz;
 }
@@ -209,9 +200,9 @@ struKarten* createlist(struKarten* pListe, struKarten* pKarte) {
 
 struKarten* removelist(struKarten* pListe, struKarten* pKarte) {
   // Diese Funktion dient zum entfernen von Karten aus einer Liste, in dem die Referenzen neu gesetzt werden.
-  if (pListe == pKarte) {     
-    pListe = pListe->pNext;   
-    pKarte->pNext = NULL;     
+  if (pListe == pKarte) {
+    pListe = pListe->pNext;
+    pKarte->pNext = NULL;
   }
   else {
     struKarten* pTmp = pListe;
@@ -244,6 +235,9 @@ void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Diese Funktion beinhaltet die Bilder der Karten und deren Ausgabe.
   struKarten* pPlayer = pListePlayer;
   struKarten* pCPU = pListeCPU;
+
+  int X = 28;
+  int Y = 6;
 
   char barbar[MaxAnzBildRow][MaxAnzBildCol] {
     "    .@@@@@@@@@@@@@@@@@@.    ",
@@ -416,160 +410,109 @@ void ausgabe_kartenbild(struKarten* pListePlayer, struKarten* pListeCPU) {
     "        `'@@@@@'`           \0",
   };
 
- if (pListeCPU == NULL) {
-   int id = pPlayer->Nr;
-  
-   if (id == 1) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", barbar[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 2) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", magier[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 3) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", golem[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 4) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", pekka[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 5) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", hexe[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 6) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", schweinereiter[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 7) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", skelett[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 8) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", tunnelgräber[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 9) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", riese[i]);
-      printf("  |\n");
-    }
-  }
-   else if (id == 10) {
-    for (int i = 0; i < 15; i++)
-    {
-      printf("  |  ");
-      printf("%s", ballon[i]);
-      printf("  |\n");
-    }
-  }
- }
- else if (pListeCPU != NULL)
- {
-   int pid = pPlayer->Nr;
-   int cid = pCPU->Nr;
-   system("cls");
-   printf("\n\n\n  ============================================================================");
-   printf("\n\n             Ihre Karte                               Karte des CPUs");
-   if (admin) printf("\n\n         Entwicklermodus EIN");
-   printf("\n    ______________________________            ______________________________      ");
-   printf("\n   /                              \x5C          /                              \x5C     ");
-   printf("\n  /                                \x5C        /                                \x5C    ");
-   printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |        |  CoC Quartett | Karte Nr.  %-2i  |    ", pListePlayer->Nr, pListeCPU->Nr);
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |      ---%-14s---      |        |      ---%-14s---      |    ", pListePlayer->Bez, pListeCPU->Bez);
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |   VS   |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |                                |        |                                |    ");
-   printf("\n  |   |Trefferpunkte   | %4i |    |        |   |Trefferpunkte   | %4i |    |    ", pListePlayer->Trefferpunkte, pListeCPU->Trefferpunkte);
-   printf("\n  |   |                |      |    |        |   |                |      |    |    ");
-   printf("\n  |   |Geschwindigkeit | %4i |    |        |   |Geschwindigkeit | %4i |    |    ", pListePlayer->Geschw, pListeCPU->Geschw);
-   printf("\n  |   |                |      |    |        |   |                |      |    |    ");
-   printf("\n  |   |Schaden         | %5.1lf|    |        |   |Schaden         | %5.1lf|    |    ", pListePlayer->Schaden, pListeCPU->Schaden);
-   printf("\n  \x5C                                /        \x5C                                /    ");
-   printf("\n   \x5C______________________________/          \x5C______________________________/     ");
+  system("cls");
+  if (admin) printf("Entwicklermodus");
 
-   if (pid == 1) OutputBild(5, 13, &barbar[0][0]);
-   else if (pid == 2) OutputBild(5, 13, &magier[0][0]);
-   else if (pid == 3) OutputBild(5, 13, &golem[0][0]);
-   else if (pid == 4) OutputBild(5, 13, &pekka[0][0]);
-   else if (pid == 5) OutputBild(5, 13, &hexe[0][0]);
-   else if (pid == 6) OutputBild(5, 13, &schweinereiter[0][0]);
-   else if (pid == 7) OutputBild(5, 13, &skelett[0][0]);
-   else if (pid == 8) OutputBild(5, 13, &tunnelgräber[0][0]);
-   else if (pid == 9) OutputBild(5, 13, &riese[0][0]);
-   else if (pid == 10) OutputBild(5, 13, &ballon[0][0]);
+  if (pListeCPU == NULL) {
+    printf("\n                                     Ihre Karte");
+    printf("\n                         \xDA\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xBF");
+    printf("\n                         \xB3  Nr.  %-2i  \xB3  %-14s    \xB3", pListePlayer->Nr, pListePlayer->Bez);
+    printf("\n                         \xC3\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xB4");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xC3\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xB4");
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3     Trefferpunkte     %4i     \xB3", pListePlayer->Trefferpunkte);
+    if (!admin) printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3     Geschwindigkeit   %4i     \xB3", pListePlayer->Geschw);
+    if (!admin) printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xB3     Schaden          %5.1lf     \xB3", pListePlayer->Schaden);
+    printf("\n                         \xB3                                \xB3");
+    printf("\n                         \xC0\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xD9");
+  }
+  else if (pListeCPU != NULL)
+  {
+    printf("\n                 Ihre Karte                              Karte des CPUs");
+    printf("\n     \xDA\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xBF        \xDA\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xBF");
+    printf("\n     \xB3  Nr.  %-2i  \xB3  %-14s    \xB3        \xB3  Nr.  %-2i  \xB3  %-14s    \xB3", pListePlayer->Nr, pListePlayer->Bez, pListeCPU->Nr, pListeCPU->Bez);
+    printf("\n     \xC3\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xB4        \xC3\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xB4");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xC3\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xB4        \xC3\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xB4");
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3     Trefferpunkte     %4i     \xB3        \xB3     Trefferpunkte     %4i     \xB3", pListePlayer->Trefferpunkte, pListeCPU->Trefferpunkte);
+    if (!admin) printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3     Geschwindigkeit   %4i     \xB3        \xB3     Geschwindigkeit   %4i     \xB3", pListePlayer->Geschw, pListeCPU->Geschw);
+    if (!admin) printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xB3     Schaden          %5.1lf     \xB3        \xB3     Schaden          %5.1lf     \xB3", pListePlayer->Schaden, pListeCPU->Schaden);
+    printf("\n     \xB3                                \xB3        \xB3                                \xB3");
+    printf("\n     \xC0\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xD9        \xC0\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xC4\xD9");
+  }
 
-   if (cid == 1) OutputBild(47, 13, &barbar[0][0]);
-   else if (cid == 2) OutputBild(47, 13, &magier[0][0]);
-   else if (cid == 3) OutputBild(47, 13, &golem[0][0]);
-   else if (cid == 4) OutputBild(47, 13, &pekka[0][0]);
-   else if (cid == 5) OutputBild(47, 13, &hexe[0][0]);
-   else if (cid == 6) OutputBild(47, 13, &schweinereiter[0][0]);
-   else if (cid == 7) OutputBild(47, 13, &skelett[0][0]);
-   else if (cid == 8) OutputBild(47, 13, &tunnelgräber[0][0]);
-   else if (cid == 9) OutputBild(47, 13, &riese[0][0]);
-   else if (cid == 10) OutputBild(47, 13, &ballon[0][0]);
+  if (pListeCPU != NULL) X = 8;
+  if (pPlayer->Nr == 1) OutputBild(X, Y, &barbar[0][0]);
+  else if (pPlayer->Nr == 2) OutputBild(X, Y, &magier[0][0]);
+  else if (pPlayer->Nr == 3) OutputBild(X, Y, &golem[0][0]);
+  else if (pPlayer->Nr == 4) OutputBild(X, Y, &pekka[0][0]);
+  else if (pPlayer->Nr == 5) OutputBild(X, Y, &hexe[0][0]);
+  else if (pPlayer->Nr == 6) OutputBild(X, Y, &schweinereiter[0][0]);
+  else if (pPlayer->Nr == 7) OutputBild(X, Y, &skelett[0][0]);
+  else if (pPlayer->Nr == 8) OutputBild(X, Y, &tunnelgräber[0][0]);
+  else if (pPlayer->Nr == 9) OutputBild(X, Y, &riese[0][0]);
+  else if (pPlayer->Nr == 10) OutputBild(X, Y, &ballon[0][0]);
 
-   COORD Pos = { 80, 35 };
-   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
- }
+  if (pListeCPU != NULL) {
+    X = 50;
+    if (pCPU->Nr == 1) OutputBild(X, Y, &barbar[0][0]);
+    else if (pCPU->Nr == 2) OutputBild(X, Y, &magier[0][0]);
+    else if (pCPU->Nr == 3) OutputBild(X, Y, &golem[0][0]);
+    else if (pCPU->Nr == 4) OutputBild(X, Y, &pekka[0][0]);
+    else if (pCPU->Nr == 5) OutputBild(X, Y, &hexe[0][0]);
+    else if (pCPU->Nr == 6) OutputBild(X, Y, &schweinereiter[0][0]);
+    else if (pCPU->Nr == 7) OutputBild(X, Y, &skelett[0][0]);
+    else if (pCPU->Nr == 8) OutputBild(X, Y, &tunnelgräber[0][0]);
+    else if (pCPU->Nr == 9) OutputBild(X, Y, &riese[0][0]);
+    else if (pCPU->Nr == 10) OutputBild(X, Y, &ballon[0][0]);
+  }
+  COORD Pos = { 80, 30 };
+  if (admin) Pos = { 80, 28 };
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 
 void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
   // Funktion, bei der die Ausgabe der Karten und die eigentliche Runde geschieht.
   char c;                     // Überprüfung der ersten Eingabe benötigt.
-  char j;                     // Vergewisserung der ersten Eingabe (Sind Sie sicher? Ja/Nein). Nur im Entwicklermodus verfügbar.
+  char j;
   bool menü = false;          // Das Rückkehren zum Hauptmenü
   bool nextkarte = false;     // Aus der Ausgabe-Schleife raus zu kommen & falls zur nächsten Karte gewechselt werden sollte.
   int kartenänderung;         // Kartenänderung: 0 = leer (keine Änderung), 1 = gewonnen, 2 = verloren, 3 = unentscheiden (siehe unter der Kartenausgabe-Schleife)
@@ -584,178 +527,78 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
     while (!nextkarte && !menü && AnzPlayer > 0 && AnzCPU > 0) {  
       // In dieser While-Schleife wird immer wieder die gleiche Karte ausgegeben, bis man eine gültige Eingabe macht.
 
-      system("cls");
-      printf("\n\n\n  =================================");
-
-      printf("\n\n  --------------KARTE---------------");
-      if (admin) printf("\n\n         Entwicklermodus EIN");
-      printf("\n    ______________________________ ");
-      printf("\n   /                              \x5C");
-      printf("\n  /                                \x5C");
-      printf("\n  |  CoC Quartett | Karte Nr.  %-2i  |", pListePlayer->Nr);
-      printf("\n  |                                |");
-      printf("\n  |      ---%-14s---      |", pListePlayer->Bez);
-      printf("\n  |                                |");
-      printf("\n");
       ausgabe_kartenbild(pListePlayer, NULL);
-      printf("  |                                |");
-      printf("\n  |   |Trefferpunkte   | %4i |    |", pListePlayer->Trefferpunkte);
-      printf("\n  |   |                |      |    |");
-      printf("\n  |   |Geschwindigkeit | %4i |    |", pListePlayer->Geschw);
-      printf("\n  |   |                |      |    |");
-      printf("\n  |   |Schaden         | %5.1lf|    |", pListePlayer->Schaden);
-      printf("\n  \x5C                                /");
-      printf("\n   \x5C______________________________/");
-      printf("\n\n");
+      line();
 
-      if (pListePlayer->pNext != NULL && admin) printf("\n  Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
-      else printf("\n");
-
-
-      if (listcount(pListePlayer) == 1) printf("\n  Sie besitzen nur noch %i Karte.", AnzPlayer);
-      else printf("\n  Sie besitzen insgesamt noch %i Karten.", AnzPlayer);
-
-      if (listcount(pListeCPU) == 1) printf("\n\n  Der CPU-Spieler besitzt nur noch %i Karte.", AnzCPU);
-      else printf("\n\n  Der CPU-Spieler besitzt insgesamt noch %i Karten.", AnzCPU);
+      if (listcount(pListePlayer) == 1) printf("\n   Sie besitzen nur noch eine Karte ");
+      else printf("\n   Sie besitzen %i Karten ", AnzPlayer);
       
+      if (listcount(pListeCPU) == 1) printf("und der CPU-Spieler besitzt nur noch eine Karte.");
+      else printf("und der CPU-Spieler besitzt %i Karten.", AnzCPU);
       if (admin) {
-        printf("\n  Karten des CPU-Spielers:");
+        if (pListePlayer->pNext != NULL) printf("\n   Ihre n\x84""chste Karte lautet: %-14s ", pListePlayer->pNext->Bez);
+        else printf("\n");
+        printf("\n   Karten der CPU:");
         for (struKarten* pTemp = pListeCPU; pTemp != NULL; pTemp = pTemp->pNext) {
           if (pTemp->pNext == NULL) printf(" %s", pTemp->Bez);
           else printf(" %s->", pTemp->Bez);
         }
       }
       
-      printf("\n\n\n  =================================");
-      printf("\n  Trefferpunkte?         (1)");
-      printf("\n  Geschwindigkeit?       (2)");
-      printf("\n  Schaden?               (3)");
-      printf("\n\n  Neu Starten            (4)");
-      printf("\n  Zur\x81" "ck zum Hauptmen\x81   (5)");
-      printf("\n  =================================");
-      printf("\n\n  (1/2/3/4/5): ");
-
+      line();
+      printf("\n   Trefferpunkte?         (1)");
+      printf("\n   Geschwindigkeit?       (2)");
+      printf("\n   Schaden?               (3)");
+      printf("\n\n   Neu Starten            (4)");
+      printf("\n   Zur\x81" "ck zum Hauptmen\x81   (5)");
+      line();
+      printf("\n   (1/2/3/4/5): ");
       c = _getch();
 
-      if (admin) { // Was ausgeführt werden sollte, wenn der Entwicklermodus eingeschaltet ist.
-        if (c == '1' || c == 't') {
-          printf("\n\n  M\x94""chten Sie wirklich Trefferpunkte abfragen?");
-          printf("\n\n  (J/N): ");
-
-          j = _getch();
-          if (j == 'j') {
-            kartenänderung = vergleiche(1, pListePlayer, pListeCPU);
-            nextkarte = true;
-          }
-          else if (j == 'n');
-          else falsche_eingabe();
-        }
-
-        else if (c == '2' || c == 'g') {
-          printf("\n\n  M\x94""chten Sie wirklich Geschwindigkeit abfragen?");
-          printf("\n\n  (J/N): ");
-          j = _getch();
-
-          if (j == 'j') {
-            kartenänderung = vergleiche(2, pListePlayer, pListeCPU);
-            nextkarte = true;
-          }
-
-          else if (j == 'n');
-          else falsche_eingabe();
-        }
-
-        else if (c == '3' || c == 's') {
-          printf("\n\n  M\x94""chten Sie wirklich Schaden abfragen?");
-          printf("\n\n  (J/N): ");
-
-          j = _getch();
-          if (j == 'j') {
-            kartenänderung = vergleiche(3, pListePlayer, pListeCPU);
-            nextkarte = true;
-          }
-
-          else if (j == 'n');
-
-          else falsche_eingabe();
-        }
-
-        else if (c == '4') {
-          printf("\n\n  M\x94""chten Sie wirklich das Spiel neustarten?");
-          printf("\n  Ihre Karten werden somit neu gemischt und Sie verlieren Ihren Spielstand.");
-          printf("\n\n  (J/N): ");
-
-          j = _getch();
-          if (j == 'j') {
-            rundestart();
-            menü = true;
-          }
-
-          else if (j == 'n');
-
-          else falsche_eingabe();
-        }
-
-        else if (c == '5') {
-          printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n\n  (J/N): ");
-
-          j = _getch();
-          if (j == 'j') menü = true;
-        }
-
-        else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
-        {
-          falsche_eingabe();
-        }
-      }
-
-      if (!admin) { // Was ausgeführt werden sollte, wenn der Entwicklermodus ausgeschaltet ist.
-        if (c == '1' || c == 't') {
+      bool admin_frage = true;
+      if (c == '1' || c == 't') {
+        if (admin) admin_frage = admin_wiederholung();
+        if (admin_frage) {
           kartenänderung = vergleiche(1, pListePlayer, pListeCPU);
           nextkarte = true;
         }
-
-        else if (c == '2' || c == 'g') {
-            kartenänderung = vergleiche(2, pListePlayer, pListeCPU);
-            nextkarte = true;
-        }
-
-        else if (c == '3' || c == 's') {
-            kartenänderung = vergleiche(3, pListePlayer, pListeCPU);
-            nextkarte = true;
-        }
-
-        else if (c == '4') {
-          printf("\n\n  M\x94""chten Sie wirklich das Spiel neustarten?");
-          printf("\n  Ihre Karten werden somit neu gemischt und Sie verlieren Ihren Spielstand.");
-          printf("\n\n  (J/N): ");
-
-          j = _getch();
-          if (j == 'j') {
-            rundestart();
-            menü = true;
-          }
-
-          else if (j == 'n');
-
-          else falsche_eingabe();
-        }
-
-        else if (c == '5') {
-          printf("\n\n  M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
-          printf("\n\n  (J/N): ");
-
-          j = _getch();
-          if (j == 'j') menü = true;
-        }
-
-        else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5')
-        {
-          falsche_eingabe();
+      }
+      else if (c == '2' || c == 'g') {
+        if (admin) admin_frage = admin_wiederholung();
+        if (admin_frage) {
+          kartenänderung = vergleiche(2, pListePlayer, pListeCPU);
+          nextkarte = true;
         }
       }
+      else if (c == '3' || c == 's') {
+        if (admin) admin_frage = admin_wiederholung();
+        if (admin_frage) {
+          kartenänderung = vergleiche(3, pListePlayer, pListeCPU);
+          nextkarte = true;
+        }
+      }
+      else if (c == '4') {
+        printf("M\x94""chten Sie wirklich das Spiel neustarten?");
+        printf("\n   (J/N): ");
+        c = _getch();
 
+        if (c == 'j') {
+          menü = true;
+          rundestart();
+        }
+        else if (c == 'n');
+        else falsche_eingabe();
+      }
+      else if (c == '5') {
+        printf("M\x94""chten Sie wirklich zum Hauptmen\x81 zur\x81""ck?");
+        printf("\n   (J/N): ");
+        j = _getch();
+        
+        if (j == 'j') menü = true;
+        else if (j == 'n');
+        else falsche_eingabe();
+      }
+      else if (c != '1' && c != '2' && c != '3' && c != '4' && c != '5') falsche_eingabe();
     }
 
     // Es wird durch den Rückgabewert von "vergleiche" ermittelt, wie sich die beiden Listen und Karten verändern sollen.
@@ -766,7 +609,6 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       pListeCPU = firstlast_verl(pListeCPU);
       gewonnen();
     }
-
     else if (kartenänderung == 2) // Bei Verlust einer Karte sollen diese Änderungen vorgenommen werden.
     {
       ausgabe_kartenbild(pListePlayer, pListeCPU);
@@ -774,7 +616,6 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       pListePlayer = firstlast_verl(pListePlayer);
       verloren();
     }
-
     else if (kartenänderung == 3) // Bei Unentschieden sollen diese Änderungen vorgenommen werden.
     {
       ausgabe_kartenbild(pListePlayer, pListeCPU);
@@ -783,64 +624,70 @@ void ausgabe(struKarten* pListePlayer, struKarten* pListeCPU) {
       unentschieden();
     }
 
-
-    // Spielende: Verloren-Schleife
+    // Spielende: Verloren
     while (AnzPlayer <= 0 && AnzCPU >= 10 && !menü)
     {
       system("cls");
-
-      printf("\n\n\n  ==================================");
-      printf("\n\n  ----------SPIEL VERLOREN----------");
-      printf("\n\n  Sie besitzen keine Karten mehr.");
-      printf("\n  Sie haben das Spiel verloren.");
-      printf("\n\n  ==================================");
-      printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
-      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.");
-      printf("\n\n  (J/N): ");
-
+      logo();
+      line();
+      printf("\n   SPIEL VERLOREN");
+      line();
+      printf("\n\n   Sie besitzen keine Karten mehr.");
+      printf("\n   Sie haben das Spiel verloren.\n");
+      line();
+      printf("\n\n   M\x94""chten Sie das Spiel neustarten?");
+      printf("\n   Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.\n");
+      line();
+      printf("\n   (J/N): ");
       c = _getch();
 
-      if (c == 'j') {
-        rundestart();
-        menü = true;
-      }
+      if (c == 'j') rundestart();
       else if (c == 'n') menü = true;
       else falsche_eingabe();
     }
 
-    // Spielende: Gewonnen-Schleife
+    // Spielende: Gewonnen
     while (AnzPlayer >= 10 && AnzCPU <= 0 && !menü)
     {
       system("cls");
-
-      printf("\n\n\n  ==================================");
-      printf("\n\n  ----------SPIEL GEWONNEN----------");
-      printf("\n\n  Der CPU-Spieler besitzt keine Karten mehr.");
-      printf("\n  Sie haben das Spiel gewonnen.");
-      printf("\n\n  ==================================");
-      printf("\n\n\n\n  M\x94""chten Sie das Spiel neustarten?");
-      printf("\n  Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.");
-      printf("\n\n  (J/N): ");
-
+      logo();
+      line();
+      printf("\n   SPIEL GEWONNEN");
+      line();
+      printf("\n\n   Der CPU-Spieler besitzt keine Karten mehr.");
+      printf("\n   Sie haben das Spiel gewonnen.\n");
+      line();
+      printf("\n\n   M\x94""chten Sie das Spiel neustarten?");
+      printf("\n   Falls nicht, kehren Sie zum Hauptmen\x81 zur\x81""ck.\n");
+      line();
+      printf("\n   (J/N): ");
       c = _getch();
 
-      if (c == 'j') {
-        rundestart();
-        menü = true;
-      }
+      if (c == 'j') rundestart();
       else if (c == 'n') menü = true;
       else falsche_eingabe();
     }
   }
 }
 
+int admin_wiederholung() {
+  char j;
+  bool admin_true = false;
+
+  printf("M\x94""chten Sie wirklich Trefferpunkte abfragen?");
+  printf("\n   (J/N): ");
+  j = _getch();
+
+  if (j == 'j') admin_true = true;
+  else if (j == 'n') admin_true = false;
+  else falsche_eingabe();
+
+  return admin_true;
+}
+
 int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
-  // Mazen
-  // Diese Funktion vergleicht zwei Listen und gibt
+  int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer
   // Der Parameter ist der Typ des Vergleichs und die beiden Listen, die verglichen werden.
-
-  int kartenänderung = 0; // Wie bei der Ausgabe bedeutet 1 = gewonnen, 2 = verloren, 3 = unentschieden. 0 = leer und bedeutet, dass nichts geschehen soll.
-
   if (Typ == 1) {
     if (pListePlayer->Trefferpunkte > pListeCPU->Trefferpunkte)      kartenänderung = 1;
     else if (pListePlayer->Trefferpunkte < pListeCPU->Trefferpunkte) kartenänderung = 2;
@@ -860,10 +707,8 @@ int vergleiche(int Typ, struKarten* pListePlayer, struKarten* pListeCPU) {
 }
 
 struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) { 
-  // Mazen & Yannic
   // Diese Funktion verschiebt die erste Karte des Gewinners und des Verlierers an die letzte Stelle der Gewinnerkarte.
   // Die Parameter sind 1. Die Liste des Gewinners und 2. Die Liste des Verlierers.
-
   struKarten* pLast;
   struKarten* pTemp;
 
@@ -872,7 +717,6 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
     struKarten* pKarte = pListeVerl;
     pLast->pNext = pKarte;
   }
-
   else if (listcount(pListeGew) > 1) {                  // Wenn der Gewinner mehr als 1 Karte besitzt, wird zur letzten gewechselt, also pLast, 
     pTemp = pListeGew;                                  // und deren nächste Karte ist die gewonnene Karte. Ebenfalls wird die eigene erste Karte an den letzten Platz versetzt.
     pListeGew = pListeGew->pNext;
@@ -885,32 +729,25 @@ struKarten* firstlast_gew(struKarten* pListeGew, struKarten* pListeVerl) {
     struKarten* pKarte = pListeVerl;
     pTemp->pNext = pKarte;
   }
-
-  return pListeGew;                                   // Die Liste wird verändert zurückgegeben.
+  return pListeGew;
 }
 
 struKarten* firstlast_verl(struKarten* pListeVerl) {
-  // Mazen & Yannic
   // Diese Funktion löscht die Referenz der entfernten Karte aus der Verlierer-Liste.
   // Der Parameter ist nur die Liste des Verlierers.
 
   if (listcount(pListeVerl) == 1) {
     pListeVerl = NULL;
   }
-
   else {
     struKarten* pTemp = pListeVerl;
     pListeVerl = pListeVerl->pNext;
     pTemp->pNext = NULL;
   }
-
-
-
-  return pListeVerl;                                  // Die Liste wird verändert zurückgegeben.
+  return pListeVerl;
 }
 
 struKarten* firstlast_unent(struKarten* pListe) {
-  // Mazen & Yannic
   // Diese Funktion versetzt die erste Karte ganz hinten wenn ein Unentschieden geschieht.
   // Der Parameter ist irgendeine Liste, da diese Funktion neutral ist.
 
@@ -921,7 +758,6 @@ struKarten* firstlast_unent(struKarten* pListe) {
   {
     pListe = pTemp;
   }
-
   else {
     struKarten* pLast = pListe;
 
@@ -931,19 +767,13 @@ struKarten* firstlast_unent(struKarten* pListe) {
     pListe = pListe->pNext;
     pTemp->pNext = NULL;
   }
-
-
-
-  return pListe;                                      // Die Liste wird verändert zurückgegeben.
+  return pListe;
 }
 
 
 
 void einstellungen() {
-  // Yannic
   // Diese Funktion beinhaltet optionale Einstellungen wie Farbe, Entwicklermodus und Version.
-
-  //Variablen
   bool settings = true;
   bool farben = true;
 
@@ -954,19 +784,17 @@ void einstellungen() {
   while (settings)
   {
     system("cls");
-
     logo();
-
-    printf("\n  ==================================");
-    printf("\n  -----------Einstellungen----------");
-    printf("\n\n  Farbe           (1)");
-    printf("\n  Version         (2)");
-    printf("\n  Entwicklermodus (3)");
-    printf("\n  Zur\x81""ck          (4)");
-    printf("\n  ==================================");
-    printf("\n\n  (1/2/3/4): ");
-
-    eingabe = _getch(); //getch oder getche (getche gibt ein Echo mit aus.)
+    line();
+    printf("\n   Einstellungen");
+    line();
+    printf("\n\n   Farbe             (1)");
+    printf("\n   Version           (2)");
+    printf("\n   Entwicklermodus   (3)");
+    printf("\n   Zur\x81""ck            (4)\n");
+    line();
+    printf("\n   (1/2/3/4): ");
+    eingabe = _getch();
 
     if (eingabe == '1')
     {
@@ -1012,32 +840,36 @@ void einstellungen() {
 
 
         system("cls");
-        printf("\n\n  Farben:");
-        printf("\n  ==============================================");
-        printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
-        printf("\n   Nur eine Farbe kann Aktiv sein.");
+        logo();
+        line();
+        printf("\n   Farben");
+        line();
+        printf("\n\n   Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
+        printf("\n   Nur eine Farbe kann Aktiv sein.\n");
+        printf("\n  \xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCB\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD");
+        printf("\n                                          \xBA");
+        printf("\n           Hintergrundfarbe               \xBA           Textfarbe");
+        printf("\n                                          \xBA");
+        printf("\n  \xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCE\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD");
+        printf("\n                                          \xBA");
+        printf("\n           Schwarz = 1  [%s]           \xBA           Schwarz = 1  [%s]", s_h, s_t);
+        printf("\n           Grau    = 2  [%s]           \xBA           Grau    = 2  [%s]", g_h, g_t);
+        printf("\n           Weiss   = 3  [%s]           \xBA           Weiss   = 3  [%s]", w_h, w_t);
+        printf("\n           Gr\x81n    = 4  [%s]           \xBA           Gr\x81n    = 4  [%s]", gr_h, gr_t);
+        printf("\n           Blau    = 5  [%s]           \xBA           Blau    = 5  [%s]", b_h, b_t);
+        printf("\n           Rot     = 6  [%s]           \xBA           Rot     = 6  [%s]", r_h, r_t);
+        printf("\n                                          \xBA");
+        printf("\n  \xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCA\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\n");
+        printf("\n   Hintergrundfarbe (1) ");
+        printf("\n   Textfarbe        (2)");
+        printf("\n   Zur\x81""ck           (3)\n");
+        line();
 
-        //Farben die zur Auswahl stehen (kann noch mehr dazu kommen)
-        printf("\n\n  Hintergrundfarbe      |  Textfarbe                                ");
-        printf("\n  ======================|=======================");
-        printf("\n  Schwarz = 1  [%s]  |  Schwarz = 1  [%s]", s_h, s_t);
-        printf("\n  Grau    = 2  [%s]  |  Grau    = 2  [%s]", g_h, g_t);
-        printf("\n  Weiss   = 3  [%s]  |  Weiss   = 3  [%s]", w_h, w_t);
-        printf("\n  Gr\x81n    = 4  [%s]  |  Gr\x81n    = 4  [%s]", gr_h, gr_t);
-        printf("\n  Blau    = 5  [%s]  |  Blau    = 5  [%s]", b_h, b_t);
-        printf("\n  Rot     = 6  [%s]  |  Rot     = 6  [%s]", r_h, r_t);
-        printf("\n  ======================|=======================");
-
-        printf("\n\n  Hintergrundfarbe (1) ");
-        printf("\n  Textfarbe        (2)");
-        printf("\n  Zur\x81""ck           (3)");
-
-        printf("\n  (1/2/3): ");
+        printf("\n   (1/2/3): ");
         eingabe = _getch();
         if (eingabe == '1')
         {
-          printf("\n  ==============================================");
-          printf("\n\n  Hintergrundfarbe: ");
+          printf("Hintergrundfarbe: ");
           eingabe = _getch();
 
           if (eingabe == '1') neue_hintergrundfarbe = '0';
@@ -1053,14 +885,13 @@ void einstellungen() {
             farbmatrix(hintergrundfarbe, textfarbe);
           }
           else if (neue_hintergrundfarbe == textfarbe) {
-            printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
+            printf("\n   *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
             system("timeout 1 >null");
             system("cls");
           }
         }
         else if (eingabe == '2') {
-          printf("\n  ==============================================");
-          printf("\n\n  Textfarbe: ");
+          printf("Textfarbe: ");
           eingabe = _getch();
 
           if (eingabe == '1') neue_textfarbe = '0';
@@ -1076,11 +907,10 @@ void einstellungen() {
             farbmatrix(hintergrundfarbe, textfarbe);
           }
           else if (neue_textfarbe == hintergrundfarbe) {
-            printf("\n  *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
+            printf("\n   *Die Hintergrundfarbe und die Textfarbe k\x94nnen nicht gleich sein.");
             system("timeout 1 >null");
             system("cls");
           }
-
         }
         else if (eingabe == '3') farben = false;
         else if (eingabe != '1' && eingabe != '2' && eingabe != '3') falsche_eingabe();
@@ -1090,36 +920,38 @@ void einstellungen() {
     {
       system("cls");
       logo();
-      printf("\n\n\n");
-      printf("      .@@@@@@@@@@@@@@@@@@.               Team:                    @@@@@@@@@@           \n");
-      printf("      @                  @.          Mazen & Yannic             @@@@@@@@@@@@@@         \n");
-      printf("     @@                  @@.                                 ,@@@@@@@@       @@        \n");
-      printf("    @@                    @@                                @  @@@@'           @       \n");
-      printf("    @@                    &@                              ,@                    @ ,@.  \n");
-      printf("    @ @@@@@@@    .@@@@@@@@ @.            Final            @@ @@@@    /@@@@@.    @@  @  \n");
-      printf("    @@   (o)      (O)     @@@         Version 1.3         @@  (O)      (O)     .@@  @  \n");
-      printf("   .@@        ((           @@          x64-Debug          @        /           @@@.(.) \n");
-      printf("   @@@  @@@@@@@@@@@@@@@    @@                             @       (@.          @@@     \n");
-      printf("       @@ ########## @@@                                 .@@@@@@@@@@@@@@@@@@   @@,     \n");
-      printf("      @@@            @@@                                 @@@@ ########## @@@@ .@@*     \n");
-      printf("      @@ ##________## @@@                                '@@@              @@@@@@*     \n");
-      printf("      @@@ '########'  @@@           Clash Of Clans        @@@@ #########,@@@@@@@       \n");
-      printf("      @@@             @@@              Quartett!           @@@@@@@@@@@@@@@@@@@         \n");
-      printf("       @               @                                     @@@@@@@@@@@@@@@@          \n");
-      
-      system("timeout 5 >null");
-      printf("\n\n");
+      line();
+      printf("\n   Version");
+      line();
+      printf("\n\n         .@@@@@@@@@@@@@@@@@@.           Team:                @@@@@@@@@@          \n");
+      printf("         @                  @.      Mazen & Yannic         @@@@@@@@@@@@@@        \n");
+      printf("        @@                  @@.                         ,@@@@@@@@       @@       \n");
+      printf("       @@                    @@                        @  @@@@'           @      \n");
+      printf("       @@                    &@                      ,@                    @ ,@. \n");
+      printf("       @ @@@@@@@    .@@@@@@@@ @.        Final        @@ @@@@    /@@@@@.    @@  @ \n");
+      printf("       @@   (o)      (O)     @@@     Version 1.5     @@  (O)      (O)     .@@  @ \n");
+      printf("      .@@        ((           @@      x64-Debug      @        /           @@@.(.)\n");
+      printf("      @@@  @@@@@@@@@@@@@@@    @@                     @       (@.          @@@    \n");
+      printf("          @@ ########## @@@                         .@@@@@@@@@@@@@@@@@@   @@,    \n");
+      printf("         @@@            @@@                         @@@@ ########## @@@@ .@@*    \n");
+      printf("         @@ ##________## @@@                        '@@@              @@@@@@*    \n");
+      printf("         @@@ '########'  @@@       Clash Of Clans    @@@@ #########,@@@@@@@      \n");
+      printf("         @@@             @@@          Quartett!       @@@@@@@@@@@@@@@@@@@        \n");
+      printf("          @               @                             @@@@@@@@@@@@@@@@         \n");
+      line();
+      printf("\n   Zum Fortfahren eine Taste dr\x81""cken ");
+      system("pause >nul");
     }
     else if (eingabe == '3') {
       if (admin == true) {
         admin = false;
-        printf("\n  Entwicklermodus Deativiert ");
+        printf("Entwicklermodus Deativiert ");
         Sleep(700);
         system("cls");
       }
       else if (admin == false) {
         admin = true;
-        printf("\n  Entwicklermodus Aktiviert ");
+        printf("Entwicklermodus Aktiviert ");
         Sleep(700);
         system("cls");
       }
@@ -1130,102 +962,83 @@ void einstellungen() {
 }
 
 void farbmatrix(char hintergrundfarbe, char textfarbe) {
-  // Yannic
   // Diese Funktion verarbeitet die Einstellungen für die Farben des Debugging-Fensters.
-  // Die Parameter sind die Hintergrundfarbe und die Textfarbe.
-
   char SysPrint[20];
   sprintf_s(SysPrint, "color %c%c", hintergrundfarbe, textfarbe);
   system(SysPrint);
 }
 
 void falsche_eingabe() {
-  // Mazen & Yannic
-  // Diese Funktion beinhaltet eine einfache Ausgabe.
-
-  printf("\n  Falsche Eingabe ");
+  printf("\n   Falsche Eingabe ");
   system("timeout 1 >null");
   system("cls");
 }
 
+void line() {
+  printf("\n  \xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD\xCD");
+}
+
 void verloren()
 {
-  // Mazen & Yannic
-  // Diese Funktion beinhaltet eine einfache Ausgabe.
-
-  printf("\n\n\n\n  =================================");
-  printf("\n\n  ------------VERLOREN------------");
-  printf("\n\n  Sie verlieren diese Karte leider.");
-  printf("\n  Der Gegner gewinnt Ihre aktuelle Karte.");
-  printf("\n\n  ==================================");
-  printf("\n\n\n");
-  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  line();
+  printf("\n   VERLOREN");
+  line();
+  printf("\n\n   Sie verlieren diese Karte leider.");
+  printf("\n   Der Gegner gewinnt Ihre aktuelle Karte.\n");
+  line();
+  printf("\n   Zum Fortfahren eine Taste dr\x81""cken ");
   system("pause >nul");
 }
 
 void gewonnen()
 {
-  // Mazen & Yannic
-  // Diese Funktion beinhaltet eine einfache Ausgabe.
-
-  printf("\n\n\n\n  =================================");
-  printf("\n\n  ------------GEWONNEN------------");
-  printf("\n\n  Sie gewinnen die Karte des Gegners.");
-  printf("\n  Der Gegner verliert sie.");
-  printf("\n\n  ==================================");
-  printf("\n\n\n");
-  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  line();
+  printf("\n   GEWONNEN");
+  line();
+  printf("\n\n   Sie gewinnen die Karte des Gegners.");
+  printf("\n   Der Gegner verliert sie.\n");
+  line();
+  printf("\n   Zum Fortfahren eine Taste dr\x81""cken ");
   system("pause >nul");
 }
 
 void unentschieden()
 {
-  // Mazen & Yannic
-  // Diese Funktion beinhaltet eine einfache Ausgabe.
-
-  printf("\n\n\n\n  =================================");
-  printf("\n\n  ---------UNENTSCHIEDEN----------");
-  printf("\n\n  Niemand gewinnt dieses Mal.");
-  printf("\n  Die obersten Karten werden nach hinten versetzt.");
-  printf("\n\n  ==================================");
-  printf("\n\n\n");
-  printf("  Zum Fortfahren eine Taste dr\x81""cken.");
+  line();
+  printf("\n   UNENTSCHIEDEN");
+  line();
+  printf("\n\n   Niemand gewinnt dieses Mal.");
+  printf("\n   Die obersten Karten werden nach hinten versetzt.\n");
+  line();
+  printf("\n   Zum Fortfahren eine Taste dr\x81""cken ");
   system("pause >nul");
 }
 
 void logo()
 {
-  // Mazen & Yannic
-  // Diese Funktion beinhaltet eine einfache Ausgabe.
-
-   printf("\n\n     ________           __             ____   ________                ");
-   printf("\n    / ____/ /___ ______/ /_     ____  / __/  / ____/ /___ _____  _____");
-   printf("\n   / /   / / __ `/ ___/ __ \x5C   / __ \x5C/ /_   / /   / / __ `/ __ \x5C/ ___/");
-   printf("\n  / /___/ / /_/ (__  ) / / /  / /_/ / __/  / /___/ / /_/ / / / (__  ) ");
-   printf("\n  \x5C____/_/\x5C__,_/____/_/ /_/ __\x5C____/_/_  __\x5C____/_/\x5C__,_/_/ /_/____/  ");
-   printf("\n    / __ \x5C__  ______ ______/ /____  / /_/ /_                          ");
-   printf("\n   / / / / / / / __ `/ ___/ __/ _ \x5C/ __/ __/                          ");
-   printf("\n  / /_/ / /_/ / /_/ / /  / /_/  __/ /_/ /_                            ");
-   printf("\n  \x5C___\x5C_\x5C__,_/\x5C__,_/_/   \x5C__/\x5C___/\x5C__/\x5C__/                            ");
-   printf("\n\n                                                                      ");
-
+  printf("\n");
+  printf("    _____ __    _____ _____ _____    _____ _____    _____ __    _____ _____ _____ \n");
+  printf("   |     |  |  |  _  |   __|  |  |  |     |   __|  |     |  |  |  _  |   | |   __|\n");
+  printf("   |   --|  |__|     |__   |     |  |  |  |   __|  |   --|  |__|     | | | |__   |\n");
+  printf("   |_____|_____|__|__|_____|__|__|  |_____|__|     |_____|_____|__|__|_|___|_____|\n\n");
+  printf("                   _____ _____ _____ _____ _____ _____ _____ _____                \n");
+  printf("                  |     |  |  |  _  | __  |_   _|   __|_   _|_   _| \n");
+  printf("                  |  |  |  |  |     |    -| | | |   __| | |   | |   \n");
+  printf("                  |__  _|_____|__|__|__|__| |_| |_____| |_|   |_|   \n");
+  printf("                     |__|                                           \n\n");
 }
 
 void end()
 {
-  // Mazen & Yannic
-  // Diese Funktion beinhaltet eine einfache Ausgabe.
-
   system("cls");
 
-  printf("\n\n      ______          __   ");
-  printf("\n     / ____/___  ____/ /__ ");
-  printf("\n    / __/ / __ \x5C/ __  / _ \x5C");
-  printf("\n   / /___/ / / / /_/ /  __/");
-  printf("\n  /_____/_/ /_/\x5C__,_/\x5C___/ ");
+  printf("\n\n");
+  printf("   _____ _____ ____  _____ \n");
+  printf("  |   __|   | |    \x5C|   __|\n");
+  printf("  |   __| | | |  |  |   __|\n");
+  printf("  |_____|_|___|____/|_____|\n");
   printf("\n\n\n                           \n");
-
   Sleep(800);
 }
 
-//Letzte Zeile (Benutzen wir für die Kommunikation über GitHub.)
+//last 1266 before rework, now 1044 | wasted hours in this project: 30h+
