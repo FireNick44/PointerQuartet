@@ -30,7 +30,9 @@
 ```
 ## Introduction
 
-I created this project during my schooltime to create a login page. In this repository you can find the seperate overlay for this login page.
+...
+
+<!-- Whoopsss wrong copy/paste-->
 
 ## ASCII-Card-Pictures
 
